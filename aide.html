@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Aide — Neptune Legal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f6faff;
+    color:#18243d;
+}
+
+header{
+    background:linear-gradient(135deg,#45dfff,#6475ff,#c55cff);
+    color:white;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+}
+
+nav{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    background:rgba(255,255,255,.16);
+    padding:10px 14px;
+    border-radius:12px;
+}
+
+.container{
+    width:92%;
+    max-width:1050px;
+    margin:30px auto;
+}
+
+.hero{
+    background:white;
+    padding:32px;
+    border-radius:24px;
+    box-shadow:0 10px 35px rgba(60,100,170,.1);
+    text-align:center;
+    margin-bottom:22px;
+}
+
+.hero h1{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:#7b879a;
+    line-height:1.5;
+}
+
+.search-box{
+    margin:25px auto 0;
+    max-width:650px;
+    display:flex;
+    gap:10px;
+}
+
+.search-box input{
+    flex:1;
+    padding:15px 17px;
+    border:1px solid #dfe7f1;
+    border-radius:14px;
+    outline:none;
+    font-size:14px;
+}
+
+.categories{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:25px;
+}
+
+.category{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 8px 25px rgba(60,100,170,.07);
+    cursor:pointer;
+    transition:.2s;
+}
+
+.category:hover{
+    transform:translateY(-3px);
+}
+
+.category-icon{
+    width:45px;
+    height:45px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+    margin-bottom:12px;
+}
+
+.blue{
+    background:#e8f7ff;
+}
+
+.purple{
+    background:#f0eaff;
+}
+
+.green{
+    background:#e8fff1;
+}
+
+.orange{
+    background:#fff4dc;
+}
+
+.category strong{
+    display:block;
+    margin-bottom:5px;
+}
+
+.category span{
+    font-size:12px;
+    color:#8995a8;
+}
+
+.section-title{
+    margin:28px 0 15px;
+    font-size:21px;
+}
+
+.faq{
+    background:white;
+    border-radius:17px;
+    margin-bottom:10px;
+    box-shadow:0 6px 20px rgba(60,100,170,.06);
+    overflow:hidden;
+}
+
+.question{
+    width:100%;
+    background:white;
+    border:none;
+    padding:18px;
+    text-align:left;
+    font-size:14px;
+    font-weight:700;
+    color:#1b2942;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.answer{
+    display:none;
+    padding:0 18px 18px;
+    color:#718097;
+    font-size:13px;
+    line-height:1.6;
+}
+
+.faq.open .answer{
+    display:block;
+}
+
+.faq.open .arrow{
+    transform:rotate(180deg);
+}
+
+.arrow{
+    transition:.2s;
+}
+
+.contact{
+    margin-top:28px;
+    background:linear-gradient(135deg,#45dfff,#6675ff,#bd5cff);
+    color:white;
+    padding:28px;
+    border-radius:22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.contact p{
+    opacity:.9;
+    margin-top:6px;
+}
+
+button.action{
+    border:none;
+    padding:13px 18px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:700;
+    background:white;
+    color:#5367c9;
+}
+
+.no-result{
+    display:none;
+    background:white;
+    padding:35px;
+    text-align:center;
+    border-radius:18px;
+    color:#8793a6;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#8995aa;
+    font-size:13px;
+}
+
+@media(max-width:800px){
+
+    .categories{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:520px){
+
+    .hero{
+        padding:25px 18px;
+    }
+
+    .hero h1{
+        font-size:24px;
+    }
+
+    .categories{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .category{
+        padding:15px;
+    }
+
+    .contact{
+        text-align:center;
+        justify-content:center;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🌊 Neptune Legal
+    </div>
+
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="entreprises.html">Entreprises</a>
+        <a href="tickets.html">Tickets</a>
+        <a href="notifications.html">Notifications</a>
+    </nav>
+
+</header>
+
+
+<div class="container">
+
+<section class="hero">
+
+    <h1>💡 Centre d'aide</h1>
+
+    <p>
+        Retrouvez rapidement les réponses aux questions
+        les plus fréquentes sur Neptune Legal.
+    </p>
+
+    <div class="search-box">
+
+        <input
+            id="search"
+            type="text"
+            placeholder="🔎 Rechercher une question..."
+            oninput="rechercher()"
+        >
+
+    </div>
+
+</section>
+
+
+<div class="categories">
+
+    <div class="category" onclick="filtrerCategorie('entreprise')">
+
+        <div class="category-icon blue">
+            🏢
+        </div>
+
+        <strong>
+            Entreprises
+        </strong>
+
+        <span>
+            Gestion et reprise
+        </span>
+
+    </div>
+
+
+    <div class="category" onclick="filtrerCategorie('candidature')">
+
+        <div class="category-icon purple">
+            📋
+        </div>
+
+        <strong>
+            Candidatures
+        </strong>
+
+        <span>
+            Recrutement et emplois
+        </span>
+
+    </div>
+
+
+    <div class="category" onclick="filtrerCategorie('compte')">
+
+        <div class="category-icon green">
+            👤
+        </div>
+
+        <strong>
+            Compte
+        </strong>
+
+        <span>
+            Profil et connexion
+        </span>
+
+    </div>
+
+
+    <div class="category" onclick="filtrerCategorie('staff')">
+
+        <div class="category-icon orange">
+            🛠️
+        </div>
+
+        <strong>
+            Staff
+        </strong>
+
+        <span>
+            Assistance et tickets
+        </span>
+
+    </div>
+
+</div>
+
+
+<h2 class="section-title">
+    Questions fréquentes
+</h2>
+
+
+<div id="faqList">
+
+
+<div
+    class="faq"
+    data-category="entreprise"
+    data-search="reprendre entreprise reprise société dossier">
+
+    <button class="question" onclick="ouvrirFaq(this)">
+
+        Comment reprendre une entreprise ?
+
+        <span class="arrow">▼</span>
+
+    </button>
+
+    <div class="answer">
+
+        Rendez-vous dans la rubrique
+        <strong>Entreprises → Reprendre une entreprise</strong>.
+        Vous devrez remplir le dossier de reprise et fournir
+        les documents demandés.
+
+    </div>
+
+</div>
+
+
+<div
+    class="faq"
+    data-category="entreprise"
+    data-search="gerer entreprise gestion entreprise patron">
+
+    <button class="question" onclick="ouvrirFaq(this)">
+
+        Comment accéder à la gestion de mon entreprise ?
+
+        <span class="arrow">▼</span>
+
+    </button>
+
+    <div class="answer">
+
+        Une fois votre entreprise validée, votre espace de gestion
+        vous permet de gérer les employés, les grades, les stocks,
+        les ventes, les finances et les paramètres.
+
+    </div>
+
+</div>
+
+
+<div
+    class="faq"
+    data-category="entreprise"
+    data-search="stock produit quantité inventaire">
+
+    <button class="question" onclick="ouvrirFaq(this)">
+
+        Comment gérer mon stock ?
+
+        <span class="arrow">▼</span>
+
+    </button>
+
+    <div class="answer">
+
+        Depuis votre tableau de bord, ouvrez la section
+        <strong>Stocks</strong>. Vous pouvez ajouter des produits,
+        modifier les quantités et suivre les niveaux de stock.
+
+    </div>
+
+</div>
+
+
+<div
+    class="faq"
+    data-category="candidature"
+    data-search="postuler candidature entreprise emploi">
+
+    <button class="question" onclick="ouvrirFaq(this)">
+
+        Comment postuler dans une entreprise ?
+
+        <span class="arrow">▼</span>
+
+    </button>
+
+    <div class="answer">
+
+        Ouvrez la page de l'entreprise souhaitée puis cliquez
+        sur <strong>Postuler</strong>. Remplissez ensuite votre
+        candidature avec vos informations RP.
+
+    </div>
+
+</div>
+
+
+<div
+    class="faq"
+    data-category="candidature"
+    data-search="candidature statut réponse recrutement">
+
+    <button class="question" onclick="ouvrirFaq(this)">
+
+        Où voir l'état de ma candidature ?
+
+        <span class="arrow">▼</span>
+
+    </button>
+
+    <div class="answer">
+
+        Vos candidatures sont disponibles dans votre espace
+        personnel. Vous pouvez y consulter leur statut et les
+        éventuelles réponses de l'entreprise.
+
+    </div>
+
+</div>
+
+
+<div
+    class="faq"
+    data-category="compte"
+    data-search="discord connexion compte login">
+
+    <button class="question" onclick="ouvrirFaq(this)">
+
+        Comment connecter mon compte Discord ?
+
+        <span class="arrow">▼</span>
+
+    </button>
+
+    <div class="answer">
+
+        La connexion Discord permettra d'associer votre compte
+        Neptune Legal à votre identité Discord. Cette fonctionnalité
+        sera activée lors de la mise en place de l'authentification.
+
+    </div>
+
+</div>
+
+
+<div
+    class="faq"
+    data-category="compte"
+    data-search="profil modifier informations compte">
+
+    <button class="question" onclick="ouvrirFaq(this)">
+
+        Puis-je modifier mon profil ?
+
+        <span class="arrow">▼</span>
+
+    </button>
+
+    <div class="answer">
+
+        Oui. Les informations modifiables seront accessibles
+        depuis votre profil lorsque votre compte sera connecté.
+
+    </div>
+
+</div>
+
+
+<div
+    class="faq"
+    data-category="staff"
+    data-search="ticket assistance problème staff">
+
+    <button class="question" onclick="ouvrirFaq(this)">
+
+        Comment contacter le Staff ?
+
+        <span class="arrow">▼</span>
+
+    </button>
+
+    <div class="answer">
+
+        Si vous rencontrez un problème, vous pouvez créer un
+        ticket depuis la rubrique <strong>Tickets</strong>.
+        Le Staff pourra ensuite traiter votre demande.
+
+    </div>
+
+</div>
+
+
+<div
+    class="faq"
+    data-category="staff"
+    data-search="probleme bug erreur technique">
+
+    <button class="question" onclick="ouvrirFaq(this)">
+
+        Que faire en cas de problème technique ?
+
+        <span class="arrow">▼</span>
+
+    </button>
+
+    <div class="answer">
+
+        Vérifiez d'abord votre connexion et actualisez la page.
+        Si le problème persiste, ouvrez un ticket en indiquant
+        précisément le problème rencontré.
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<div
+    class="no-result"
+    id="noResult">
+
+    🔎<br><br>
+
+    <strong>
+        Aucun résultat
+    </strong>
+
+    <p style="margin-top:7px;">
+        Essayez avec d'autres mots-clés.
+    </p>
+
+</div>
+
+
+<section class="contact">
+
+    <div>
+
+        <h2>
+            Besoin d'aide supplémentaire ?
+        </h2>
+
+        <p>
+            Notre équipe peut vous accompagner directement.
+        </p>
+
+    </div>
+
+    <button
+        class="action"
+        onclick="ouvrirTicket()">
+
+        🎫 Ouvrir un ticket
+
+    </button>
+
+</section>
+
+</div>
+
+
+<footer>
+    Neptune Legal — Centre d'aide
+</footer>
+
+
+<script>
+
+function ouvrirFaq(button){
+
+    const faq =
+        button.parentElement;
+
+    faq.classList.toggle("open");
+
+}
+
+
+function rechercher(){
+
+    const recherche =
+        document.getElementById("search")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const faqs =
+        document.querySelectorAll(".faq");
+
+    let resultat = 0;
+
+    faqs.forEach(function(faq){
+
+        const texte =
+            faq.dataset.search;
+
+        if(texte.includes(recherche)){
+
+            faq.style.display = "block";
+
+            resultat++;
+
+        }else{
+
+            faq.style.display = "none";
+
+        }
+
+    });
+
+    document.getElementById("noResult").style.display =
+        resultat === 0
+        ? "block"
+        : "none";
+
+}
+
+
+function filtrerCategorie(categorie){
+
+    document.getElementById("search").value = "";
+
+    const faqs =
+        document.querySelectorAll(".faq");
+
+    let resultat = 0;
+
+    faqs.forEach(function(faq){
+
+        if(
+            faq.dataset.category === categorie
+        ){
+
+            faq.style.display = "block";
+
+            resultat++;
+
+        }else{
+
+            faq.style.display = "none";
+
+        }
+
+    });
+
+    document.getElementById("noResult").style.display =
+        resultat === 0
+        ? "block"
+        : "none";
+
+}
+
+
+function ouvrirTicket(){
+
+    window.location.href =
+        "tickets.html";
+
+}
+
+</script>
+
+</body>
+</html>
