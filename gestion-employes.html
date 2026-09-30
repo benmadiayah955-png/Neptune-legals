@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Neptune — Gestion des employés</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f7fbff;
+    color: #172033;
+}
+
+header {
+    background: white;
+    padding: 17px 20px;
+    border-bottom: 1px solid #e5e9f5;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 800;
+
+    background: linear-gradient(
+        90deg,
+        #00cfff,
+        #5865f2,
+        #a855f7,
+        #ec4899
+    );
+
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.back {
+    color: #5865f2;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.container {
+    max-width: 1050px;
+    margin: auto;
+    padding: 28px 18px 50px;
+}
+
+h1 {
+    font-size: 29px;
+    margin-bottom: 7px;
+}
+
+.subtitle {
+    color: #788296;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+
+/* BOUTON */
+
+.add {
+    width: 100%;
+    border: none;
+    padding: 15px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+
+    background: linear-gradient(
+        90deg,
+        #00cfff,
+        #5865f2,
+        #a855f7,
+        #ec4899
+    );
+}
+
+
+/* EMPLOYÉ */
+
+.employee {
+
+    background: white;
+
+    border: 1px solid #e6eaf4;
+
+    border-radius: 20px;
+
+    padding: 20px;
+
+    margin-bottom: 14px;
+
+    box-shadow:
+        0 8px 25px rgba(50,70,100,.05);
+}
+
+.top {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    margin-bottom: 18px;
+}
+
+.avatar {
+
+    width: 55px;
+    height: 55px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 25px;
+
+    background: linear-gradient(
+        135deg,
+        #00cfff,
+        #5865f2,
+        #a855f7
+    );
+}
+
+.name {
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.discord {
+    color: #8a93a3;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.grade {
+
+    display: inline-block;
+
+    margin-top: 6px;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    background: #eef0ff;
+
+    color: #5865f2;
+
+    font-size: 11px;
+
+    font-weight: bold;
+}
+
+
+/* INFORMATIONS */
+
+.infos {
+
+    display:
