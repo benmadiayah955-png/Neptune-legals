@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Connexion — Neptune Legal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#f6faff;
+    color:#18243d;
+    display:flex;
+    flex-direction:column;
+}
+
+/* HEADER */
+
+header{
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:white;
+    border-bottom:1px solid #edf1f7;
+}
+
+.logo{
+    font-size:23px;
+    font-weight:800;
+    color:#5268c8;
+}
+
+.back{
+    text-decoration:none;
+    color:#64748b;
+    font-size:14px;
+    font-weight:600;
+}
+
+/* MAIN */
+
+main{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+}
+
+.card{
+    width:100%;
+    max-width:460px;
+    background:white;
+    border-radius:28px;
+    padding:40px 30px;
+    box-shadow:0 18px 55px rgba(70,100,170,.12);
+    text-align:center;
+}
+
+/* LOGO */
+
+.icon{
+    width:80px;
+    height:80px;
+    margin:0 auto 22px;
+    border-radius:24px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:38px;
+    background:linear-gradient(
+        135deg,
+        rgba(69,223,255,.15),
+        rgba(197,92,255,.15)
+    );
+}
+
+h1{
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    color:#778398;
+    line-height:1.6;
+    font-size:14px;
+    margin-bottom:28px;
+}
+
+/* DISCORD */
+
+.discord-button{
+    width:100%;
+    border:none;
+    cursor:pointer;
+    padding:15px 20px;
+    border-radius:15px;
+    background:linear-gradient(
+        135deg,
+        #5865f2,
+        #6675ff
+    );
+    color:white;
+    font-size:15px;
+    font-weight:800;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    transition:.2s;
+}
+
+.discord-button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(88,101,242,.25);
+}
+
+.discord-icon{
+    font-size:21px;
+}
+
+/* SEPARATOR */
+
+.separator{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:25px 0;
+    color:#a0aabd;
+    font-size:12px;
+}
+
+.separator::before,
+.separator::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:#edf1f7;
+}
+
+/* INFO */
+
+.info{
+    background:#f7faff;
+    border:1px solid #edf2f8;
+    border-radius:16px;
+    padding:16px;
+    text-align:left;
+    margin-bottom:22px;
+}
+
+.info strong{
+    display:block;
+    margin-bottom:6px;
+    font-size:14px;
+}
+
+.info p{
+    color:#7b8799;
+    font-size:13px;
+    line-height:1.5;
+}
+
+/* LINKS */
+
+.links{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:15px;
+    margin-top:22px;
+}
+
+.links a{
+    color:#6174c3;
+    text-decoration:none;
+    font-size:12px;
+}
+
+/* FOOTER */
+
+footer{
+    text-align:center;
+    padding:22px;
+    color:#909bad;
+    font-size:12px;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    header{
+        padding:16px 5%;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+
+    .card{
+        padding:32px 20px;
+    }
+
+    h1{
+        font-size:25px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🌊 Neptune Legal
+    </div>
+
+    <a
+        href="index.html"
+        class="back">
+
+        ← Retour
+
+    </a>
+
+</header>
+
+
+<main>
+
+    <section class="card">
+
+        <div class="icon">
+            🌊
+        </div>
+
+
+        <h1>
+            Bienvenue sur Neptune Legal
+        </h1>
+
+
+        <p class="subtitle">
+            Connectez votre compte Discord pour accéder
+            à votre espace personnel et à vos entreprises.
+        </p>
+
+
+        <button
+            class="discord-button"
+            onclick="connexionDiscord()">
+
+            <span class="discord-icon">
+                🎮
+            </span>
+
+            Continuer avec Discord
+
+        </button>
+
+
+        <div class="separator">
+            Connexion sécurisée
+        </div>
+
+
+        <div class="info">
+
+            <strong>
+                🔐 Votre compte Discord
+            </strong>
+
+            <p>
+                Votre identité Discord permettra de retrouver
+                votre profil, vos entreprises, vos candidatures
+                et vos droits sur Neptune Legal.
+            </p>
+
+        </div>
+
+
+        <div class="links">
+
+            <a href="conditions.html">
+                Conditions d'utilisation
+            </a>
+
+            <a href="confidentialite.html">
+                Confidentialité
+            </a>
+
+            <a href="aide.html">
+                Besoin d'aide ?
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+    Neptune Legal — Connexion
+</footer>
+
+
+<script>
+
+function connexionDiscord(){
+
+    alert(
+        "La connexion Discord sera activée lors de la configuration de Supabase."
+    );
+
+}
+
+</script>
+
+</body>
+</html>
