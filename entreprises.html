@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Neptune — Entreprises</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f7fbff;
+    color: #172033;
+}
+
+header {
+    background: white;
+    padding: 18px;
+    border-bottom: 1px solid #e5e9f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+    background: linear-gradient(
+        90deg,
+        #00cfff,
+        #5865f2,
+        #a855f7,
+        #ec4899
+    );
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.back {
+    color: #5865f2;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.container {
+    padding: 30px 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.title {
+    margin-bottom: 8px;
+    font-size: 30px;
+}
+
+.subtitle {
+    color: #778196;
+    margin-bottom: 25px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #e7ebf5;
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 8px 25px rgba(50,70,100,.06);
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    background: #eef0ff;
+    margin-bottom: 15px;
+}
+
+.card h2 {
+    margin-bottom: 8px;
+}
+
+.card p {
+    color: #778196;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.button {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    background: linear-gradient(
+        90deg,
+        #00cfff,
+        #5865f2,
+        #a855f7
+    );
+}
+
+@media (min-width: 700px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🪐 NEPTUNE
+    </div>
+
+    <a href="index.html" class="back">
+        ← Accueil
+    </a>
+
+</header>
+
+<div class="container">
+
+    <h1 class="title">
+        Entreprises
+    </h1>
+
+    <p class="subtitle">
+        Retrouvez ici les services disponibles pour les entreprises.
+    </p>
+
+    <div class="grid">
+
+        <div class="card">
+
+            <div class="icon">🏢</div>
+
+            <h2>
+                Reprendre une entreprise
+            </h2>
+
+            <p>
+                Déposez votre dossier de reprise et ajoutez
+                vos documents Google Docs, Canva ou autres.
+            </p>
+
+            <a href="#" class="button">
+                Déposer un dossier
+            </a>
+
+        </div>
+
+        <div class="card">
+
+            <div class="icon">📋</div>
+
+            <h2>
+                Mes candidatures
+            </h2>
+
+            <p>
+                Consultez les candidatures reçues par votre
+                entreprise et gérez votre recrutement.
+            </p>
+
+            <a href="#" class="button">
+                Voir les candidatures
+            </a>
+
+        </div>
+
+        <div class="card">
+
+            <div class="icon">👥</div>
+
+            <h2>
+                Mes employés
+            </h2>
+
+            <p>
+                Gérez vos employés, leurs grades,
+                leurs heures et leur évolution.
+            </p>
+
+            <a href="#" class="button">
+                Gérer les employés
+            </a>
+
+        </div>
+
+        <div class="card">
+
+            <div class="icon">📊</div>
+
+            <h2>
+                Gestion de l'entreprise
+            </h2>
+
+            <p>
+                Retrouvez les ventes, stocks, impôts,
+                heures de service et statistiques.
+            </p>
+
+            <a href="#" class="button">
+                Ouvrir le tableau de bord
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
