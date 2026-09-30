@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Profil employé — Neptune Legal</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f5fbff;
+    color: #17233c;
+}
+
+header {
+    background: linear-gradient(135deg, #20c9ff, #6875ff, #d45cff);
+    color: white;
+    padding: 22px 18px 35px;
+    border-radius: 0 0 30px 30px;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.back {
+    color: white;
+    text-decoration: none;
+    background: rgba(255,255,255,.2);
+    padding: 9px 13px;
+    border-radius: 12px;
+    font-size: 13px;
+}
+
+.profile-head {
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 22px;
+    background: rgba(255,255,255,.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.profile-head h1 {
+    font-size: 25px;
+}
+
+.profile-head p {
+    margin-top: 6px;
+    opacity: .9;
+    font-size: 13px;
+}
+
+.status {
+    display: inline-block;
+    margin-top: 8px;
+    background: rgba(255,255,255,.2);
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+}
+
+.container {
+    max-width: 1050px;
+    margin: auto;
+    padding: 20px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: white;
+    padding: 18px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(53,110,160,.08);
+}
+
+.card span {
+    color: #718096;
+    font-size: 11px;
+}
+
+.card strong {
+    display: block;
+    margin-top: 7px;
+    font-size: 23px;
+}
+
+.blue {
+    color: #6674ff;
+}
+
+.green {
+    color: #12a66a;
+}
+
+.pink {
+    color: #d45cff;
+}
+
+.section {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 8px 25px rgba(53,110,160,.08);
+}
+
+.section h2 {
+    font-size: 19px;
+    margin-bottom: 17px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.info {
+    background: #f7fbfe;
+    padding: 13px;
+    border-radius: 13px;
+}
+
+.info span {
+    display: block;
+    font-size: 10px;
+    color: #718096;
+}
+
+.info strong {
+    display: block;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 10px;
+    background: #e9f7ff;
+    color: #168eb8;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.activity {
+    display: flex;
+    gap: 12px;
+    padding: 13px 0;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.activity:last-child {
+    border-bottom: none;
+}
+
+.dot {
+    min-width: 10px;
+    height: 10px;
+    margin-top: 5px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,#20c9ff,#d45cff);
+}
+
+.activity strong {
+    display: block;
+    font-size: 14px;
+}
+
+.activity span {
+    display: block;
+    margin-top: 4px;
+    color: #718096;
+    font-size: 11px;
+}
+
+.progress {
+    height: 9px;
+    background: #edf3f8;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 12px;
+}
+
+.progress div {
+    height: 100%;
+    width: 72%;
+    background: linear-gradient(90deg,#20c9ff,#6875ff);
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+button {
+    border: none;
+    padding: 13px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.primary {
+    color: white;
+    background: linear-gradient(135deg,#20c9ff,#6875ff);
+}
+
+.secondary {
+    background: #edf5fa;
+    color: #40516b;
+}
+
+.danger {
+    background: #ffe9ed;
+    color: #d94c63;
+}
+
+@media (min-width:700px) {
+
+    .stats {
+        grid-template-columns: repeat(4,1fr);
+    }
+
+    .info-grid {
+        grid-template-columns: repeat(4,1fr);
+    }
+
+    .actions {
+        grid-template-columns: repeat(3,1fr);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="top">
+
+        <div class="logo">
+            NEPTUNE LEGAL
+        </div>
+
+        <a href="gestion-employes.html" class="back">
+            ← Employés
+        </a>
+
+    </div>
+
+    <div class="profile-head">
+
+        <div class="avatar">
+            LT
+        </div>
+
+        <div>
+
+            <h1>Lea Thomas</h1>
+
+            <p>
+                Employée de l'entreprise
+            </p>
+
+            <span class="status">
+                ● En service
+            </span>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <!-- STATISTIQUES -->
+
+    <div class="stats">
+
+        <div class="card">
+            <span>Heures de service</span>
+            <strong class="blue">126 h</strong>
+        </div>
+
+        <div class="card">
+            <span>Ventes réalisées</span>
+            <strong class="green">184</strong>
+        </div>
+
+        <div class="card">
+            <span>Chiffre généré</span>
+            <strong class="pink">7 850 €</strong>
+        </div>
+
+        <div class="card">
+            <span>Ancienneté</span>
+            <strong>42 jours</strong>
+        </div>
+
+    </div>
+
+
+    <!-- INFORMATIONS -->
+
+    <div class="section">
+
+        <h2>Informations de l'employé</h2>
+
+        <div class="info-grid">
+
+            <div class="info">
+                <span>Nom RP</span>
+                <strong>Lea Thomas</strong>
+            </div>
+
+            <div class="info">
+                <span>Discord</span>
+                <strong>lea.thomas</strong>
+            </div>
+
+            <div class="info">
+                <span>Entreprise</span>
+                <strong>Restaurant Neptune</strong>
+            </div>
+
+            <div class="info">
+                <span>Grade</span>
+                <strong>Employée</strong>
+            </div>
+
+            <div class="info">
+                <span>Date d'arrivée</span>
+                <strong>19/08/2026</strong>
+            </div>
+
+            <div class="info">
+                <span>Statut</span>
+                <strong>
+                    <span class="badge">Active</span>
+                </strong>
+            </div>
+
+            <div class="info">
+                <span>Heures cette semaine</span>
+                <strong>18 h 45</strong>
+            </div>
+
+            <div class="info">
+                <span>Dernière connexion</span>
+                <strong>Aujourd'hui</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- OBJECTIF -->
+
+    <div class="section">
+
+        <h2>Objectif de service</h2>
+
+        <div class="info">
+
+            <span>
+                Objectif mensuel : 150 heures
+            </span>
+
+            <strong>
+                126 h / 150 h
+            </strong>
+
+            <div class="progress">
+                <div></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIVITE -->
+
+    <div class="section">
+
+        <h2>Activité récente</h2>
+
+        <div class="activity">
+
+            <div class="dot"></div>
+
+            <div>
+                <strong>Vente enregistrée</strong>
+                <span>
+                    Vente de 42 € — aujourd'hui à 18:42
+                </span>
+            </div>
+
+        </div>
+
+        <div class="activity">
+
+            <div class="dot"></div>
+
+            <div>
+                <strong>Début de service</strong>
+                <span>
+                    Aujourd'hui à 17:30
+                </span>
+            </div>
+
+        </div>
+
+        <div class="activity">
+
+            <div class="dot"></div>
+
+            <div>
+                <strong>Grade modifié</strong>
+                <span>
+                    Promotion au grade Employée — 25/09/2026
+                </span>
+            </div>
+
+        </div>
+
+        <div class="activity">
+
+            <div class="dot"></div>
+
+            <div>
+                <strong>Candidature acceptée</strong>
+                <span>
+                    Restaurant Neptune — 19/08/2026
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="section">
+
+        <h2>Gestion de l'employé</h2>
+
+        <div class="actions">
+
+            <button
+                class="primary"
+                onclick="modifier()">
+                Modifier le profil
+            </button>
+
+            <button
+                class="secondary"
+                onclick="historique()">
+                Voir l'historique
+            </button>
+
+            <button
+                class="danger"
+                onclick="retirer()">
+                Retirer de l'entreprise
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function modifier() {
+
+    alert(
+        "La modification du profil sera disponible prochainement."
+    );
+
+}
+
+function historique() {
+
+    window.location.href =
+        "historique-employe.html";
+
+}
+
+function retirer() {
+
+    const confirmation = confirm(
+        "Voulez-vous vraiment retirer cet employé de l'entreprise ?"
+    );
+
+    if (confirmation) {
+
+        alert(
+            "La gestion du départ sera disponible prochainement."
+        );
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
