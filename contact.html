@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Contact — Neptune Legal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f6faff;
+    color:#18243d;
+}
+
+header{
+    background:linear-gradient(135deg,#45dfff,#6475ff,#c55cff);
+    color:white;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+}
+
+nav{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    background:rgba(255,255,255,.16);
+    padding:10px 14px;
+    border-radius:12px;
+}
+
+.container{
+    width:92%;
+    max-width:1050px;
+    margin:30px auto;
+}
+
+.hero{
+    background:white;
+    padding:30px;
+    border-radius:24px;
+    box-shadow:0 10px 35px rgba(60,100,170,.1);
+    margin-bottom:22px;
+}
+
+.hero h1{
+    font-size:29px;
+    margin-bottom:8px;
+}
+
+.hero p{
+    color:#7d899e;
+    line-height:1.5;
+}
+
+.layout{
+    display:grid;
+    grid-template-columns:1fr 1.5fr;
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:24px;
+    border-radius:20px;
+    box-shadow:0 8px 25px rgba(60,100,170,.07);
+}
+
+.card h2{
+    font-size:19px;
+    margin-bottom:17px;
+}
+
+.contact-item{
+    display:flex;
+    gap:13px;
+    align-items:flex-start;
+    padding:15px 0;
+    border-bottom:1px solid #edf1f7;
+}
+
+.contact-item:last-child{
+    border-bottom:none;
+}
+
+.icon{
+    width:43px;
+    height:43px;
+    min-width:43px;
+    border-radius:13px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+.blue{
+    background:#e7f7ff;
+}
+
+.purple{
+    background:#f0eaff;
+}
+
+.green{
+    background:#e7fff0;
+}
+
+.orange{
+    background:#fff3db;
+}
+
+.contact-item strong{
+    display:block;
+    margin-bottom:5px;
+}
+
+.contact-item span{
+    color:#7d899d;
+    font-size:13px;
+    line-height:1.5;
+}
+
+form{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+label{
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:-8px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:13px 15px;
+    border:1px solid #dfe6f0;
+    border-radius:13px;
+    outline:none;
+    background:#fff;
+    color:#263650;
+    font-size:14px;
+}
+
+textarea{
+    min-height:150px;
+    resize:vertical;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    padding:14px 18px;
+    border-radius:13px;
+    font-weight:700;
+}
+
+.primary{
+    background:linear-gradient(135deg,#45dfff,#6675ff);
+    color:white;
+}
+
+.reset{
+    background:#edf4ff;
+    color:#536aa9;
+}
+
+.buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.info{
+    margin-top:20px;
+    padding:16px;
+    background:#f1f8ff;
+    border-radius:14px;
+    color:#687892;
+    font-size:12px;
+    line-height:1.6;
+}
+
+.success{
+    display:none;
+    background:#e9fff1;
+    color:#17854e;
+    padding:14px;
+    border-radius:13px;
+    font-size:13px;
+    margin-bottom:15px;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#8995aa;
+    font-size:13px;
+}
+
+@media(max-width:750px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:24px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🌊 Neptune Legal
+    </div>
+
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="aide.html">Aide</a>
+        <a href="tickets.html">Tickets</a>
+        <a href="notifications.html">Notifications</a>
+    </nav>
+
+</header>
+
+
+<div class="container">
+
+<section class="hero">
+
+    <h1>📨 Nous contacter</h1>
+
+    <p>
+        Une question, un problème ou une demande concernant
+        votre entreprise ? Contactez l'équipe Neptune Legal.
+    </p>
+
+</section>
+
+
+<div class="layout">
+
+
+<!-- INFORMATIONS -->
+
+<div class="card">
+
+    <h2>
+        Comment pouvons-nous vous aider ?
+    </h2>
+
+
+    <div class="contact-item">
+
+        <div class="icon blue">
+            🏢
+        </div>
+
+        <div>
+
+            <strong>
+                Entreprise
+            </strong>
+
+            <span>
+                Question concernant une entreprise,
+                une reprise ou sa gestion.
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="contact-item">
+
+        <div class="icon purple">
+            📋
+        </div>
+
+        <div>
+
+            <strong>
+                Candidature
+            </strong>
+
+            <span>
+                Problème avec une candidature,
+                un recrutement ou un poste.
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="contact-item">
+
+        <div class="icon green">
+            👤
+        </div>
+
+        <div>
+
+            <strong>
+                Compte
+            </strong>
+
+            <span>
+                Problème de connexion, profil
+                ou informations personnelles.
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="contact-item">
+
+        <div class="icon orange">
+            🛠️
+        </div>
+
+        <div>
+
+            <strong>
+                Assistance Staff
+            </strong>
+
+            <span>
+                Demande nécessitant l'intervention
+                de l'équipe Staff.
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="info">
+
+        💡 Pour obtenir une réponse plus rapidement,
+        indiquez précisément votre problème et ajoutez
+        les informations utiles à votre demande.
+
+    </div>
+
+</div>
+
+
+<!-- FORMULAIRE -->
+
+<div class="card">
+
+    <h2>
+        Envoyer une demande
+    </h2>
+
+
+    <div
+        class="success"
+        id="success">
+
+        ✓ Votre demande a été préparée avec succès.
+        Le système de tickets sera connecté prochainement.
+
+    </div>
+
+
+    <form
+        id="contactForm"
+        onsubmit="envoyer(event)">
+
+
+        <label>
+            Nom RP
+        </label>
+
+        <input
+            type="text"
+            id="nom"
+            placeholder="Ex : Lea Thomas"
+            required
+        >
+
+
+        <label>
+            Identifiant Discord
+        </label>
+
+        <input
+            type="text"
+            id="discord"
+            placeholder="Ex : lea.thomas"
+            required
+        >
+
+
+        <label>
+            Catégorie
+        </label>
+
+        <select
+            id="categorie"
+            required>
+
+            <option value="">
+                Sélectionner une catégorie
+            </option>
+
+            <option value="entreprise">
+                🏢 Entreprise
+            </option>
+
+            <option value="candidature">
+                📋 Candidature
+            </option>
+
+            <option value="compte">
+                👤 Compte
+            </option>
+
+            <option value="technique">
+                💻 Problème technique
+            </option>
+
+            <option value="staff">
+                🛠️ Demande Staff
+            </option>
+
+            <option value="autre">
+                📌 Autre
+            </option>
+
+        </select>
+
+
+        <label>
+            Objet
+        </label>
+
+        <input
+            type="text"
+            id="objet"
+            placeholder="Objet de votre demande"
+            required
+        >
+
+
+        <label>
+            Votre message
+        </label>
+
+        <textarea
+            id="message"
+            placeholder="Expliquez votre demande..."
+            required></textarea>
+
+
+        <div class="buttons">
+
+            <button
+                type="submit"
+                class="primary">
+
+                📨 Envoyer la demande
+
+            </button>
+
+            <button
+                type="reset"
+                class="reset">
+
+                Réinitialiser
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+</div>
+
+</div>
+
+
+<footer>
+    Neptune Legal — Assistance et contact
+</footer>
+
+
+<script>
+
+function envoyer(event){
+
+    event.preventDefault();
+
+    const nom =
+        document.getElementById("nom").value;
+
+    const discord =
+        document.getElementById("discord").value;
+
+    const categorie =
+        document.getElementById("categorie").value;
+
+    const objet =
+        document.getElementById("objet").value;
+
+    const message =
+        document.getElementById("message").value;
+
+
+    if(
+        !nom ||
+        !discord ||
+        !categorie ||
+        !objet ||
+        !message
+    ){
+
+        alert(
+            "Veuillez remplir tous les champs."
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById("success").style.display =
+        "block";
+
+
+    document.getElementById("contactForm").reset();
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+</script>
+
+</body>
+</html>
