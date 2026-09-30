@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Utilisateurs — Neptune Legal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f6faff;
+    color:#18243d;
+}
+
+header{
+    background:linear-gradient(135deg,#45dfff,#6475ff,#c55cff);
+    color:white;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+}
+
+nav{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    background:rgba(255,255,255,.16);
+    padding:10px 14px;
+    border-radius:12px;
+}
+
+.container{
+    width:92%;
+    max-width:1200px;
+    margin:30px auto;
+}
+
+.top{
+    background:white;
+    padding:25px;
+    border-radius:23px;
+    box-shadow:0 10px 35px rgba(60,100,170,.1);
+    margin-bottom:20px;
+}
+
+.top h1{
+    margin-bottom:8px;
+}
+
+.top p{
+    color:#7f8ca2;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin:20px 0;
+}
+
+.stat{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 8px 25px rgba(60,100,170,.08);
+}
+
+.stat span{
+    color:#8793a8;
+    font-size:13px;
+}
+
+.stat strong{
+    display:block;
+    font-size:27px;
+    margin-top:7px;
+}
+
+.panel{
+    background:white;
+    padding:24px;
+    border-radius:22px;
+    box-shadow:0 8px 25px rgba(60,100,170,.08);
+}
+
+.controls{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+}
+
+.search{
+    flex:1;
+    min-width:220px;
+    padding:13px 15px;
+    border:1px solid #e0e7f1;
+    border-radius:13px;
+    outline:none;
+}
+
+select{
+    padding:13px 15px;
+    border:1px solid #e0e7f1;
+    border-radius:13px;
+    background:white;
+    color:#35425c;
+}
+
+.user{
+    border:1px solid #edf1f7;
+    border-radius:18px;
+    padding:17px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:12px;
+}
+
+.user-left{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.avatar{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#55dcff,#6978ff,#c55cff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.user-info strong{
+    display:block;
+    margin-bottom:5px;
+}
+
+.user-info span{
+    color:#8995aa;
+    font-size:13px;
+}
+
+.badge{
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.green{
+    background:#e7fff1;
+    color:#16a45a;
+}
+
+.orange{
+    background:#fff3dc;
+    color:#d48600;
+}
+
+.red{
+    background:#ffe9ed;
+    color:#d63f58;
+}
+
+.actions{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    padding:9px 12px;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+.primary{
+    background:#eef2ff;
+    color:#596ce3;
+}
+
+.danger{
+    background:#ffe9ed;
+    color:#d63f58;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#8995aa;
+    font-size:13px;
+}
+
+@media(max-width:800px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .user{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+}
+
+@media(max-width:500px){
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .user-left{
+        width:100%;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🌊 Neptune Legal
+    </div>
+
+    <nav>
+        <a href="admin.html">Administration</a>
+        <a href="index.html">Accueil</a>
+    </nav>
+
+</header>
+
+<div class="container">
+
+    <section class="top">
+
+        <h1>👥 Gestion des utilisateurs</h1>
+
+        <p>
+            Gérez les comptes, accès, entreprises et statuts des utilisateurs
+            de Neptune Legal.
+        </p>
+
+    </section>
+
+    <!-- STATISTIQUES -->
+
+    <div class="stats">
+
+        <div class="stat">
+            <span>Total utilisateurs</span>
+            <strong>248</strong>
+        </div>
+
+        <div class="stat">
+            <span>Actifs</span>
+            <strong>231</strong>
+        </div>
+
+        <div class="stat">
+            <span>Sans entreprise</span>
+            <strong>42</strong>
+        </div>
+
+        <div class="stat">
+            <span>Suspendus</span>
+            <strong>3</strong>
+        </div>
+
+    </div>
+
+    <!-- LISTE -->
+
+    <section class="panel">
+
+        <div class="controls">
+
+            <input
+                id="search"
+                class="search"
+                type="text"
+                placeholder="🔎 Rechercher un utilisateur..."
+                oninput="filtrer()"
+            >
+
+            <select id="statut" onchange="filtrer()">
+
+                <option value="tous">
+                    Tous les statuts
+                </option>
+
+                <option value="actif">
+                    Actifs
+                </option>
+
+                <option value="suspendu">
+                    Suspendus
+                </option>
+
+                <option value="attente">
+                    En attente
+                </option>
+
+            </select>
+
+        </div>
+
+        <div id="liste">
+
+            <div class="user" data-statut="actif">
+
+                <div class="user-left">
+
+                    <div class="avatar">
+                        L
+                    </div>
+
+                    <div class="user-info">
+
+                        <strong>Lea Thomas</strong>
+
+                        <span>
+                            Discord : LeaThomas#0001
+                            • Restaurant Neptune
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="actions">
+
+                    <span class="badge green">
+                        Actif
+                    </span>
+
+                    <button class="primary"
+                            onclick="profil('Lea Thomas')">
+                        Profil
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="user" data-statut="actif">
+
+                <div class="user-left">
+
+                    <div class="avatar">
+                        M
+                    </div>
+
+                    <div class="user-info">
+
+                        <strong>Max Martin</strong>
+
+                        <span>
+                            Discord : MaxMartin#0002
+                            • AutoKaze
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="actions">
+
+                    <span class="badge green">
+                        Actif
+                    </span>
+
+                    <button class="primary"
+                            onclick="profil('Max Martin')">
+                        Profil
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="user" data-statut="actif">
+
+                <div class="user-left">
+
+                    <div class="avatar">
+                        S
+                    </div>
+
+                    <div class="user-info">
+
+                        <strong>Sarah Lewis</strong>
+
+                        <span>
+                            Discord : SarahLewis#0003
+                            • Sans entreprise
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="actions">
+
+                    <span class="badge green">
+                        Actif
+                    </span>
+
+                    <button class="primary"
+                            onclick="profil('Sarah Lewis')">
+                        Profil
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="user" data-statut="suspendu">
+
+                <div class="user-left">
+
+                    <div class="avatar">
+                        J
+                    </div>
+
+                    <div class="user-info">
+
+                        <strong>Julien Morel</strong>
+
+                        <span>
+                            Discord : JulienMorel#0004
+                            • Sans entreprise
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="actions">
+
+                    <span class="badge red">
+                        Suspendu
+                    </span>
+
+                    <button class="primary"
+                            onclick="profil('Julien Morel')">
+                        Profil
+                    </button>
+
+                    <button class="danger"
+                            onclick="retablir('Julien Morel')">
+                        Rétablir
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="user" data-statut="attente">
+
+                <div class="user-left">
+
+                    <div class="avatar">
+                        A
+                    </div>
+
+                    <div class="user-info">
+
+                        <strong>Alex Morgan</strong>
+
+                        <span>
+                            Discord : AlexMorgan#0005
+                            • Candidature en cours
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="actions">
+
+                    <span class="badge orange">
+                        En attente
+                    </span>
+
+                    <button class="primary"
+                            onclick="profil('Alex Morgan')">
+                        Profil
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="user" data-statut="actif">
+
+                <div class="user-left">
+
+                    <div class="avatar">
+                        N
+                    </div>
+
+                    <div class="user-info">
+
+                        <strong>Nathan Cooper</strong>
+
+                        <span>
+                            Discord : NathanCooper#0006
+                            • Weazel News
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="actions">
+
+                    <span class="badge green">
+                        Actif
+                    </span>
+
+                    <button class="primary"
+                            onclick="profil('Nathan Cooper')">
+                        Profil
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+<footer>
+    Neptune Legal — Gestion des utilisateurs
+</footer>
+
+<script>
+
+function filtrer(){
+
+    const recherche =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+    const statut =
+        document.getElementById("statut")
+        .value;
+
+    const utilisateurs =
+        document.querySelectorAll(".user");
+
+    utilisateurs.forEach(function(user){
+
+        const texte =
+            user.innerText.toLowerCase();
+
+        const bonTexte =
+            texte.includes(recherche);
+
+        const bonStatut =
+            statut === "tous"
+            || user.dataset.statut === statut;
+
+        user.style.display =
+            bonTexte && bonStatut
+            ? "flex"
+            : "none";
+
+    });
+
+}
+
+function profil(nom){
+
+    alert(
+        "Profil de " + nom +
+        "\\n\\nLa fiche complète sera connectée à la base de données."
+    );
+
+}
+
+function retablir(nom){
+
+    alert(
+        nom +
+        " pourra être rétabli lorsque la gestion des comptes sera connectée."
+    );
+
+}
+
+</script>
+
+</body>
+</html>
