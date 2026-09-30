@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Neptune — Espace Employé</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f7fbff;
+    color: #172033;
+}
+
+header {
+    background: white;
+    padding: 18px 20px;
+    border-bottom: 1px solid #e5e9f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+    background: linear-gradient(
+        90deg,
+        #00cfff,
+        #5865f2,
+        #a855f7,
+        #ec4899
+    );
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.back {
+    color: #5865f2;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.profile {
+    background: white;
+    border: 1px solid #e6eaf4;
+    border-radius: 22px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 25px rgba(50,70,100,.06);
+}
+
+.avatar {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background: linear-gradient(
+        135deg,
+        #00cfff,
+        #5865f2,
+        #a855f7,
+        #ec4899
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 28px;
+}
+
+.profile h1 {
+    font-size: 23px;
+    margin-bottom: 6px;
+}
+
+.profile p {
+    color: #788296;
+}
+
+.badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 6px 10px;
+    border-radius: 20px;
+    background: #eef0ff;
+    color: #5865f2;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background: white;
+    border: 1px solid #e6eaf4;
+    border-radius: 18px;
+    padding: 20px;
+}
+
+.stat strong {
+    display: block;
+    font-size: 25px;
+    margin-bottom: 6px;
+    background: linear-gradient(
+        90deg,
+        #00bfff,
+        #5865f2,
+        #ec4899
+    );
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.stat span {
+    color: #788296;
+    font-size: 13px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #e6eaf4;
+    border-radius: 20px;
+    padding: 22px;
+    margin-bottom: 15px;
+    box-shadow: 0 8px 25px rgba(50,70,100,.05);
+}
+
+.card h2 {
+    font-size: 19px;
+    margin-bottom: 18px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-bottom: 1px solid #edf0f6;
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.label {
+    color: #7b8495;
+}
+
+.value {
+    font-weight: bold;
+}
+
+.button {
+    display: block;
+    width: 100%;
+    border: none;
+    padding: 14px;
+    border-radius: 13px;
+    margin-top: 10px;
+    color: white;
+    font-weight: bold;
+    background: linear-gradient(
+        90deg,
+        #00cfff,
+        #5865f2,
+        #a855f7
+    );
+}
+
+@media (min-width: 700px) {
+    .stats {
+        grid-template-columns: repeat(4,1fr);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🪐 NEPTUNE
+    </div>
+
+    <a href="index.html" class="back">
+        ← Accueil
+    </a>
+
+</header>
+
+<div class="container">
+
+    <div class="profile">
+
+        <div class="avatar">
+            👤
+        </div>
+
+        <div>
+
+            <h1>
+                Mon profil
+            </h1>
+
+            <p>
+                Nom RP : Non renseigné
+            </p>
+
+            <span class="badge">
+                Employé
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+            <strong>0h</strong>
+            <span>Heures de service</span>
+        </div>
+
+        <div class="stat">
+            <strong>0</strong>
+            <span>Ventes</span>
+        </div>
+
+        <div class="stat">
+            <strong>0</strong>
+            <span>Entreprises</span>
+        </div>
+
+        <div class="stat">
+            <strong>0</strong>
+            <span>Candidatures</span>
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>
+            🏢 Mon entreprise
+        </h2>
+
+        <div class="row">
+            <span class="label">Entreprise</span>
+            <span class="value">Aucune</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Grade</span>
+            <span class="value">Aucun</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Date d'arrivée</span>
+            <span class="value">—</span>
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>
+            ⏱️ Service
+        </h2>
+
+        <div class="row">
+            <span class="label">Heures cette semaine</span>
+            <span class="value">0h</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Heures ce mois</span>
+            <span class="value">0h</span>
+        </div>
+
+        <button class="button">
+            Démarrer mon service
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>
+            📋 Mes candidatures
+        </h2>
+
+        <div class="row">
+            <span class="label">En attente</span>
+            <span class="value">0</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Acceptées</span>
+            <span class="value">0</span>
+        </div>
+
+        <div class="row">
+            <span class="label">Refusées</span>
+            <span class="value">0</span>
+        </div>
+
+        <button class="button">
+            Voir mes candidatures
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>
+            📨 Contacter le staff
+        </h2>
+
+        <p style="color:#788296; line-height:1.6;">
+            Besoin d'aide concernant votre entreprise,
+            votre candidature ou votre compte ?
+        </p>
+
+        <button class="button">
+            Contacter le staff
+        </button>
+
+    </div>
+
+</div>
+
+</body>
+  </html>
