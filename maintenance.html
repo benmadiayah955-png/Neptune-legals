@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Maintenance — Neptune Legal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#f6faff;
+    color:#18243d;
+    display:flex;
+    flex-direction:column;
+}
+
+header{
+    padding:18px 6%;
+    background:linear-gradient(135deg,#45dfff,#6675ff,#c55cff);
+    color:white;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+}
+
+main{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+}
+
+.card{
+    width:100%;
+    max-width:700px;
+    background:white;
+    border-radius:30px;
+    padding:45px 30px;
+    text-align:center;
+    box-shadow:0 18px 50px rgba(60,100,170,.13);
+}
+
+.icon{
+    width:110px;
+    height:110px;
+    margin:0 auto 25px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:50px;
+    background:linear-gradient(
+        135deg,
+        rgba(69,223,255,.15),
+        rgba(197,92,255,.15)
+    );
+}
+
+h1{
+    font-size:30px;
+    margin-bottom:14px;
+}
+
+.subtitle{
+    color:#66738a;
+    line-height:1.7;
+    margin-bottom:25px;
+}
+
+.progress{
+    width:100%;
+    height:10px;
+    background:#edf2f8;
+    border-radius:20px;
+    overflow:hidden;
+    margin:25px 0;
+}
+
+.progress span{
+    display:block;
+    width:68%;
+    height:100%;
+    border-radius:20px;
+    background:linear-gradient(
+        90deg,
+        #45dfff,
+        #6675ff,
+        #c55cff
+    );
+}
+
+.status{
+    display:inline-block;
+    padding:9px 15px;
+    border-radius:20px;
+    background:#eef7ff;
+    color:#5870c2;
+    font-size:13px;
+    font-weight:700;
+}
+
+.buttons{
+    margin-top:28px;
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+a{
+    text-decoration:none;
+}
+
+.button{
+    padding:13px 20px;
+    border-radius:13px;
+    font-weight:700;
+}
+
+.primary{
+    background:linear-gradient(135deg,#45dfff,#6675ff);
+    color:white;
+}
+
+.secondary{
+    background:#edf5ff;
+    color:#536bb0;
+}
+
+footer{
+    text-align:center;
+    padding:25px;
+    color:#8995aa;
+    font-size:13px;
+}
+
+@media(max-width:600px){
+
+    .card{
+        padding:35px 20px;
+    }
+
+    h1{
+        font-size:25px;
+    }
+
+    .icon{
+        width:90px;
+        height:90px;
+        font-size:40px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        🌊 Neptune Legal
+    </div>
+</header>
+
+
+<main>
+
+    <section class="card">
+
+        <div class="icon">
+            🔧
+        </div>
+
+        <div class="status">
+            MAINTENANCE EN COURS
+        </div>
+
+        <h1>
+            Neptune Legal revient bientôt
+        </h1>
+
+        <p class="subtitle">
+            Le portail est actuellement en maintenance afin
+            d'améliorer les services, la sécurité et les
+            fonctionnalités de Neptune Legal.
+        </p>
+
+
+        <div class="progress">
+            <span></span>
+        </div>
+
+
+        <p class="subtitle">
+            Merci pour votre patience.
+        </p>
+
+
+        <div class="buttons">
+
+            <a
+                href="index.html"
+                class="button primary">
+
+                🏠 Retour à l'accueil
+
+            </a>
+
+            <a
+                href="contact.html"
+                class="button secondary">
+
+                💬 Contacter le staff
+
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+    Neptune Legal — Portail administratif
+</footer>
+
+</body>
+</html>
