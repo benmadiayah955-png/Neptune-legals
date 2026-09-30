@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Profil utilisateur — Neptune Legal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f6faff;
+    color:#18243d;
+}
+
+header{
+    background:linear-gradient(135deg,#45dfff,#6475ff,#c55cff);
+    color:white;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+}
+
+nav{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    background:rgba(255,255,255,.16);
+    padding:10px 14px;
+    border-radius:12px;
+}
+
+.container{
+    width:92%;
+    max-width:1150px;
+    margin:30px auto;
+}
+
+.back{
+    display:inline-block;
+    margin-bottom:18px;
+    color:#6173e8;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.profile{
+    background:white;
+    border-radius:24px;
+    padding:28px;
+    box-shadow:0 10px 35px rgba(60,100,170,.1);
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.avatar{
+    width:95px;
+    height:95px;
+    border-radius:28px;
+    background:linear-gradient(135deg,#55dcff,#6978ff,#c55cff);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:36px;
+    font-weight:bold;
+}
+
+.profile-info{
+    flex:1;
+}
+
+.profile-info h1{
+    font-size:30px;
+    margin-bottom:7px;
+}
+
+.discord{
+    color:#69778e;
+    margin-bottom:10px;
+}
+
+.badge{
+    display:inline-block;
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.green{
+    background:#e7fff1;
+    color:#16a45a;
+}
+
+.orange{
+    background:#fff3dc;
+    color:#d48600;
+}
+
+.red{
+    background:#ffe9ed;
+    color:#d63f58;
+}
+
+.actions{
+    display:flex;
+    gap:9px;
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    padding:11px 15px;
+    border-radius:12px;
+    font-weight:bold;
+}
+
+.primary{
+    background:linear-gradient(135deg,#53dcff,#6978ff);
+    color:white;
+}
+
+.secondary{
+    background:#eef2ff;
+    color:#596ce3;
+}
+
+.danger{
+    background:#ffe9ed;
+    color:#d63f58;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin:20px 0;
+}
+
+.stat{
+    background:white;
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 8px 25px rgba(60,100,170,.08);
+}
+
+.stat span{
+    color:#8793a8;
+    font-size:13px;
+}
+
+.stat strong{
+    display:block;
+    font-size:25px;
+    margin-top:7px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.section{
+    background:white;
+    border-radius:22px;
+    padding:24px;
+    box-shadow:0 8px 25px rgba(60,100,170,.08);
+    margin-bottom:20px;
+}
+
+.section h2{
+    margin-bottom:18px;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.info{
+    background:#f8faff;
+    padding:15px;
+    border-radius:14px;
+}
+
+.info span{
+    display:block;
+    color:#8995aa;
+    font-size:12px;
+    margin-bottom:6px;
+}
+
+.info strong{
+    font-size:14px;
+}
+
+.company{
+    border:1px solid #edf1f7;
+    border-radius:16px;
+    padding:17px;
+    margin-bottom:12px;
+}
+
+.company strong{
+    display:block;
+    margin-bottom:6px;
+}
+
+.company span{
+    color:#8995aa;
+    font-size:13px;
+}
+
+.permission{
+    display:flex;
+    justify-content:space-between;
+    padding:12px 0;
+    border-bottom:1px solid #edf1f7;
+}
+
+.permission:last-child{
+    border-bottom:none;
+}
+
+.timeline{
+    border-left:3px solid #6978ff;
+    padding-left:16px;
+}
+
+.event{
+    margin-bottom:18px;
+}
+
+.event strong{
+    display:block;
+    margin-bottom:4px;
+}
+
+.event span{
+    color:#8995aa;
+    font-size:12px;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#8995aa;
+    font-size:13px;
+}
+
+@media(max-width:800px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:550px){
+
+    .profile-info h1{
+        font-size:25px;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🌊 Neptune Legal
+    </div>
+
+    <nav>
+        <a href="admin.html">Administration</a>
+        <a href="utilisateurs.html">Utilisateurs</a>
+        <a href="index.html">Accueil</a>
+    </nav>
+
+</header>
+
+<div class="container">
+
+<a class="back" href="utilisateurs.html">
+    ← Retour aux utilisateurs
+</a>
+
+<!-- PROFIL -->
+
+<section class="profile">
+
+    <div class="avatar">
+        L
+    </div>
+
+    <div class="profile-info">
+
+        <h1>Lea Thomas</h1>
+
+        <div class="discord">
+            Discord : LeaThomas#0001
+        </div>
+
+        <span class="badge green">
+            ● Compte actif
+        </span>
+
+    </div>
+
+    <div class="actions">
+
+        <button class="primary" onclick="modifier()">
+            ✏️ Modifier
+        </button>
+
+        <button class="secondary" onclick="contacter()">
+            💬 Contacter
+        </button>
+
+        <button class="danger" onclick="suspendre()">
+            ⚠️ Suspendre
+        </button>
+
+    </div>
+
+</section>
+
+<!-- STATS -->
+
+<div class="stats">
+
+    <div class="stat">
+        <span>Entreprises</span>
+        <strong>1</strong>
+    </div>
+
+    <div class="stat">
+        <span>Candidatures</span>
+        <strong>3</strong>
+    </div>
+
+    <div class="stat">
+        <span>Heures de service</span>
+        <strong>86 h</strong>
+    </div>
+
+    <div class="stat">
+        <span>Ancienneté</span>
+        <strong>8 mois</strong>
+    </div>
+
+</div>
+
+<div class="grid">
+
+    <!-- INFORMATIONS -->
+
+    <section class="section">
+
+        <h2>👤 Informations</h2>
+
+        <div class="info-grid">
+
+            <div class="info">
+                <span>Nom RP</span>
+                <strong>Lea Thomas</strong>
+            </div>
+
+            <div class="info">
+                <span>Identifiant Discord</span>
+                <strong>LeaThomas#0001</strong>
+            </div>
+
+            <div class="info">
+                <span>Statut</span>
+                <strong>Actif</strong>
+            </div>
+
+            <div class="info">
+                <span>Date d'inscription</span>
+                <strong>12 janvier 2026</strong>
+            </div>
+
+            <div class="info">
+                <span>Dernière connexion</span>
+                <strong>Aujourd'hui</strong>
+            </div>
+
+            <div class="info">
+                <span>Rôle portail</span>
+                <strong>Utilisateur</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ENTREPRISE -->
+
+    <section class="section">
+
+        <h2>🏢 Entreprise actuelle</h2>
+
+        <div class="company">
+
+            <strong>Restaurant Neptune</strong>
+
+            <span>
+                Gérante • Depuis le 18 août 2026
+            </span>
+
+        </div>
+
+        <button
+            class="secondary"
+            onclick="entreprise()"
+        >
+            Voir l'entreprise
+        </button>
+
+    </section>
+
+</div>
+
+<!-- CANDIDATURES -->
+
+<section class="section">
+
+    <h2>📩 Candidatures</h2>
+
+    <div class="company">
+
+        <strong>Restaurant Neptune</strong>
+
+        <span>
+            Candidature — Acceptée
+        </span>
+
+        <br><br>
+
+        <span class="badge green">
+            Acceptée
+        </span>
+
+    </div>
+
+    <div class="company">
+
+        <strong>AutoKaze</strong>
+
+        <span>
+            Candidature — Refusée
+        </span>
+
+        <br><br>
+
+        <span class="badge red">
+            Refusée
+        </span>
+
+    </div>
+
+    <div class="company">
+
+        <strong>Weazel News</strong>
+
+        <span>
+            Candidature — En attente
+        </span>
+
+        <br><br>
+
+        <span class="badge orange">
+            En attente
+        </span>
+
+    </div>
+
+</section>
+
+<!-- PERMISSIONS -->
+
+<section class="section">
+
+    <h2>🔐 Permissions</h2>
+
+    <div class="permission">
+        <span>Consulter les entreprises</span>
+        <span class="badge green">Autorisé</span>
+    </div>
+
+    <div class="permission">
+        <span>Déposer une candidature</span>
+        <span class="badge green">Autorisé</span>
+    </div>
+
+    <div class="permission">
+        <span>Gérer une entreprise</span>
+        <span class="badge green">Autorisé</span>
+    </div>
+
+    <div class="permission">
+        <span>Gérer les employés</span>
+        <span class="badge green">Autorisé</span>
+    </div>
+
+    <div class="permission">
+        <span>Accéder à l'administration</span>
+        <span class="badge red">Refusé</span>
+    </div>
+
+</section>
+
+<!-- HISTORIQUE -->
+
+<section class="section">
+
+    <h2>📜 Historique du compte</h2>
+
+    <div class="timeline">
+
+        <div class="event">
+
+            <strong>Entreprise reprise</strong>
+
+            <span>
+                Restaurant Neptune • 18 août 2026
+            </span>
+
+        </div>
+
+        <div class="event">
+
+            <strong>Candidature acceptée</strong>
+
+            <span>
+                Restaurant Neptune • 18 août 2026
+            </span>
+
+        </div>
+
+        <div class="event">
+
+            <strong>Candidature déposée</strong>
+
+            <span>
+                Weazel News • 15 août 2026
+            </span>
+
+        </div>
+
+        <div class="event">
+
+            <strong>Compte créé</strong>
+
+            <span>
+                Neptune Legal • 12 janvier 2026
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+</div>
+
+<footer>
+    Neptune Legal — Profil utilisateur
+</footer>
+
+<script>
+
+function modifier(){
+
+    alert(
+        "La modification du profil sera disponible après connexion à la base de données."
+    );
+
+}
+
+function contacter(){
+
+    alert(
+        "La messagerie Discord sera connectée prochainement."
+    );
+
+}
+
+function suspendre(){
+
+    alert(
+        "La suspension du compte sera disponible depuis le système d'administration."
+    );
+
+}
+
+function entreprise(){
+
+    window.location.href = "profil-entreprise.html";
+
+}
+
+</script>
+
+</body>
+                  </html>
