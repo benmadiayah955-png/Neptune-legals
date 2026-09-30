@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Profil entreprise — Neptune Legal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f7fbff;
+    color:#18243d;
+}
+
+header{
+    background:linear-gradient(135deg,#48d8ff,#6378ff,#c65cff);
+    color:white;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+}
+
+nav{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    padding:10px 15px;
+    border-radius:12px;
+    background:rgba(255,255,255,.15);
+}
+
+.container{
+    width:92%;
+    max-width:1150px;
+    margin:35px auto;
+}
+
+.back{
+    display:inline-block;
+    margin-bottom:20px;
+    color:#6274ff;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.hero{
+    background:white;
+    border-radius:25px;
+    padding:30px;
+    box-shadow:0 10px 35px rgba(68,105,170,.12);
+    display:flex;
+    align-items:center;
+    gap:25px;
+    flex-wrap:wrap;
+}
+
+.company-logo{
+    width:110px;
+    height:110px;
+    border-radius:28px;
+    background:linear-gradient(135deg,#54dcff,#6878ff,#c85cff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    font-size:38px;
+    font-weight:bold;
+}
+
+.hero-content{
+    flex:1;
+}
+
+.hero h1{
+    font-size:34px;
+    margin-bottom:8px;
+}
+
+.type{
+    color:#6878ff;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.status{
+    display:inline-block;
+    padding:7px 12px;
+    border-radius:20px;
+    background:#e8fff2;
+    color:#18a75c;
+    font-weight:bold;
+    font-size:13px;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:18px;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    padding:12px 18px;
+    border-radius:13px;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.primary{
+    background:linear-gradient(135deg,#5bdcff,#6878ff);
+    color:white;
+}
+
+.secondary{
+    background:#eef3ff;
+    color:#5267df;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin:22px 0;
+}
+
+.stat{
+    background:white;
+    border-radius:20px;
+    padding:22px;
+    box-shadow:0 8px 25px rgba(68,105,170,.08);
+}
+
+.stat span{
+    color:#8290aa;
+    font-size:13px;
+}
+
+.stat strong{
+    display:block;
+    font-size:26px;
+    margin-top:7px;
+}
+
+.section{
+    background:white;
+    border-radius:22px;
+    padding:25px;
+    margin-top:20px;
+    box-shadow:0 8px 25px rgba(68,105,170,.08);
+}
+
+.section h2{
+    margin-bottom:18px;
+}
+
+.description{
+    color:#68758d;
+    line-height:1.7;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.info{
+    background:#f7faff;
+    border-radius:15px;
+    padding:16px;
+}
+
+.info span{
+    display:block;
+    color:#8995aa;
+    font-size:12px;
+    margin-bottom:5px;
+}
+
+.info strong{
+    font-size:15px;
+}
+
+.hours{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.hours tr{
+    border-bottom:1px solid #edf1f7;
+}
+
+.hours td{
+    padding:13px 5px;
+}
+
+.hours td:last-child{
+    text-align:right;
+    font-weight:bold;
+}
+
+.employee-list{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.employee{
+    border:1px solid #edf1f7;
+    border-radius:17px;
+    padding:18px;
+}
+
+.avatar{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#5bdcff,#a95cff);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.employee strong{
+    display:block;
+    margin-bottom:5px;
+}
+
+.employee span{
+    color:#8995aa;
+    font-size:13px;
+}
+
+.recruitment{
+    background:linear-gradient(135deg,#edfaff,#f5efff);
+    border-radius:20px;
+    padding:25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.recruitment p{
+    color:#68758d;
+    margin-top:7px;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#8995aa;
+    font-size:13px;
+}
+
+@media(max-width:850px){
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .employee-list{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:600px){
+    .hero h1{
+        font-size:27px;
+    }
+
+    .grid,
+    .info-grid,
+    .employee-list{
+        grid-template-columns:1fr;
+    }
+
+    .company-logo{
+        width:85px;
+        height:85px;
+        font-size:30px;
+    }
+
+    .hero{
+        padding:22px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🌊 Neptune Legal
+    </div>
+
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="entreprises.html">Entreprises</a>
+        <a href="employes.html">Mon espace</a>
+    </nav>
+
+</header>
+
+<div class="container">
+
+<a class="back" href="entreprises.html">
+    ← Retour aux entreprises
+</a>
+
+<!-- PROFIL -->
+<section class="hero">
+
+    <div class="company-logo">
+        N
+    </div>
+
+    <div class="hero-content">
+
+        <h1>Restaurant Neptune</h1>
+
+        <div class="type">
+            🍽️ Restaurant
+        </div>
+
+        <span class="status">
+            ● Entreprise active
+        </span>
+
+        <div class="actions">
+
+            <button class="primary" onclick="postuler()">
+                📩 Postuler
+            </button>
+
+            <button class="secondary" onclick="contacter()">
+                💬 Contacter
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- STATISTIQUES -->
+<div class="grid">
+
+    <div class="stat">
+        <span>Employés</span>
+        <strong>12</strong>
+    </div>
+
+    <div class="stat">
+        <span>Postes ouverts</span>
+        <strong>4</strong>
+    </div>
+
+    <div class="stat">
+        <span>Horaires</span>
+        <strong>10h-00h</strong>
+    </div>
+
+    <div class="stat">
+        <span>Entreprise</span>
+        <strong>Active</strong>
+    </div>
+
+</div>
+
+<!-- PRESENTATION -->
+<section class="section">
+
+    <h2>🏢 Présentation</h2>
+
+    <p class="description">
+        Le Restaurant Neptune est une entreprise spécialisée dans
+        la restauration. Notre objectif est de proposer un service
+        sérieux, dynamique et accessible à tous les habitants de la ville.
+        L'équipe recherche régulièrement de nouveaux employés motivés
+        afin de développer l'activité.
+    </p>
+
+</section>
+
+<!-- INFORMATIONS -->
+<section class="section">
+
+    <h2>📋 Informations</h2>
+
+    <div class="info-grid">
+
+        <div class="info">
+            <span>Nom de l'entreprise</span>
+            <strong>Restaurant Neptune</strong>
+        </div>
+
+        <div class="info">
+            <span>Secteur</span>
+            <strong>Restauration</strong>
+        </div>
+
+        <div class="info">
+            <span>Gérant</span>
+            <strong>Lea Thomas</strong>
+        </div>
+
+        <div class="info">
+            <span>Employés</span>
+            <strong>12 employés</strong>
+        </div>
+
+        <div class="info">
+            <span>Recrutement</span>
+            <strong>Ouvert</strong>
+        </div>
+
+        <div class="info">
+            <span>Candidatures spontanées</span>
+            <strong>Acceptées</strong>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- HORAIRES -->
+<section class="section">
+
+    <h2>🕐 Horaires d'ouverture</h2>
+
+    <table class="hours">
+
+        <tr>
+            <td>Lundi</td>
+            <td>10h00 — 00h00</td>
+        </tr>
+
+        <tr>
+            <td>Mardi</td>
+            <td>10h00 — 00h00</td>
+        </tr>
+
+        <tr>
+            <td>Mercredi</td>
+            <td>10h00 — 00h00</td>
+        </tr>
+
+        <tr>
+            <td>Jeudi</td>
+            <td>10h00 — 00h00</td>
+        </tr>
+
+        <tr>
+            <td>Vendredi</td>
+            <td>10h00 — 02h00</td>
+        </tr>
+
+        <tr>
+            <td>Samedi</td>
+            <td>10h00 — 02h00</td>
+        </tr>
+
+        <tr>
+            <td>Dimanche</td>
+            <td>12h00 — 00h00</td>
+        </tr>
+
+    </table>
+
+</section>
+
+<!-- EMPLOYES -->
+<section class="section">
+
+    <h2>👥 Équipe</h2>
+
+    <div class="employee-list">
+
+        <div class="employee">
+            <div class="avatar">L</div>
+            <strong>Lea Thomas</strong>
+            <span>Gérante</span>
+        </div>
+
+        <div class="employee">
+            <div class="avatar">M</div>
+            <strong>Max Martin</strong>
+            <span>Responsable</span>
+        </div>
+
+        <div class="employee">
+            <div class="avatar">S</div>
+            <strong>Sarah Lewis</strong>
+            <span>Employée</span>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- RECRUTEMENT -->
+<section class="section">
+
+    <div class="recruitment">
+
+        <div>
+            <h2>📢 L'entreprise recrute !</h2>
+
+            <p>
+                Plusieurs postes sont actuellement disponibles.
+                Dépose ta candidature directement sur Neptune Legal.
+            </p>
+        </div>
+
+        <button class="primary" onclick="postuler()">
+            Déposer une candidature
+        </button>
+
+    </div>
+
+</section>
+
+</div>
+
+<footer>
+    Neptune Legal — Gestion des entreprises
+</footer>
+
+<script>
+
+function postuler(){
+
+    window.location.href = "candidatures.html";
+
+}
+
+function contacter(){
+
+    alert(
+        "La messagerie entreprise sera disponible lorsque la connexion Discord et la base de données seront activées."
+    );
+
+}
+
+</script>
+
+</body>
+      </html>
