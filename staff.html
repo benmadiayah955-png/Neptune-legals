@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gestion du Staff — Neptune Legal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f6faff;
+    color:#18243d;
+}
+
+header{
+    background:linear-gradient(135deg,#45dfff,#6475ff,#c55cff);
+    color:white;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+}
+
+nav{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    background:rgba(255,255,255,.16);
+    padding:10px 14px;
+    border-radius:12px;
+}
+
+.container{
+    width:92%;
+    max-width:1200px;
+    margin:30px auto;
+}
+
+.hero{
+    background:white;
+    padding:28px;
+    border-radius:23px;
+    box-shadow:0 10px 35px rgba(60,100,170,.1);
+    margin-bottom:20px;
+}
+
+.hero h1{
+    margin-bottom:8px;
+}
+
+.hero p{
+    color:#7d899e;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 8px 25px rgba(60,100,170,.08);
+}
+
+.stat span{
+    display:block;
+    color:#8995a9;
+    font-size:13px;
+}
+
+.stat strong{
+    display:block;
+    font-size:28px;
+    margin-top:7px;
+}
+
+.controls{
+    background:white;
+    padding:18px;
+    border-radius:19px;
+    box-shadow:0 8px 25px rgba(60,100,170,.07);
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.search{
+    flex:1;
+    min-width:220px;
+    padding:13px 15px;
+    border:1px solid #e0e7f1;
+    border-radius:13px;
+    outline:none;
+}
+
+select{
+    padding:13px 15px;
+    border:1px solid #e0e7f1;
+    border-radius:13px;
+    background:white;
+    color:#35425c;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    padding:11px 14px;
+    border-radius:11px;
+    font-weight:600;
+}
+
+.primary{
+    background:linear-gradient(135deg,#55dfff,#6675ff);
+    color:white;
+}
+
+.light{
+    background:#edf5ff;
+    color:#4166b4;
+}
+
+.red{
+    background:#ffe8ed;
+    color:#d33d56;
+}
+
+.green{
+    background:#e6fff0;
+    color:#149957;
+}
+
+.staff-list{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.staff-card{
+    background:white;
+    border-radius:21px;
+    padding:21px;
+    box-shadow:0 8px 25px rgba(60,100,170,.08);
+}
+
+.staff-top{
+    display:flex;
+    align-items:center;
+    gap:13px;
+}
+
+.avatar{
+    width:55px;
+    height:55px;
+    border-radius:17px;
+    background:linear-gradient(135deg,#53ddff,#bf5cff);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+    font-weight:bold;
+}
+
+.staff-name{
+    flex:1;
+}
+
+.staff-name strong{
+    display:block;
+    margin-bottom:5px;
+}
+
+.staff-name span{
+    color:#8995a9;
+    font-size:12px;
+}
+
+.online{
+    width:10px;
+    height:10px;
+    background:#18bf69;
+    border-radius:50%;
+}
+
+.offline{
+    width:10px;
+    height:10px;
+    background:#c8d0dc;
+    border-radius:50%;
+}
+
+.role{
+    display:inline-block;
+    margin-top:17px;
+    padding:7px 11px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+    background:#edf2ff;
+    color:#5668c9;
+}
+
+.permissions{
+    margin-top:17px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+}
+
+.permission{
+    background:#f7faff;
+    padding:10px;
+    border-radius:11px;
+    font-size:11px;
+    color:#6e7b91;
+}
+
+.permission strong{
+    display:block;
+    color:#263650;
+    margin-bottom:3px;
+}
+
+.activity{
+    margin-top:17px;
+    padding-top:15px;
+    border-top:1px solid #edf1f6;
+    color:#8793a6;
+    font-size:12px;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:16px;
+}
+
+.empty{
+    display:none;
+    background:white;
+    padding:45px;
+    text-align:center;
+    border-radius:20px;
+    color:#8995aa;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(20,35,65,.35);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:100;
+}
+
+.modal-box{
+    background:white;
+    width:100%;
+    max-width:520px;
+    padding:25px;
+    border-radius:22px;
+    box-shadow:0 20px 60px rgba(30,50,90,.2);
+}
+
+.modal-box h2{
+    margin-bottom:20px;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    padding:12px;
+    border:1px solid #dfe6f0;
+    border-radius:11px;
+    outline:none;
+}
+
+.modal-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:20px;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#8995aa;
+    font-size:13px;
+}
+
+@media(max-width:800px){
+
+    .staff-list{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:500px){
+
+    .permissions{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🌊 Neptune Legal
+    </div>
+
+    <nav>
+        <a href="admin.html">Administration</a>
+        <a href="logs.html">Journal</a>
+        <a href="sanctions.html">Sanctions</a>
+        <a href="index.html">Accueil</a>
+    </nav>
+
+</header>
+
+
+<div class="container">
+
+<section class="hero">
+
+    <h1>👥 Équipe Staff</h1>
+
+    <p>
+        Gérez les membres du Staff, leurs rôles,
+        leurs permissions et leur activité sur Neptune Legal.
+    </p>
+
+</section>
+
+
+<div class="stats">
+
+    <div class="stat">
+        <span>Membres Staff</span>
+        <strong>12</strong>
+    </div>
+
+    <div class="stat">
+        <span>En ligne</span>
+        <strong>8</strong>
+    </div>
+
+    <div class="stat">
+        <span>Administrateurs</span>
+        <strong>3</strong>
+    </div>
+
+    <div class="stat">
+        <span>Modérateurs</span>
+        <strong>6</strong>
+    </div>
+
+</div>
+
+
+<div class="controls">
+
+    <input
+        id="search"
+        class="search"
+        type="text"
+        placeholder="🔎 Rechercher un membre..."
+        oninput="filtrer()"
+    >
+
+    <select
+        id="roleFilter"
+        onchange="filtrer()">
+
+        <option value="tous">
+            Tous les rôles
+        </option>
+
+        <option value="administrateur">
+            Administrateur
+        </option>
+
+        <option value="responsable">
+            Responsable
+        </option>
+
+        <option value="moderateur">
+            Modérateur
+        </option>
+
+        <option value="support">
+            Support
+        </option>
+
+    </select>
+
+    <button
+        class="primary"
+        onclick="ouvrirModal()">
+
+        + Ajouter un Staff
+
+    </button>
+
+</div>
+
+
+<div class="staff-list" id="staffList">
+
+
+<!-- ADMIN -->
+
+<article
+    class="staff-card"
+    data-name="lea admin"
+    data-role="administrateur">
+
+    <div class="staff-top">
+
+        <div class="avatar">
+            L
+        </div>
+
+        <div class="staff-name">
+
+            <strong>
+                Lea Admin
+            </strong>
+
+            <span>
+                Discord : LeaAdmin
+            </span>
+
+        </div>
+
+        <div class="online"></div>
+
+    </div>
+
+    <span class="role">
+        ADMINISTRATEUR
+    </span>
+
+    <div class="permissions">
+
+        <div class="permission">
+            <strong>Utilisateurs</strong>
+            Gestion complète
+        </div>
+
+        <div class="permission">
+            <strong>Entreprises</strong>
+            Gestion complète
+        </div>
+
+        <div class="permission">
+            <strong>Sanctions</strong>
+            Gestion complète
+        </div>
+
+        <div class="permission">
+            <strong>Paramètres</strong>
+            Accès complet
+        </div>
+
+    </div>
+
+    <div class="activity">
+        Dernière activité : aujourd'hui à 14:42
+    </div>
+
+    <div class="actions">
+
+        <button
+            class="light"
+            onclick="modifier('Lea Admin')">
+            Modifier
+        </button>
+
+        <button
+            class="light"
+            onclick="voirActivite('Lea Admin')">
+            Activité
+        </button>
+
+    </div>
+
+</article>
+
+
+<!-- RESPONSABLE -->
+
+<article
+    class="staff-card"
+    data-name="maxime staff"
+    data-role="responsable">
+
+    <div class="staff-top">
+
+        <div class="avatar">
+            M
+        </div>
+
+        <div class="staff-name">
+
+            <strong>
+                Maxime Staff
+            </strong>
+
+            <span>
+                Discord : Maxime
+            </span>
+
+        </div>
+
+        <div class="online"></div>
+
+    </div>
+
+    <span class="role">
+        RESPONSABLE
+    </span>
+
+    <div class="permissions">
+
+        <div class="permission">
+            <strong>Utilisateurs</strong>
+            Consultation
+        </div>
+
+        <div class="permission">
+            <strong>Entreprises</strong>
+            Gestion
+        </div>
+
+        <div class="permission">
+            <strong>Candidatures</strong>
+            Gestion
+        </div>
+
+        <div class="permission">
+            <strong>Sanctions</strong>
+            Limitée
+        </div>
+
+    </div>
+
+    <div class="activity">
+        Dernière activité : aujourd'hui à 13:26
+    </div>
+
+    <div class="actions">
+
+        <button
+            class="light"
+            onclick="modifier('Maxime Staff')">
+            Modifier
+        </button>
+
+        <button
+            class="light"
+            onclick="voirActivite('Maxime Staff')">
+            Activité
+        </button>
+
+    </div>
+
+</article>
+
+
+<!-- MODERATEUR -->
+
+<article
+    class="staff-card"
+    data-name="sarah moderatrice"
+    data-role="moderateur">
+
+    <div class="staff-top">
+
+        <div class="avatar">
+            S
+        </div>
+
+        <div class="staff-name">
+
+            <strong>
+                Sarah Modération
+            </strong>
+
+            <span>
+                Discord : Sarah
+            </span>
+
+        </div>
+
+        <div class="online"></div>
+
+    </div>
+
+    <span class="role">
+        MODÉRATEUR
+    </span>
+
+    <div class="permissions">
+
+        <div class="permission">
+            <strong>Utilisateurs</strong>
+            Consultation
+        </div>
+
+        <div class="permission">
+            <strong>Entreprises</strong>
+            Consultation
+        </div>
+
+        <div class="permission">
+            <strong>Sanctions</strong>
+            Avertissements
+        </div>
+
+        <div class="permission">
+            <strong>Journal</strong>
+            Consultation
+        </div>
+
+    </div>
+
+    <div class="activity">
+        Dernière activité : aujourd'hui à 12:51
+    </div>
+
+    <div class="actions">
+
+        <button
+            class="light"
+            onclick="modifier('Sarah Modération')">
+            Modifier
+        </button>
+
+        <button
+            class="light"
+            onclick="voirActivite('Sarah Modération')">
+            Activité
+        </button>
+
+    </div>
+
+</article>
+
+
+<!-- SUPPORT -->
+
+<article
+    class="staff-card"
+    data-name="thomas support"
+    data-role="support">
+
+    <div class="staff-top">
+
+        <div class="avatar">
+            T
+        </div>
+
+        <div class="staff-name">
+
+            <strong>
+                Thomas Support
+            </strong>
+
+            <span>
+                Discord : Thomas
+            </span>
+
+        </div>
+
+        <div class="offline"></div>
+
+    </div>
+
+    <span class="role">
+        SUPPORT
+    </span>
+
+    <div class="permissions">
+
+        <div class="permission">
+            <strong>Utilisateurs</strong>
+            Consultation
+        </div>
+
+        <div class="permission">
+            <strong>Entreprises</strong>
+            Consultation
+        </div>
+
+        <div class="permission">
+            <strong>Candidatures</strong>
+            Consultation
+        </div>
+
+        <div class="permission">
+            <strong>Sanctions</strong>
+            Aucune
+        </div>
+
+    </div>
+
+    <div class="activity">
+        Dernière activité : hier à 22:14
+    </div>
+
+    <div class="actions">
+
+        <button
+            class="light"
+            onclick="modifier('Thomas Support')">
+            Modifier
+        </button>
+
+        <button
+            class="light"
+            onclick="voirActivite('Thomas Support')">
+            Activité
+        </button>
+
+    </div>
+
+</article>
+
+
+</div>
+
+
+<div
+    class="empty"
+    id="empty">
+
+    Aucun membre Staff ne correspond à votre recherche.
+
+</div>
+
+</div>
+
+
+<footer>
+    Neptune Legal — Gestion du Staff
+</footer>
+
+
+<!-- MODALE AJOUT -->
+
+<div
+    class="modal"
+    id="modal">
+
+    <div class="modal-box">
+
+        <h2>
+            👤 Ajouter un membre Staff
+        </h2>
+
+        <div class="form-group">
+
+            <label>
+                Nom
+            </label>
+
+            <input
+                id="newName"
+                type="text"
+                placeholder="Nom du Staff">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Identifiant Discord
+            </label>
+
+            <input
+                id="newDiscord"
+                type="text"
+                placeholder="Pseudo ou ID Discord">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Rôle
+            </label>
+
+            <select id="newRole">
+
+                <option value="administrateur">
+                    Administrateur
+                </option>
+
+                <option value="responsable">
+                    Responsable
+                </option>
+
+                <option value="moderateur">
+                    Modérateur
+                </option>
+
+                <option value="support">
+                    Support
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                class="light"
+                onclick="fermerModal()">
+
+                Annuler
+
+            </button>
+
+            <button
+                class="primary"
+                onclick="ajouterStaff()">
+
+                Ajouter
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function filtrer(){
+
+    const recherche =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+    const role =
+        document.getElementById("roleFilter")
+        .value;
+
+    const cards =
+        document.querySelectorAll(".staff-card");
+
+    let visibles = 0;
+
+    cards.forEach(function(card){
+
+        const texte =
+            card.dataset.name;
+
+        const bonNom =
+            texte.includes(recherche);
+
+        const bonRole =
+            role === "tous" ||
+            card.dataset.role === role;
+
+        if(bonNom && bonRole){
+
+            card.style.display = "block";
+
+            visibles++;
+
+        }else{
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+    document.getElementById("empty").style.display =
+        visibles === 0
+        ? "block"
+        : "none";
+
+}
+
+
+function ouvrirModal(){
+
+    document.getElementById("modal").style.display =
+        "flex";
+
+}
+
+
+function fermerModal(){
+
+    document.getElementById("modal").style.display =
+        "none";
+
+}
+
+
+function ajouterStaff(){
+
+    const name =
+        document.getElementById("newName").value;
+
+    const discord =
+        document.getElementById("newDiscord").value;
+
+    const role =
+        document.getElementById("newRole").value;
+
+    if(!name || !discord){
+
+        alert(
+            "Veuillez renseigner le nom et Discord."
+        );
+
+        return;
+
+    }
+
+    alert(
+        "Membre Staff ajouté.\n\n" +
+        "Nom : " + name +
+        "\nDiscord : " + discord +
+        "\nRôle : " + role +
+        "\n\nLa sauvegarde réelle sera connectée à Supabase."
+    );
+
+    fermerModal();
+
+}
+
+
+function modifier(name){
+
+    alert(
+        "Modification du membre : " +
+        name +
+        "\n\nCette fonction sera reliée à la base de données."
+    );
+
+}
+
+
+function voirActivite(name){
+
+    window.location.href =
+        "logs.html";
+
+}
+
+</script>
+
+</body>
+  </html>
