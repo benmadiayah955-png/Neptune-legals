@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Stocks — Neptune Legal</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f6fbff;
+    color:#18243d;
+}
+
+/* ================= HEADER ================= */
+
+header{
+    background:white;
+    padding:16px 5%;
+    border-bottom:1px solid #e4edf8;
+    box-shadow:0 5px 20px rgba(50,120,200,.07);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:21px;
+    font-weight:bold;
+}
+
+.logo-icon{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:linear-gradient(
+        135deg,
+        #00d9ff,
+        #4777ff,
+        #a64cff,
+        #ff55c8
+    );
+    box-shadow:0 0 18px rgba(80,120,255,.3);
+}
+
+/* ================= PAGE ================= */
+
+.container{
+    width:92%;
+    max-width:1150px;
+    margin:30px auto;
+}
+
+.back{
+    display:inline-block;
+    color:#526bd5;
+    text-decoration:none;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+/* ================= TITRE ================= */
+
+.hero{
+    background:white;
+    border:1px solid #e3edf9;
+    border-radius:24px;
+    padding:26px;
+    margin-bottom:20px;
+    box-shadow:0 8px 25px rgba(50,100,180,.06);
+}
+
+.hero h1{
+    font-size:29px;
+    margin-bottom:8px;
+}
+
+.hero p{
+    color:#758198;
+    line-height:1.6;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:white;
+    border:1px solid #e3edf9;
+    border-radius:18px;
+    padding:19px;
+    box-shadow:0 7px 20px rgba(50,100,180,.05);
+}
+
+.stat-icon{
+    font-size:22px;
+    margin-bottom:8px;
+}
+
+.stat span{
+    display:block;
+    color:#7d899d;
+    font-size:13px;
+}
+
+.stat strong{
+    display:block;
+    margin-top:6px;
+    font-size:25px;
+}
+
+/* ================= OUTILS ================= */
+
+.toolbar{
+    background:white;
+    border:1px solid #e3edf9;
+    border-radius:20px;
+    padding:18px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.search,
+select{
+    border:1px solid #dce7f5;
+    border-radius:12px;
+    padding:13px;
+    background:white;
+    outline:none;
+}
+
+.search{
+    flex:1;
+    min-width:220px;
+}
+
+.add{
+    border:none;
+    border-radius:12px;
+    padding:13px 18px;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    background:linear-gradient(
+        135deg,
+        #00cfff,
+        #526cff,
+        #a64cff
+    );
+}
+
+/* ================= PRODUITS ================= */
+
+.products{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(285px,1fr));
+    gap:18px;
+}
+
+.product{
+    background:white;
+    border:1px solid #e3edf9;
+    border-radius:22px;
+    padding:20px;
+    box-shadow:0 8px 25px rgba(50,100,180,.06);
+}
+
+.product-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+    margin-bottom:17px;
+}
+
+.product-name{
+    font-size:19px;
+    font-weight:bold;
+}
+
+.category{
+    padding:6px 10px;
+    border-radius:20px;
+    background:#eef2ff;
+    color:#5969d8;
+    font-size:11px;
+    font-weight:bold;
+}
+
+/* ================= QUANTITE ================= */
+
+.quantity-box{
+    background:#f7faff;
+    border-radius:15px;
+    padding:15px;
+    margin-bottom:14px;
+}
+
+.quantity-box span{
+    display:block;
+    color:#7d899d;
+    font-size:12px;
+}
+
+.quantity{
+    font-size:28px;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+.progress{
+    width:100%;
+    height:8px;
+    background:#e9eef5;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:11px;
+}
+
+.progress-bar{
+    height:100%;
+    border-radius:20px;
+    background:linear-gradient(
+        90deg,
+        #00cfff,
+        #526cff,
+        #a64cff
+    );
+}
+
+/* ================= ETAT ================= */
+
+.stock-status{
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:14px;
+}
+
+.good{
+    color:#15966b;
+}
+
+.warning{
+    color:#bd7a17;
+}
+
+.danger{
+    color:#d34f70;
+}
+
+/* ================= INFORMATIONS ================= */
+
+.infos{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+.info{
+    background:#f8fbff;
+    border-radius:11px;
+    padding:10px;
+}
+
+.info span{
+    display:block;
+    color:#8a94a5;
+    font-size:11px;
+}
+
+.info strong{
+    display:block;
+    margin-top:4px;
+    font-size:13px;
+}
+
+/* ================= BOUTONS ================= */
+
+.actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:16px;
+}
+
+.actions button{
+    border:none;
+    border-radius:10px;
+    padding:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.add-stock{
+    background:#e9f8ff;
+    color:#287eae;
+}
+
+.remove-stock{
+    background:#fff5e8;
+    color:#b87819;
+}
+
+.edit{
+    background:#f0efff;
+    color:#6259c9;
+}
+
+.delete{
+    background:#fff0f4;
+    color:#d34f73;
+}
+
+/* ================= MODALE ================= */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(20,40,80,.25);
+    backdrop-filter:blur(5px);
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    z-index:100;
+}
+
+.modal-box{
+    background:white;
+    width:100%;
+    max-width:530px;
+    max-height:90vh;
+    overflow:auto;
+    border-radius:24px;
+    padding:25px;
+}
+
+.modal-box h2{
+    margin-bottom:20px;
+}
+
+.field{
+    margin-bottom:15px;
+}
+
+.field label{
+    display:block;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.field input,
+.field select{
+    width:100%;
+    padding:13px;
+    border:1px solid #dce7f5;
+    border-radius:12px;
+    outline:none;
+}
+
+.modal-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.modal-buttons button{
+    flex:1;
+    border:none;
+    border-radius:12px;
+    padding:13px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.cancel{
+    background:#eef2f6;
+    color:#596579;
+}
+
+.save{
+    background:linear-gradient(
+        135deg,
+        #00cfff,
+        #526cff,
+        #a64cff
+    );
+    color:white;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:600px){
+
+    .container{
+        width:94%;
+        margin:20px auto;
+    }
+
+    .hero h1{
+        font-size:24px;
+    }
+
+    .toolbar{
+        flex-direction:column;
+    }
+
+    .search,
+    select,
+    .add{
+        width:100%;
+    }
+
+    .infos{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<header>
+
+<div class="logo">
+
+<div class="logo-icon"></div>
+
+Neptune Legal
+
+</div>
+
+</header>
+
+
+<div class="container">
+
+
+<a
+href="entreprise-dashboard.html"
+class="back"
+>
+← Retour à l'entreprise
+</a>
+
+
+<!-- ================= TITRE ================= -->
+
+<div class="hero">
+
+<h1>📦 Gestion des stocks</h1>
+
+<p>
+Gérez les produits de votre entreprise, ajoutez ou retirez
+des quantités et surveillez les niveaux de stock en temps réel.
+</p>
+
+</div>
+
+
+<!-- ================= STATISTIQUES ================= -->
+
+<div class="stats">
+
+
+<div class="stat">
+
+<div class="stat-icon">📦</div>
+
+<span>Produits</span>
+
+<strong id="totalProduits">
+24
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-icon">📊</div>
+
+<span>Unités en stock</span>
+
+<strong>
+1 284
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-icon">⚠️</div>
+
+<span>Stocks faibles</span>
+
+<strong>
+4
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-icon">💰</div>
+
+<span>Valeur du stock</span>
+
+<strong>
+18 450 €
+</strong>
+
+</div>
+
+
+</div>
+
+
+<!-- ================= BARRE OUTILS ================= -->
+
+<div class="toolbar">
+
+
+<input
+type="text"
+id="search"
+class="search"
+placeholder="🔎 Rechercher un produit..."
+onkeyup="rechercher()"
+>
+
+
+<select
+id="categorie"
+onchange="filtrer()"
+>
+
+<option value="tous">
+Toutes les catégories
+</option>
+
+<option value="boissons">
+Boissons
+</option>
+
+<option value="nourriture">
+Nourriture
+</option>
+
+<option value="materiel">
+Matériel
+</option>
+
+<option value="divers">
+Divers
+</option>
+
+</select>
+
+
+<button
+class="add"
+onclick="ouvrirAjout()"
+>
+＋ Ajouter un produit
+</button>
+
+
+</div>
+
+
+<!-- ================= PRODUITS ================= -->
+
+<div
+class="products"
+id="products"
+>
+
+
+<!-- EAU -->
+
+<div
+class="product"
+data-name="eau"
+data-category="boissons"
+>
+
+<div class="product-header">
+
+<div class="product-name">
+💧 Eau
+</div>
+
+<div class="category">
+Boissons
+</div>
+
+</div>
+
+
+<div class="quantity-box">
+
+<span>
+Quantité disponible
+</span>
+
+<div
+class="quantity"
+id="q-eau"
+>
+350
+</div>
+
+<div class="progress">
+
+<div
+class="progress-bar"
+style="width:87%"
+id="p-eau"
+></div>
+
+</div>
+
+</div>
+
+
+<div class="stock-status good">
+● Stock suffisant
+</div>
+
+
+<div class="infos">
+
+<div class="info">
+
+<span>
+Seuil minimum
+</span>
+
+<strong>
+100
+</strong>
+
+</div>
+
+
+<div class="info">
+
+<span>
+Prix unitaire
+</span>
+
+<strong>
+2,50 €
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="add-stock"
+onclick="ajouterStock('eau')"
+>
+＋ Ajouter
+</button>
+
+<button
+class="remove-stock"
+onclick="retirerStock('eau')"
+>
+− Retirer
+</button>
+
+<button
+class="edit"
+onclick="modifierProduit('Eau')"
+>
+Modifier
+</button>
+
+<button
+class="delete"
+onclick="supprimerProduit('Eau')"
+>
+Supprimer
+</button>
+
+</div>
+
+</div>
+
+
+<!-- BURGER -->
+
+<div
+class="product"
+data-name="burger"
+data-category="nourriture"
+>
+
+<div class="product-header">
+
+<div class="product-name">
+🍔 Burger
+</div>
+
+<div class="category">
+Nourriture
+</div>
+
+</div>
+
+
+<div class="quantity-box">
+
+<span>
+Quantité disponible
+</span>
+
+<div
+class="quantity"
+id="q-burger"
+>
+48
+</div>
+
+<div class="progress">
+
+<div
+class="progress-bar"
+style="width:32%"
+id="p-burger"
+></div>
+
+</div>
+
+</div>
+
+
+<div class="stock-status warning">
+● Stock faible
+</div>
+
+
+<div class="infos">
+
+<div class="info">
+
+<span>
+Seuil minimum
+</span>
+
+<strong>
+50
+</strong>
+
+</div>
+
+
+<div class="info">
+
+<span>
+Prix unitaire
+</span>
+
+<strong>
+12 €
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="add-stock"
+onclick="ajouterStock('burger')"
+>
+＋ Ajouter
+</button>
+
+<button
+class="remove-stock"
+onclick="retirerStock('burger')"
+>
+− Retirer
+</button>
+
+<button
+class="edit"
+onclick="modifierProduit('Burger')"
+>
+Modifier
+</button>
+
+<button
+class="delete"
+onclick="supprimerProduit('Burger')"
+>
+Supprimer
+</button>
+
+</div>
+
+</div>
+
+
+<!-- CANETTES -->
+
+<div
+class="product"
+data-name="canettes"
+data-category="boissons"
+>
+
+<div class="product-header">
+
+<div class="product-name">
+🥤 Canettes
+</div>
+
+<div class="category">
+Boissons
+</div>
+
+</div>
+
+
+<div class="quantity-box">
+
+<span>
+Quantité disponible
+</span>
+
+<div
+class="quantity"
+id="q-canettes"
+>
+72
+</div>
+
+<div class="progress">
+
+<div
+class="progress-bar"
+style="width:22%"
+id="p-canettes"
+></div>
+
+</div>
+
+</div>
+
+
+<div class="stock-status warning">
+● Stock faible
+</div>
+
+
+<div class="infos">
+
+<div class="info">
+
+<span>
+Seuil minimum
+</span>
+
+<strong>
+100
+</strong>
+
+</div>
+
+
+<div class="info">
+
+<span>
+Prix unitaire
+</span>
+
+<strong>
+3 €
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="add-stock"
+onclick="ajouterStock('canettes')"
+>
+＋ Ajouter
+</button>
+
+<button
+class="remove-stock"
+onclick="retirerStock('canettes')"
+>
+− Retirer
+</button>
+
+<button
+class="edit"
+onclick="modifierProduit('Canettes')"
+>
+Modifier
+</button>
+
+<button
+class="delete"
+onclick="supprimerProduit('Canettes')"
+>
+Supprimer
+</button>
+
+</div>
+
+</div>
+
+
+<!-- EMBALLAGES -->
+
+<div
+class="product"
+data-name="emballages"
+data-category="materiel"
+>
+
+<div class="product-header">
+
+<div class="product-name">
+📦 Emballages
+</div>
+
+<div class="category">
+Matériel
+</div>
+
+</div>
+
+
+<div class="quantity-box">
+
+<span>
+Quantité disponible
+</span>
+
+<div
+class="quantity"
+id="q-emballages"
+>
+18
+</div>
+
+<div class="progress">
+
+<div
+class="progress-bar"
+style="width:10%"
+id="p-emballages"
+></div>
+
+</div>
+
+</div>
+
+
+<div class="stock-status danger">
+● Stock critique
+</div>
+
+
+<div class="infos">
+
+<div class="info">
+
+<span>
+Seuil minimum
+</span>
+
+<strong>
+50
+</strong>
+
+</div>
+
+
+<div class="info">
+
+<span>
+Prix unitaire
+</span>
+
+<strong>
+1,20 €
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button
+class="add-stock"
+onclick="ajouterStock('emballages')"
+>
+＋ Ajouter
+</button>
+
+<button
+class="remove-stock"
+onclick="retirerStock('emballages')"
+>
+− Retirer
+</button>
+
+<button
+class="edit"
+onclick="modifierProduit('Emballages')"
+>
+Modifier
+</button>
+
+<button
+class="delete"
+onclick="supprimerProduit('Emballages')"
+>
+Supprimer
+</button>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- ================= MODALE ================= -->
+
+<div
+class="modal"
+id="modal"
+>
+
+<div class="modal-box">
+
+<h2>
+📦 Ajouter un produit
+</h2>
+
+
+<div class="field">
+
+<label>
+Nom du produit
+</label>
+
+<input
+type="text"
+id="nomProduit"
+placeholder="Ex : Pizza"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Catégorie
+</label>
+
+<select id="catProduit">
+
+<option value="boissons">
+Boissons
+</option>
+
+<option value="nourriture">
+Nourriture
+</option>
+
+<option value="materiel">
+Matériel
+</option>
+
+<option value="divers">
+Divers
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Quantité initiale
+</label>
+
+<input
+type="number"
+id="quantiteProduit"
+placeholder="Ex : 100"
+min="0"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Seuil minimum
+</label>
+
+<input
+type="number"
+id="seuilProduit"
+placeholder="Ex : 20"
+min="0"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+Prix unitaire
+</label>
+
+<input
+type="number"
+id="prixProduit"
+placeholder="Ex : 5"
+min="0"
+step="0.01"
+>
+
+</div>
+
+
+<div class="modal-buttons">
+
+<button
+class="cancel"
+onclick="fermerAjout()"
+>
+Annuler
+</button>
+
+<button
+class="save"
+onclick="creerProduit()"
+>
+Créer le produit
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ================= STOCK ================= */
+
+const stocks = {
+
+    eau:350,
+
+    burger:48,
+
+    canettes:72,
+
+    emballages:18
+
+};
+
+
+function ajouterStock(produit){
+
+    let quantite =
+    prompt(
+        "Combien souhaitez-vous ajouter ?"
+    );
+
+    quantite = Number(quantite);
+
+    if(
+        isNaN(quantite) ||
+        quantite <= 0
+    ){
+
+        return;
+
+    }
+
+    stocks[produit] += quantite;
+
+    mettreAJour(produit);
+
+}
+
+
+function retirerStock(produit){
+
+    let quantite =
+    prompt(
+        "Combien souhaitez-vous retirer ?"
+    );
+
+    quantite = Number(quantite);
+
+    if(
+        isNaN(quantite) ||
+        quantite <= 0
+    ){
+
+        return;
+
+    }
+
+    if(
+        quantite > stocks[produit]
+    ){
+
+        alert(
+            "Impossible : le stock disponible est insuffisant."
+        );
+
+        return;
+
+    }
+
+    stocks[produit] -= quantite;
+
+    mettreAJour(produit);
+
+}
+
+
+function mettreAJour(produit){
+
+    const quantite =
+    stocks[produit];
+
+    const element =
+    document.getElementById(
+        "q-" + produit
+    );
+
+    const progress =
+    document.getElementById(
+        "p-" + produit
+    );
+
+    if(element){
+
+        element.innerText =
+        quantite;
+
+    }
+
+    if(progress){
+
+        let pourcentage =
+        Math.min(
+            (quantite / 400) * 100,
+            100
+        );
+
+        progress.style.width =
+        pourcentage + "%";
+
+    }
+
+}
+
+
+/* ================= RECHERCHE ================= */
+
+function rechercher(){
+
+    const recherche =
+    document
+    .getElementById("search")
+    .value
+    .toLowerCase();
+
+    document
+    .querySelectorAll(".product")
+    .forEach(function(produit){
+
+        const nom =
+        produit.dataset.name;
+
+        if(
+            nom.includes(recherche)
+        ){
+
+            produit.style.display =
+            "block";
+
+        }else{
+
+            produit.style.display =
+            "none";
+
+        }
+
+    });
+
+}
+
+
+/* ================= FILTRE ================= */
+
+function filtrer(){
+
+    const categorie =
+    document
+    .getElementById("categorie")
+    .value;
+
+    document
+    .querySelectorAll(".product")
+    .forEach(function(produit){
+
+        if(
+            categorie === "tous" ||
+            produit.dataset.category === categorie
+        ){
+
+            produit.style.display =
+            "block";
+
+        }else{
+
+            produit.style.display =
+            "none";
+
+        }
+
+    });
+
+}
+
+
+/* ================= MODALE ================= */
+
+function ouvrirAjout(){
+
+    document
+    .getElementById("modal")
+    .style.display="flex";
+
+}
+
+
+function fermerAjout(){
+
+    document
+    .getElementById("modal")
+    .style.display="none";
+
+}
+
+
+function creerProduit(){
+
+    const nom =
+    document
+    .getElementById("nomProduit")
+    .value;
+
+    const quantite =
+    document
+    .getElementById("quantiteProduit")
+    .value;
+
+    if(
+        nom.trim()==="" ||
+        quantite===""
+    ){
+
+        alert(
+            "Veuillez renseigner le nom et la quantité."
+        );
+
+        return;
+
+    }
+
+    alert(
+        "Le produit « " +
+        nom +
+        " » sera créé lorsque la base de données sera connectée."
+    );
+
+    fermerAjout();
+
+}
+
+
+/* ================= ACTIONS ================= */
+
+function modifierProduit(nom){
+
+    alert(
+        "Modification du produit : " +
+        nom +
+        "\n\nCette fonction sera connectée à la base de données."
+    );
+
+}
+
+
+function supprimerProduit(nom){
+
+    if(
+        confirm(
+            "Voulez-vous supprimer « " +
+            nom +
+            " » ?"
+        )
+    ){
+
+        alert(
+            "Le produit sera supprimé lorsque la base de données sera connectée."
+        );
+
+    }
+
+}
+
+</script>
+
+</body>
+  </html>
