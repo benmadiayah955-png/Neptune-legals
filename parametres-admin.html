@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Paramètres Admin — Neptune Legal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f6faff;
+    color:#18243d;
+}
+
+header{
+    background:linear-gradient(135deg,#45dfff,#6475ff,#c55cff);
+    color:white;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+}
+
+nav{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    background:rgba(255,255,255,.16);
+    padding:10px 14px;
+    border-radius:12px;
+}
+
+.container{
+    width:92%;
+    max-width:1150px;
+    margin:30px auto;
+}
+
+.hero{
+    background:white;
+    padding:28px;
+    border-radius:23px;
+    box-shadow:0 10px 35px rgba(60,100,170,.1);
+    margin-bottom:20px;
+}
+
+.hero h1{
+    margin-bottom:8px;
+}
+
+.hero p{
+    color:#7e8ba0;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:23px;
+    border-radius:21px;
+    box-shadow:0 8px 25px rgba(60,100,170,.08);
+}
+
+.card h2{
+    font-size:18px;
+    margin-bottom:6px;
+}
+
+.card-description{
+    color:#8a96aa;
+    font-size:13px;
+    margin-bottom:20px;
+}
+
+.setting{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    padding:16px 0;
+    border-bottom:1px solid #edf1f6;
+}
+
+.setting:last-child{
+    border-bottom:none;
+}
+
+.setting-text{
+    flex:1;
+}
+
+.setting-text strong{
+    display:block;
+    margin-bottom:5px;
+    font-size:14px;
+}
+
+.setting-text span{
+    color:#8a96aa;
+    font-size:12px;
+    line-height:1.4;
+}
+
+.switch{
+    position:relative;
+    width:48px;
+    height:27px;
+    flex-shrink:0;
+}
+
+.switch input{
+    display:none;
+}
+
+.slider{
+    position:absolute;
+    inset:0;
+    background:#d9e1ec;
+    border-radius:30px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.slider:before{
+    content:"";
+    position:absolute;
+    width:21px;
+    height:21px;
+    left:3px;
+    top:3px;
+    background:white;
+    border-radius:50%;
+    transition:.25s;
+    box-shadow:0 2px 5px rgba(0,0,0,.15);
+}
+
+input:checked + .slider{
+    background:linear-gradient(135deg,#4bdfff,#6675ff);
+}
+
+input:checked + .slider:before{
+    transform:translateX(21px);
+}
+
+.input-group{
+    margin-bottom:15px;
+}
+
+.input-group label{
+    display:block;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid #dfe6f0;
+    border-radius:11px;
+    outline:none;
+    background:white;
+    color:#26344e;
+}
+
+.input-group textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+.full{
+    grid-column:1 / -1;
+}
+
+.buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:18px;
+}
+
+button{
+    border:none;
+    padding:12px 17px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.primary{
+    color:white;
+    background:linear-gradient(135deg,#51ddff,#6675ff);
+}
+
+.secondary{
+    color:#4164b2;
+    background:#edf4ff;
+}
+
+.warning{
+    color:#bd7900;
+    background:#fff2d7;
+}
+
+.danger{
+    color:#d23b55;
+    background:#ffe8ed;
+}
+
+.security{
+    background:#f5f8ff;
+    border-radius:15px;
+    padding:15px;
+    margin-top:15px;
+}
+
+.security strong{
+    display:block;
+    margin-bottom:5px;
+}
+
+.security span{
+    color:#7e8ba0;
+    font-size:12px;
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+    margin-top:12px;
+}
+
+.dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#19bd6a;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#8995aa;
+    font-size:13px;
+}
+
+@media(max-width:750px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .full{
+        grid-column:auto;
+    }
+
+}
+
+@media(max-width:500px){
+
+    .setting{
+        align-items:flex-start;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🌊 Neptune Legal
+    </div>
+
+    <nav>
+        <a href="admin.html">Administration</a>
+        <a href="logs.html">Journal</a>
+        <a href="index.html">Accueil</a>
+    </nav>
+
+</header>
+
+
+<div class="container">
+
+<section class="hero">
+
+    <h1>⚙️ Paramètres administrateur</h1>
+
+    <p>
+        Configurez le fonctionnement général de Neptune Legal,
+        la sécurité, les permissions et les options du portail.
+    </p>
+
+</section>
+
+
+<div class="grid">
+
+
+<!-- CONFIGURATION GENERALE -->
+
+<section class="card">
+
+    <h2>🌊 Configuration générale</h2>
+
+    <p class="card-description">
+        Informations générales affichées sur le portail.
+    </p>
+
+    <div class="input-group">
+
+        <label>
+            Nom du portail
+        </label>
+
+        <input
+            id="nomPortail"
+            type="text"
+            value="Neptune Legal">
+
+    </div>
+
+    <div class="input-group">
+
+        <label>
+            Description
+        </label>
+
+        <textarea id="description">
+Gestion des entreprises, employés et activités légales.
+        </textarea>
+
+    </div>
+
+    <div class="input-group">
+
+        <label>
+            Statut du portail
+        </label>
+
+        <select id="statutPortail">
+
+            <option value="ouvert">
+                Ouvert
+            </option>
+
+            <option value="maintenance">
+                Maintenance
+            </option>
+
+            <option value="ferme">
+                Fermé
+            </option>
+
+        </select>
+
+    </div>
+
+</section>
+
+
+<!-- SECURITE -->
+
+<section class="card">
+
+    <h2>🔐 Sécurité</h2>
+
+    <p class="card-description">
+        Contrôlez les options de sécurité du portail.
+    </p>
+
+    <div class="setting">
+
+        <div class="setting-text">
+
+            <strong>
+                Connexion Discord obligatoire
+            </strong>
+
+            <span>
+                Les utilisateurs doivent être connectés
+                avec Discord.
+            </span>
+
+        </div>
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                checked>
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+
+    <div class="setting">
+
+        <div class="setting-text">
+
+            <strong>
+                Vérification Staff
+            </strong>
+
+            <span>
+                Vérifier les permissions avant les actions sensibles.
+            </span>
+
+        </div>
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                checked>
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+
+    <div class="setting">
+
+        <div class="setting-text">
+
+            <strong>
+                Journalisation automatique
+            </strong>
+
+            <span>
+                Enregistrer les actions importantes du Staff.
+            </span>
+
+        </div>
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                checked>
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+
+    <div class="security">
+
+        <strong>
+            🛡️ Niveau de sécurité : élevé
+        </strong>
+
+        <span>
+            Les fonctions sensibles devront être protégées
+            lors de la connexion à la base de données.
+        </span>
+
+    </div>
+
+</section>
+
+
+<!-- ENTREPRISES -->
+
+<section class="card">
+
+    <h2>🏢 Entreprises</h2>
+
+    <p class="card-description">
+        Paramètres liés aux entreprises du serveur.
+    </p>
+
+    <div class="setting">
+
+        <div class="setting-text">
+
+            <strong>
+                Création d'entreprise
+            </strong>
+
+            <span>
+                Autoriser les demandes de création.
+            </span>
+
+        </div>
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                checked>
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+
+    <div class="setting">
+
+        <div class="setting-text">
+
+            <strong>
+                Reprise d'entreprise
+            </strong>
+
+            <span>
+                Autoriser les dossiers de reprise.
+            </span>
+
+        </div>
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                checked>
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+
+    <div class="setting">
+
+        <div class="setting-text">
+
+            <strong>
+                Validation Staff obligatoire
+            </strong>
+
+            <span>
+                Une entreprise doit être validée avant son ouverture.
+            </span>
+
+        </div>
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                checked>
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+</section>
+
+
+<!-- RECRUTEMENT -->
+
+<section class="card">
+
+    <h2>👥 Recrutement</h2>
+
+    <p class="card-description">
+        Configuration du système de candidatures.
+    </p>
+
+    <div class="setting">
+
+        <div class="setting-text">
+
+            <strong>
+                Candidatures ouvertes
+            </strong>
+
+            <span>
+                Autoriser les joueurs à postuler.
+            </span>
+
+        </div>
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                checked>
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+
+    <div class="setting">
+
+        <div class="setting-text">
+
+            <strong>
+                Candidatures spontanées
+            </strong>
+
+            <span>
+                Autoriser une candidature sans offre active.
+            </span>
+
+        </div>
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                checked>
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+
+    <div class="input-group" style="margin-top:18px;">
+
+        <label>
+            Durée de conservation des candidatures
+        </label>
+
+        <select>
+
+            <option>
+                30 jours
+            </option>
+
+            <option>
+                60 jours
+            </option>
+
+            <option selected>
+                90 jours
+            </option>
+
+            <option>
+                1 an
+            </option>
+
+        </select>
+
+    </div>
+
+</section>
+
+
+<!-- PERMISSIONS -->
+
+<section class="card">
+
+    <h2>🛡️ Permissions Staff</h2>
+
+    <p class="card-description">
+        Définissez les niveaux d'accès aux outils administratifs.
+    </p>
+
+    <div class="input-group">
+
+        <label>
+            Gestion des utilisateurs
+        </label>
+
+        <select>
+
+            <option>
+                Administrateur uniquement
+            </option>
+
+            <option selected>
+                Administrateur + Modérateur
+            </option>
+
+            <option>
+                Tout le Staff
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="input-group">
+
+        <label>
+            Gestion des entreprises
+        </label>
+
+        <select>
+
+            <option>
+                Administrateur uniquement
+            </option>
+
+            <option selected>
+                Administrateur + Responsable
+            </option>
+
+            <option>
+                Tout le Staff
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="input-group">
+
+        <label>
+            Gestion des sanctions
+        </label>
+
+        <select>
+
+            <option selected>
+                Administrateur uniquement
+            </option>
+
+            <option>
+                Administrateur + Modérateur
+            </option>
+
+            <option>
+                Tout le Staff
+            </option>
+
+        </select>
+
+    </div>
+
+</section>
+
+
+<!-- MAINTENANCE -->
+
+<section class="card">
+
+    <h2>🔧 Maintenance</h2>
+
+    <p class="card-description">
+        Outils techniques du portail.
+    </p>
+
+    <div class="setting">
+
+        <div class="setting-text">
+
+            <strong>
+                Mode maintenance
+            </strong>
+
+            <span>
+                Bloquer temporairement l'accès aux utilisateurs.
+            </span>
+
+        </div>
+
+        <label class="switch">
+
+            <input
+                id="maintenance"
+                type="checkbox">
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+
+    <div class="setting">
+
+        <div class="setting-text">
+
+            <strong>
+                Afficher les messages système
+            </strong>
+
+            <span>
+                Afficher les informations techniques importantes.
+            </span>
+
+        </div>
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                checked>
+
+            <span class="slider"></span>
+
+        </label>
+
+    </div>
+
+
+    <div class="status">
+
+        <div class="dot"></div>
+
+        Système opérationnel
+
+    </div>
+
+</section>
+
+
+<!-- ACTIONS -->
+
+<section class="card full">
+
+    <h2>💾 Actions</h2>
+
+    <p class="card-description">
+        Appliquez ou réinitialisez la configuration.
+    </p>
+
+    <div class="buttons">
+
+        <button
+            class="primary"
+            onclick="sauvegarder()">
+            💾 Enregistrer les paramètres
+        </button>
+
+        <button
+            class="secondary"
+            onclick="apercu()">
+            👁️ Aperçu du portail
+        </button>
+
+        <button
+            class="warning"
+            onclick="reinitialiser()">
+            ↩️ Réinitialiser
+        </button>
+
+        <button
+            class="danger"
+            onclick="maintenance()">
+            🔧 Activer la maintenance
+        </button>
+
+    </div>
+
+</section>
+
+</div>
+
+</div>
+
+
+<footer>
+    Neptune Legal — Administration
+</footer>
+
+
+<script>
+
+function sauvegarder(){
+
+    const nom =
+        document.getElementById("nomPortail").value;
+
+    const statut =
+        document.getElementById("statutPortail").value;
+
+    alert(
+        "Paramètres enregistrés.\n\n" +
+        "Portail : " + nom +
+        "\nStatut : " + statut +
+        "\n\nLa sauvegarde définitive sera connectée à Supabase."
+    );
+
+}
+
+
+function apercu(){
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+function reinitialiser(){
+
+    const confirmation =
+        confirm(
+            "Voulez-vous vraiment réinitialiser les paramètres ?"
+        );
+
+    if(confirmation){
+
+        document.getElementById("nomPortail").value =
+            "Neptune Legal";
+
+        document.getElementById("description").value =
+            "Gestion des entreprises, employés et activités légales.";
+
+        document.getElementById("statutPortail").value =
+            "ouvert";
+
+        alert(
+            "Les paramètres ont été réinitialisés."
+        );
+
+    }
+
+}
+
+
+function maintenance(){
+
+    const confirmation =
+        confirm(
+            "Activer le mode maintenance ?"
+        );
+
+    if(confirmation){
+
+        document.getElementById("maintenance").checked =
+            true;
+
+        document.getElementById("statutPortail").value =
+            "maintenance";
+
+        alert(
+            "Le mode maintenance est prêt à être activé.\n\n" +
+            "La connexion réelle au système sera ajoutée avec Supabase."
+        );
+
+    }
+
+}
+
+</script>
+
+</body>
+  </html>
