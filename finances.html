@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Finances — Neptune Legal</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f5fbff;
+    color: #17233c;
+}
+
+header {
+    background: linear-gradient(135deg, #20c9ff, #6875ff, #d45cff);
+    color: white;
+    padding: 22px 18px;
+    border-radius: 0 0 28px 28px;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.back {
+    color: white;
+    text-decoration: none;
+    background: rgba(255,255,255,.2);
+    padding: 9px 13px;
+    border-radius: 12px;
+    font-size: 13px;
+}
+
+header h1 {
+    margin-top: 22px;
+    font-size: 27px;
+}
+
+header p {
+    margin-top: 7px;
+    opacity: .9;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: white;
+    padding: 18px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(53,110,160,.08);
+}
+
+.card span {
+    color: #718096;
+    font-size: 12px;
+}
+
+.card strong {
+    display: block;
+    margin-top: 7px;
+    font-size: 23px;
+}
+
+.section {
+    background: white;
+    padding: 19px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 8px 25px rgba(53,110,160,.08);
+}
+
+.section h2 {
+    font-size: 19px;
+    margin-bottom: 15px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 0;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.label strong {
+    font-size: 14px;
+}
+
+.label span {
+    font-size: 11px;
+    color: #718096;
+}
+
+.amount {
+    font-weight: bold;
+}
+
+.income {
+    color: #12a66a;
+}
+
+.expense {
+    color: #e85b70;
+}
+
+.balance {
+    color: #6674ff;
+}
+
+.progress {
+    height: 9px;
+    background: #edf3f8;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.progress div {
+    height: 100%;
+    width: 68%;
+    background: linear-gradient(90deg,#20c9ff,#6875ff);
+    border-radius: 20px;
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+button {
+    border: none;
+    padding: 13px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.primary {
+    color: white;
+    background: linear-gradient(135deg,#20c9ff,#6875ff);
+}
+
+.secondary {
+    background: #edf5fa;
+    color: #40516b;
+}
+
+@media (min-width:700px) {
+    .stats {
+        grid-template-columns: repeat(4,1fr);
+    }
+
+    .actions {
+        grid-template-columns: repeat(4,1fr);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="top">
+
+        <div class="logo">
+            NEPTUNE LEGAL
+        </div>
+
+        <a href="entreprise-dashboard.html" class="back">
+            ← Tableau de bord
+        </a>
+
+    </div>
+
+    <h1>Finances</h1>
+
+    <p>
+        Suivez les revenus, dépenses et bénéfices de votre entreprise.
+    </p>
+
+</header>
+
+
+<div class="container">
+
+    <!-- STATISTIQUES -->
+
+    <div class="stats">
+
+        <div class="card">
+            <span>Solde actuel</span>
+            <strong class="balance">12 450 €</strong>
+        </div>
+
+        <div class="card">
+            <span>Revenus du mois</span>
+            <strong class="income">18 750 €</strong>
+        </div>
+
+        <div class="card">
+            <span>Dépenses du mois</span>
+            <strong class="expense">6 300 €</strong>
+        </div>
+
+        <div class="card">
+            <span>Bénéfice</span>
+            <strong class="income">12 450 €</strong>
+        </div>
+
+    </div>
+
+
+    <!-- OBJECTIF -->
+
+    <div class="section">
+
+        <h2>Objectif mensuel</h2>
+
+        <div class="row">
+
+            <div class="label">
+                <strong>Chiffre d'affaires</strong>
+                <span>18 750 € / 25 000 €</span>
+            </div>
+
+            <strong>75%</strong>
+
+        </div>
+
+        <div class="progress">
+            <div></div>
+        </div>
+
+    </div>
+
+
+    <!-- REVENUS -->
+
+    <div class="section">
+
+        <h2>Derniers revenus</h2>
+
+        <div class="row">
+
+            <div class="label">
+                <strong>Ventes restaurant</strong>
+                <span>30 septembre 2026</span>
+            </div>
+
+            <div class="amount income">
+                + 4 850 €
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="label">
+                <strong>Service traiteur</strong>
+                <span>28 septembre 2026</span>
+            </div>
+
+            <div class="amount income">
+                + 1 250 €
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="label">
+                <strong>Ventes boutique</strong>
+                <span>26 septembre 2026</span>
+            </div>
+
+            <div class="amount income">
+                + 890 €
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- DEPENSES -->
+
+    <div class="section">
+
+        <h2>Dernières dépenses</h2>
+
+        <div class="row">
+
+            <div class="label">
+                <strong>Achat de stock</strong>
+                <span>29 septembre 2026</span>
+            </div>
+
+            <div class="amount expense">
+                - 1 800 €
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="label">
+                <strong>Salaires employés</strong>
+                <span>28 septembre 2026</span>
+            </div>
+
+            <div class="amount expense">
+                - 2 750 €
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="label">
+                <strong>Fournisseur</strong>
+                <span>25 septembre 2026</span>
+            </div>
+
+            <div class="amount expense">
+                - 950 €
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="section">
+
+        <h2>Gestion financière</h2>
+
+        <div class="actions">
+
+            <button class="primary" onclick="ajouterRevenu()">
+                + Ajouter un revenu
+            </button>
+
+            <button class="secondary" onclick="ajouterDepense()">
+                − Ajouter une dépense
+            </button>
+
+            <button class="secondary" onclick="exporter()">
+                Exporter les finances
+            </button>
+
+            <button class="secondary" onclick="historique()">
+                Voir l'historique
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function ajouterRevenu() {
+
+    const montant = prompt("Montant du revenu :");
+
+    if (!montant) return;
+
+    const description =
+        prompt("Description du revenu :");
+
+    if (!description) return;
+
+    alert(
+        "Revenu ajouté !\n\n" +
+        description +
+        "\n+" +
+        montant +
+        " €"
+    );
+}
+
+
+function ajouterDepense() {
+
+    const montant = prompt("Montant de la dépense :");
+
+    if (!montant) return;
+
+    const description =
+        prompt("Description de la dépense :");
+
+    if (!description) return;
+
+    alert(
+        "Dépense ajoutée !\n\n" +
+        description +
+        "\n-" +
+        montant +
+        " €"
+    );
+}
+
+
+function exporter() {
+
+    alert(
+        "L'export des finances sera disponible prochainement."
+    );
+
+}
+
+
+function historique() {
+
+    alert(
+        "L'historique financier complet sera disponible prochainement."
+    );
+
+}
+
+</script>
+
+</body>
+  </html>
