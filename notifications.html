@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Notifications — Neptune Legal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f6faff;
+    color:#18243d;
+}
+
+header{
+    background:linear-gradient(135deg,#45dfff,#6475ff,#c55cff);
+    color:white;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+}
+
+nav{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    background:rgba(255,255,255,.16);
+    padding:10px 14px;
+    border-radius:12px;
+}
+
+.container{
+    width:92%;
+    max-width:1000px;
+    margin:30px auto;
+}
+
+.hero{
+    background:white;
+    padding:28px;
+    border-radius:23px;
+    box-shadow:0 10px 35px rgba(60,100,170,.1);
+    margin-bottom:20px;
+}
+
+.hero h1{
+    margin-bottom:8px;
+}
+
+.hero p{
+    color:#7d899e;
+}
+
+.toolbar{
+    background:white;
+    padding:18px;
+    border-radius:19px;
+    box-shadow:0 8px 25px rgba(60,100,170,.07);
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.search{
+    flex:1;
+    min-width:220px;
+    padding:13px 15px;
+    border:1px solid #e0e7f1;
+    border-radius:13px;
+    outline:none;
+}
+
+select{
+    padding:13px 15px;
+    border:1px solid #e0e7f1;
+    border-radius:13px;
+    background:white;
+    color:#35425c;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    padding:11px 14px;
+    border-radius:11px;
+    font-weight:600;
+}
+
+.primary{
+    background:linear-gradient(135deg,#55dfff,#6675ff);
+    color:white;
+}
+
+.light{
+    background:#edf5ff;
+    color:#4166b4;
+}
+
+.red{
+    background:#ffe8ed;
+    color:#d33d56;
+}
+
+.notifications{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.notification{
+    background:white;
+    padding:18px;
+    border-radius:19px;
+    box-shadow:0 8px 25px rgba(60,100,170,.07);
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    border-left:4px solid #55dfff;
+    transition:.2s;
+}
+
+.notification.unread{
+    background:#fbfdff;
+}
+
+.notification.read{
+    opacity:.72;
+}
+
+.icon{
+    width:46px;
+    height:46px;
+    min-width:46px;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+.blue{
+    background:#e8f6ff;
+}
+
+.green{
+    background:#e7fff1;
+}
+
+.orange{
+    background:#fff3d9;
+}
+
+.purple{
+    background:#f1eaff;
+}
+
+.red-icon{
+    background:#ffe9ed;
+}
+
+.content{
+    flex:1;
+}
+
+.content strong{
+    display:block;
+    margin-bottom:6px;
+}
+
+.content p{
+    color:#68758c;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.time{
+    color:#9aa5b6;
+    font-size:11px;
+    margin-top:7px;
+}
+
+.badge{
+    display:inline-block;
+    margin-top:9px;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:10px;
+    font-weight:bold;
+}
+
+.badge-blue{
+    background:#e8f6ff;
+    color:#287db8;
+}
+
+.badge-green{
+    background:#e7fff1;
+    color:#159957;
+}
+
+.badge-orange{
+    background:#fff3d9;
+    color:#c58100;
+}
+
+.badge-red{
+    background:#ffe9ed;
+    color:#d33d56;
+}
+
+.actions{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+    margin-top:11px;
+}
+
+.empty{
+    display:none;
+    background:white;
+    padding:50px 20px;
+    border-radius:20px;
+    text-align:center;
+    color:#8995aa;
+}
+
+.empty-icon{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#8995aa;
+    font-size:13px;
+}
+
+@media(max-width:650px){
+
+    .notification{
+        flex-wrap:wrap;
+    }
+
+    .content{
+        min-width:calc(100% - 65px);
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🌊 Neptune Legal
+    </div>
+
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="admin.html">Administration</a>
+        <a href="tickets.html">Tickets</a>
+        <a href="logs.html">Journal</a>
+    </nav>
+
+</header>
+
+
+<div class="container">
+
+<section class="hero">
+
+    <h1>🔔 Notifications</h1>
+
+    <p>
+        Retrouvez ici toutes les informations importantes
+        concernant votre activité sur Neptune Legal.
+    </p>
+
+</section>
+
+
+<div class="toolbar">
+
+    <input
+        id="search"
+        class="search"
+        type="text"
+        placeholder="🔎 Rechercher une notification..."
+        oninput="filtrer()"
+    >
+
+    <select
+        id="type"
+        onchange="filtrer()">
+
+        <option value="tous">
+            Toutes les notifications
+        </option>
+
+        <option value="entreprise">
+            Entreprises
+        </option>
+
+        <option value="candidature">
+            Candidatures
+        </option>
+
+        <option value="ticket">
+            Tickets
+        </option>
+
+        <option value="systeme">
+            Système
+        </option>
+
+        <option value="staff">
+            Staff
+        </option>
+
+    </select>
+
+    <button
+        class="primary"
+        onclick="toutLire()">
+
+        ✓ Tout marquer comme lu
+
+    </button>
+
+</div>
+
+
+<div
+    class="notifications"
+    id="notifications">
+
+
+<!-- NOTIFICATION 1 -->
+
+<article
+    class="notification unread"
+    data-type="candidature"
+    data-search="candidature alex morgan restaurant neptune">
+
+    <div class="icon green">
+        📩
+    </div>
+
+    <div class="content">
+
+        <strong>
+            Nouvelle candidature
+        </strong>
+
+        <p>
+            Alex Morgan vient de déposer une candidature
+            pour Restaurant Neptune.
+        </p>
+
+        <div class="time">
+            Il y a 8 minutes
+        </div>
+
+        <span class="badge badge-green">
+            CANDIDATURE
+        </span>
+
+        <div class="actions">
+
+            <button
+                class="light"
+                onclick="ouvrir('candidatures.html')">
+                Voir la candidature
+            </button>
+
+            <button
+                class="light"
+                onclick="lire(this)">
+                Marquer comme lu
+            </button>
+
+        </div>
+
+    </div>
+
+</article>
+
+
+<!-- NOTIFICATION 2 -->
+
+<article
+    class="notification unread"
+    data-type="entreprise"
+    data-search="entreprise reprise restaurant neptune dossier">
+
+    <div class="icon blue">
+        🏢
+    </div>
+
+    <div class="content">
+
+        <strong>
+            Nouveau dossier de reprise
+        </strong>
+
+        <p>
+            Un nouveau dossier de reprise d'entreprise
+            nécessite une vérification du Staff.
+        </p>
+
+        <div class="time">
+            Il y a 21 minutes
+        </div>
+
+        <span class="badge badge-blue">
+            ENTREPRISE
+        </span>
+
+        <div class="actions">
+
+            <button
+                class="light"
+                onclick="ouvrir('dossiers-reprise.html')">
+                Consulter le dossier
+            </button>
+
+            <button
+                class="light"
+                onclick="lire(this)">
+                Marquer comme lu
+            </button>
+
+        </div>
+
+    </div>
+
+</article>
+
+
+<!-- NOTIFICATION 3 -->
+
+<article
+    class="notification unread"
+    data-type="ticket"
+    data-search="ticket connexion julien morel">
+
+    <div class="icon orange">
+        🎫
+    </div>
+
+    <div class="content">
+
+        <strong>
+            Nouveau ticket
+        </strong>
+
+        <p>
+            Julien Morel a créé un ticket concernant
+            un problème de connexion.
+        </p>
+
+        <div class="time">
+            Il y a 42 minutes
+        </div>
+
+        <span class="badge badge-orange">
+            TICKET
+        </span>
+
+        <div class="actions">
+
+            <button
+                class="light"
+                onclick="ouvrir('tickets.html')">
+                Ouvrir le ticket
+            </button>
+
+            <button
+                class="light"
+                onclick="lire(this)">
+                Marquer comme lu
+            </button>
+
+        </div>
+
+    </div>
+
+</article>
+
+
+<!-- NOTIFICATION 4 -->
+
+<article
+    class="notification unread"
+    data-type="staff"
+    data-search="staff sanction julien morel">
+
+    <div class="icon red-icon">
+        ⚠️
+    </div>
+
+    <div class="content">
+
+        <strong>
+            Action Staff requise
+        </strong>
+
+        <p>
+            Une sanction active nécessite une vérification
+            par un administrateur.
+        </p>
+
+        <div class="time">
+            Il y a 1 heure
+        </div>
+
+        <span class="badge badge-red">
+            STAFF
+        </span>
+
+        <div class="actions">
+
+            <button
+                class="light"
+                onclick="ouvrir('sanctions.html')">
+                Voir les sanctions
+            </button>
+
+            <button
+                class="light"
+                onclick="lire(this)">
+                Marquer comme lu
+            </button>
+
+        </div>
+
+    </div>
+
+</article>
+
+
+<!-- NOTIFICATION 5 -->
+
+<article
+    class="notification read"
+    data-type="entreprise"
+    data-search="entreprise acceptee weazel news reprise">
+
+    <div class="icon blue">
+        🏢
+    </div>
+
+    <div class="content">
+
+        <strong>
+            Reprise d'entreprise validée
+        </strong>
+
+        <p>
+            Le dossier de reprise de Weazel News
+            a été accepté.
+        </p>
+
+        <div class="time">
+            Hier à 18:32
+        </div>
+
+        <span class="badge badge-blue">
+            ENTREPRISE
+        </span>
+
+    </div>
+
+</article>
+
+
+<!-- NOTIFICATION 6 -->
+
+<article
+    class="notification read"
+    data-type="systeme"
+    data-search="maintenance systeme portail">
+
+    <div class="icon purple">
+        ⚙️
+    </div>
+
+    <div class="content">
+
+        <strong>
+            Maintenance programmée
+        </strong>
+
+        <p>
+            Une maintenance du portail est prévue prochainement.
+        </p>
+
+        <div class="time">
+            Hier à 14:10
+        </div>
+
+        <span class="badge badge-blue">
+            SYSTÈME
+        </span>
+
+    </div>
+
+</article>
+
+
+</div>
+
+
+<div
+    class="empty"
+    id="empty">
+
+    <div class="empty-icon">
+        🔕
+    </div>
+
+    <strong>
+        Aucune notification
+    </strong>
+
+    <p style="margin-top:7px;">
+        Rien ne correspond à votre recherche.
+    </p>
+
+</div>
+
+</div>
+
+
+<footer>
+    Neptune Legal — Centre de notifications
+</footer>
+
+
+<script>
+
+function filtrer(){
+
+    const recherche =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+    const type =
+        document.getElementById("type")
+        .value;
+
+    const notifications =
+        document.querySelectorAll(".notification");
+
+    let visibles = 0;
+
+    notifications.forEach(function(notification){
+
+        const texte =
+            notification.dataset.search;
+
+        const bonRecherche =
+            texte.includes(recherche);
+
+        const bonType =
+            type === "tous" ||
+            notification.dataset.type === type;
+
+        if(bonRecherche && bonType){
+
+            notification.style.display = "flex";
+
+            visibles++;
+
+        }else{
+
+            notification.style.display = "none";
+
+        }
+
+    });
+
+    document.getElementById("empty").style.display =
+        visibles === 0
+        ? "block"
+        : "none";
+
+}
+
+
+function lire(button){
+
+    const notification =
+        button.closest(".notification");
+
+    notification.classList.remove("unread");
+
+    notification.classList.add("read");
+
+    button.remove();
+
+}
+
+
+function toutLire(){
+
+    const notifications =
+        document.querySelectorAll(".notification");
+
+    notifications.forEach(function(notification){
+
+        notification.classList.remove("unread");
+
+        notification.classList.add("read");
+
+        const buttons =
+            notification.querySelectorAll(".actions button");
+
+        buttons.forEach(function(button){
+
+            if(
+                button.textContent.includes("Marquer comme lu")
+            ){
+
+                button.remove();
+
+            }
+
+        });
+
+    });
+
+    alert(
+        "Toutes les notifications ont été marquées comme lues."
+    );
+
+}
+
+
+function ouvrir(page){
+
+    window.location.href = page;
+
+}
+
+</script>
+
+</body>
+</html>
