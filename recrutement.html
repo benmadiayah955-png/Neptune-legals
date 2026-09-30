@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Recrutement — Neptune Legal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f6fbff;
+    color:#18243d;
+}
+
+header{
+    background:white;
+    padding:16px 5%;
+    border-bottom:1px solid #e5eef9;
+    box-shadow:0 5px 20px rgba(50,120,200,.07);
+}
+
+.logo{
+    font-size:21px;
+    font-weight:bold;
+    background:linear-gradient(90deg,#00cfff,#526cff,#a64cff,#ed55bd);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.container{
+    width:92%;
+    max-width:1100px;
+    margin:30px auto;
+}
+
+.back{
+    display:inline-block;
+    color:#526bd5;
+    text-decoration:none;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+.hero,
+.card{
+    background:white;
+    border:1px solid #e3edf9;
+    border-radius:22px;
+    padding:24px;
+    margin-bottom:20px;
+    box-shadow:0 8px 25px rgba(50,100,180,.06);
+}
+
+.hero h1{
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+.hero p{
+    color:#758198;
+    line-height:1.5;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:white;
+    border:1px solid #e5eef9;
+    border-radius:18px;
+    padding:18px;
+}
+
+.stat span{
+    color:#7c879b;
+    font-size:13px;
+}
+
+.stat strong{
+    display:block;
+    font-size:25px;
+    margin-top:6px;
+}
+
+.toolbar{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.search,
+select{
+    padding:13px;
+    border:1px solid #dce7f5;
+    border-radius:12px;
+    background:white;
+    outline:none;
+}
+
+.search{
+    flex:1;
+    min-width:220px;
+}
+
+.candidatures{
+    display:grid;
+    gap:15px;
+}
+
+.candidature{
+    background:white;
+    border:1px solid #e3edf9;
+    border-radius:20px;
+    padding:20px;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.nom{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.discord{
+    color:#7d899d;
+    font-size:12px;
+    margin-top:4px;
+}
+
+.badge{
+    padding:7px 11px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.attente{
+    background:#fff7df;
+    color:#b47b13;
+}
+
+.acceptee{
+    background:#e8fff4;
+    color:#16865c;
+}
+
+.refusee{
+    background:#fff0f3;
+    color:#d34d70;
+}
+
+.infos{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.info{
+    background:#f7faff;
+    padding:11px;
+    border-radius:11px;
+}
+
+.info span{
+    display:block;
+    color:#8993a5;
+    font-size:11px;
+}
+
+.info strong{
+    display:block;
+    margin-top:4px;
+    font-size:13px;
+}
+
+.motivation{
+    background:#f8fbff;
+    border-left:3px solid #6877e8;
+    padding:13px;
+    border-radius:10px;
+    color:#626e84;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:15px;
+}
+
+.actions button{
+    border:none;
+    padding:10px 14px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.view{
+    background:#eef5ff;
+    color:#3977b8;
+}
+
+.accept{
+    background:#e8fff4;
+    color:#16865c;
+}
+
+.wait{
+    background:#fff7df;
+    color:#b47b13;
+}
+
+.refuse{
+    background:#fff0f3;
+    color:#d34d70;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(20,40,80,.25);
+    backdrop-filter:blur(5px);
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+    z-index:100;
+}
+
+.modal-box{
+    background:white;
+    width:100%;
+    max-width:600px;
+    max-height:90vh;
+    overflow:auto;
+    border-radius:24px;
+    padding:25px;
+}
+
+.modal-box h2{
+    margin-bottom:18px;
+}
+
+.close{
+    width:100%;
+    border:none;
+    padding:13px;
+    border-radius:12px;
+    background:#eef2f6;
+    margin-top:18px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+@media(max-width:600px){
+    .container{
+        width:94%;
+    }
+
+    .hero h1{
+        font-size:24px;
+    }
+
+    .infos{
+        grid-template-columns:1fr;
+    }
+
+    .top{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .toolbar{
+        flex-direction:column;
+    }
+
+    .search,
+    select{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🌊 Neptune Legal</div>
+</header>
+
+<div class="container">
+
+<a href="entreprise-dashboard.html" class="back">
+← Retour à l'entreprise
+</a>
+
+<div class="hero">
+
+<h1>📋 Recrutement</h1>
+
+<p>
+Retrouvez ici toutes les candidatures reçues par votre entreprise
+et gérez facilement vos recrutements.
+</p>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<span>Total candidatures</span>
+<strong>18</strong>
+</div>
+
+<div class="stat">
+<span>En attente</span>
+<strong>7</strong>
+</div>
+
+<div class="stat">
+<span>Acceptées</span>
+<strong>6</strong>
+</div>
+
+<div class="stat">
+<span>Refusées</span>
+<strong>5</strong>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="toolbar">
+
+<input
+class="search"
+id="recherche"
+placeholder="🔎 Rechercher un candidat..."
+onkeyup="rechercher()"
+>
+
+<select id="filtre" onchange="filtrer()">
+
+<option value="tous">
+Tous les statuts
+</option>
+
+<option value="attente">
+En attente
+</option>
+
+<option value="acceptee">
+Acceptées
+</option>
+
+<option value="refusee">
+Refusées
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="candidatures">
+
+<!-- CANDIDATURE 1 -->
+
+<div class="candidature" data-nom="Alex Martin" data-statut="attente">
+
+<div class="top">
+
+<div>
+<div class="nom">Alex Martin</div>
+<div class="discord">@alexmartin</div>
+</div>
+
+<span class="badge attente">
+En attente
+</span>
+
+</div>
+
+<div class="infos">
+
+<div class="info">
+<span>Âge RP</span>
+<strong>24 ans</strong>
+</div>
+
+<div class="info">
+<span>Poste demandé</span>
+<strong>Employé</strong>
+</div>
+
+<div class="info">
+<span>Date</span>
+<strong>30/09/2026</strong>
+</div>
+
+<div class="info">
+<span>Disponibilité</span>
+<strong>Soir / Week-end</strong>
+</div>
+
+</div>
+
+<div class="motivation">
+Je souhaite rejoindre votre entreprise afin de développer
+mon expérience et participer activement à son activité.
+</div>
+
+<div class="actions">
+
+<button class="view"
+onclick="voirCandidature('Alex Martin')">
+Voir le dossier
+</button>
+
+<button class="accept"
+onclick="accepter('Alex Martin')">
+✓ Accepter
+</button>
+
+<button class="wait"
+onclick="attente('Alex Martin')">
+⏳ Attente
+</button>
+
+<button class="refuse"
+onclick="refuser('Alex Martin')">
+✕ Refuser
+</button>
+
+</div>
+
+</div>
+
+
+<!-- CANDIDATURE 2 -->
+
+<div class="candidature" data-nom="Sarah Dupont" data-statut="acceptee">
+
+<div class="top">
+
+<div>
+<div class="nom">Sarah Dupont</div>
+<div class="discord">@sarah.dp</div>
+</div>
+
+<span class="badge acceptee">
+Acceptée
+</span>
+
+</div>
+
+<div class="infos">
+
+<div class="info">
+<span>Âge RP</span>
+<strong>27 ans</strong>
+</div>
+
+<div class="info">
+<span>Poste demandé</span>
+<strong>Responsable</strong>
+</div>
+
+<div class="info">
+<span>Date</span>
+<strong>28/09/2026</strong>
+</div>
+
+<div class="info">
+<span>Disponibilité</span>
+<strong>Temps plein</strong>
+</div>
+
+</div>
+
+<div class="motivation">
+Je possède plusieurs expériences dans la gestion d'équipe
+et souhaite évoluer au sein de votre entreprise.
+</div>
+
+<div class="actions">
+
+<button class="view"
+onclick="voirCandidature('Sarah Dupont')">
+Voir le dossier
+</button>
+
+<button class="refuse"
+onclick="refuser('Sarah Dupont')">
+✕ Refuser
+</button>
+
+</div>
+
+</div>
+
+
+<!-- CANDIDATURE 3 -->
+
+<div class="candidature" data-nom="Thomas Leroy" data-statut="refusee">
+
+<div class="top">
+
+<div>
+<div class="nom">Thomas Leroy</div>
+<div class="discord">@thomas.l</div>
+</div>
+
+<span class="badge refusee">
+Refusée
+</span>
+
+</div>
+
+<div class="infos">
+
+<div class="info">
+<span>Âge RP</span>
+<strong>21 ans</strong>
+</div>
+
+<div class="info">
+<span>Poste demandé</span>
+<strong>Employé</strong>
+</div>
+
+<div class="info">
+<span>Date</span>
+<strong>25/09/2026</strong>
+</div>
+
+<div class="info">
+<span>Disponibilité</span>
+<strong>Week-end</strong>
+</div>
+
+</div>
+
+<div class="motivation">
+Je souhaite intégrer l'entreprise afin d'acquérir
+une première expérience professionnelle.
+</div>
+
+<div class="actions">
+
+<button class="view"
+onclick="voirCandidature('Thomas Leroy')">
+Voir le dossier
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- MODALE -->
+
+<div class="modal" id="modal">
+
+<div class="modal-box">
+
+<h2 id="modalTitre">
+Dossier de candidature
+</h2>
+
+<div id="modalContenu"></div>
+
+<button class="close" onclick="fermerModal()">
+Fermer
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+function voirCandidature(nom){
+
+document.getElementById("modalTitre").innerText =
+"Dossier de " + nom;
+
+document.getElementById("modalContenu").innerHTML = `
+<p><b>Candidat :</b> ${nom}</p>
+<br>
+<p><b>Discord :</b> Profil Discord</p>
+<br>
+<p><b>Expérience :</b> Informations du candidat</p>
+<br>
+<p><b>Motivations :</b> Consultez le dossier complet du candidat.</p>
+<br>
+<p><b>Documents :</b> Dossier joint</p>
+`;
+
+document.getElementById("modal").style.display="flex";
+
+}
+
+function fermerModal(){
+document.getElementById("modal").style.display="none";
+}
+
+function accepter(nom){
+
+if(confirm("Accepter la candidature de " + nom + " ?")){
+
+alert(
+"Candidature de " + nom +
+" acceptée.\n\nLe candidat pourra être ajouté aux employés."
+);
+
+}
+
+}
+
+function attente(nom){
+
+alert(
+"La candidature de " + nom +
+" est placée en attente."
+);
+
+}
+
+function refuser(nom){
+
+if(confirm("Refuser la candidature de " + nom + " ?")){
+
+alert(
+"Candidature de " + nom +
+" refusée."
+);
+
+}
+
+}
+
+function rechercher(){
+
+let recherche =
+document.getElementById("recherche")
+.value.toLowerCase();
+
+document.querySelectorAll(".candidature")
+.forEach(function(candidature){
+
+let nom =
+candidature.dataset.nom.toLowerCase();
+
+candidature.style.display =
+nom.includes(recherche)
+? "block"
+: "none";
+
+});
+
+}
+
+function filtrer(){
+
+let filtre =
+document.getElementById("filtre").value;
+
+document.querySelectorAll(".candidature")
+.forEach(function(candidature){
+
+if(
+filtre === "tous" ||
+candidature.dataset.statut === filtre
+){
+
+candidature.style.display="block";
+
+}else{
+
+candidature.style.display="none";
+
+}
+
+});
+
+}
+
+</script>
+
+</body>
+  </html>
