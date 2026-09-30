@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Historique employé — Neptune Legal</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f5fbff;
+    color: #17233c;
+}
+
+header {
+    background: linear-gradient(135deg, #20c9ff, #6875ff, #d45cff);
+    color: white;
+    padding: 22px 18px 30px;
+    border-radius: 0 0 30px 30px;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.back {
+    color: white;
+    text-decoration: none;
+    background: rgba(255,255,255,.2);
+    padding: 9px 13px;
+    border-radius: 12px;
+    font-size: 13px;
+}
+
+.employee {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.avatar {
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+    background: rgba(255,255,255,.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.employee h1 {
+    font-size: 23px;
+}
+
+.employee p {
+    margin-top: 5px;
+    font-size: 12px;
+    opacity: .9;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+}
+
+.filters {
+    background: white;
+    padding: 16px;
+    border-radius: 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 8px 25px rgba(53,110,160,.08);
+}
+
+.filters input,
+.filters select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dce8f0;
+    border-radius: 11px;
+    background: #fbfdff;
+    outline: none;
+}
+
+.filters select {
+    margin-top: 9px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.stat {
+    background: white;
+    padding: 16px;
+    border-radius: 17px;
+    box-shadow: 0 8px 25px rgba(53,110,160,.08);
+}
+
+.stat span {
+    color: #718096;
+    font-size: 11px;
+}
+
+.stat strong {
+    display: block;
+    margin-top: 6px;
+    font-size: 21px;
+}
+
+.timeline {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(53,110,160,.08);
+}
+
+.timeline h2 {
+    font-size: 19px;
+    margin-bottom: 20px;
+}
+
+.event {
+    display: flex;
+    gap: 14px;
+    position: relative;
+    padding-bottom: 22px;
+}
+
+.event:last-child {
+    padding-bottom: 0;
+}
+
+.line {
+    position: absolute;
+    left: 7px;
+    top: 14px;
+    bottom: 0;
+    width: 2px;
+    background: #e2edf4;
+}
+
+.event:last-child .line {
+    display: none;
+}
+
+.dot {
+    min-width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,#20c9ff,#6875ff);
+    position: relative;
+    z-index: 2;
+    margin-top: 2px;
+}
+
+.event-content {
+    flex: 1;
+    padding-bottom: 5px;
+}
+
+.event-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.event-title {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.date {
+    color: #718096;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.event-content p {
+    margin-top: 6px;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.blue {
+    background: #e6f8ff;
+    color: #168eb8;
+}
+
+.green {
+    background: #e6f8ef;
+    color: #12915c;
+}
+
+.purple {
+    background: #f1eaff;
+    color: #8055c7;
+}
+
+.orange {
+    background: #fff3df;
+    color: #bd791d;
+}
+
+.red {
+    background: #ffe8ec;
+    color: #d94c63;
+}
+
+.empty {
+    text-align: center;
+    padding: 35px;
+    color: #718096;
+}
+
+@media (min-width:700px) {
+
+    .stats {
+        grid-template-columns: repeat(4,1fr);
+    }
+
+    .filters {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 10px;
+    }
+
+    .filters select {
+        margin-top: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="top">
+
+        <div class="logo">
+            NEPTUNE LEGAL
+        </div>
+
+        <a href="profil-employe.html" class="back">
+            ← Profil
+        </a>
+
+    </div>
+
+    <div class="employee">
+
+        <div class="avatar">
+            LT
+        </div>
+
+        <div>
+            <h1>Lea Thomas</h1>
+            <p>Historique professionnel</p>
+        </div>
+
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <!-- STATISTIQUES -->
+
+    <div class="stats">
+
+        <div class="stat">
+            <span>Événements</span>
+            <strong>18</strong>
+        </div>
+
+        <div class="stat">
+            <span>Heures effectuées</span>
+            <strong>126 h</strong>
+        </div>
+
+        <div class="stat">
+            <span>Ventes</span>
+            <strong>184</strong>
+        </div>
+
+        <div class="stat">
+            <span>Depuis</span>
+            <strong>19/08/26</strong>
+        </div>
+
+    </div>
+
+
+    <!-- FILTRES -->
+
+    <div class="filters">
+
+        <input
+            type="text"
+            id="search"
+            placeholder="Rechercher dans l'historique..."
+            oninput="filtrer()"
+        >
+
+        <select id="type" onchange="filtrer()">
+
+            <option value="all">
+                Tous les événements
+            </option>
+
+            <option value="service">
+                Service
+            </option>
+
+            <option value="vente">
+                Ventes
+            </option>
+
+            <option value="grade">
+                Grades
+            </option>
+
+            <option value="entreprise">
+                Entreprise
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- HISTORIQUE -->
+
+    <div class="timeline">
+
+        <h2>Historique complet</h2>
+
+
+        <div class="event"
+             data-type="vente"
+             data-search="vente menu burger 42">
+
+            <div class="line"></div>
+            <div class="dot"></div>
+
+            <div class="event-content">
+
+                <div class="event-top">
+
+                    <div class="event-title">
+                        Vente enregistrée
+                    </div>
+
+                    <div class="date">
+                        30/09/2026 · 18:42
+                    </div>
+
+                </div>
+
+                <p>
+                    Vente d'un menu burger pour un montant
+                    de 42 €.
+                </p>
+
+                <span class="badge green">
+                    Vente
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="event"
+             data-type="service"
+             data-search="début service travail">
+
+            <div class="line"></div>
+            <div class="dot"></div>
+
+            <div class="event-content">
+
+                <div class="event-top">
+
+                    <div class="event-title">
+                        Début de service
+                    </div>
+
+                    <div class="date">
+                        30/09/2026 · 17:30
+                    </div>
+
+                </div>
+
+                <p>
+                    Lea Thomas a commencé son service.
+                </p>
+
+                <span class="badge blue">
+                    Service
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="event"
+             data-type="vente"
+             data-search="vente boissons 18 euros">
+
+            <div class="line"></div>
+            <div class="dot"></div>
+
+            <div class="event-content">
+
+                <div class="event-top">
+
+                    <div class="event-title">
+                        Vente enregistrée
+                    </div>
+
+                    <div class="date">
+                        29/09/2026 · 21:14
+                    </div>
+
+                </div>
+
+                <p>
+                    Vente de boissons pour un montant
+                    de 18 €.
+                </p>
+
+                <span class="badge green">
+                    Vente
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="event"
+             data-type="grade"
+             data-search="promotion employée grade">
+
+            <div class="line"></div>
+            <div class="dot"></div>
+
+            <div class="event-content">
+
+                <div class="event-top">
+
+                    <div class="event-title">
+                        Changement de grade
+                    </div>
+
+                    <div class="date">
+                        25/09/2026 · 19:20
+                    </div>
+
+                </div>
+
+                <p>
+                    Promotion au grade
+                    <strong>Employée</strong>.
+                </p>
+
+                <span class="badge purple">
+                    Grade
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="event"
+             data-type="service"
+             data-search="fin service travail">
+
+            <div class="line"></div>
+            <div class="dot"></div>
+
+            <div class="event-content">
+
+                <div class="event-top">
+
+                    <div class="event-title">
+                        Fin de service
+                    </div>
+
+                    <div class="date">
+                        24/09/2026 · 23:12
+                    </div>
+
+                </div>
+
+                <p>
+                    Service terminé.
+                    Durée : 4 h 12.
+                </p>
+
+                <span class="badge blue">
+                    Service
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="event"
+             data-type="entreprise"
+             data-search="candidature recrutement acceptée restaurant">
+
+            <div class="line"></div>
+            <div class="dot"></div>
+
+            <div class="event-content">
+
+                <div class="event-top">
+
+                    <div class="event-title">
+                        Candidature acceptée
+                    </div>
+
+                    <div class="date">
+                        19/08/2026 · 15:45
+                    </div>
+
+                </div>
+
+                <p>
+                    Candidature acceptée par
+                    Restaurant Neptune.
+                </p>
+
+                <span class="badge orange">
+                    Entreprise
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="event"
+             data-type="entreprise"
+             data-search="création profil employé recrutement">
+
+            <div class="line"></div>
+            <div class="dot"></div>
+
+            <div class="event-content">
+
+                <div class="event-top">
+
+                    <div class="event-title">
+                        Profil employé créé
+                    </div>
+
+                    <div class="date">
+                        19/08/2026 · 15:47
+                    </div>
+
+                </div>
+
+                <p>
+                    Création du profil de Lea Thomas
+                    dans l'entreprise.
+                </p>
+
+                <span class="badge orange">
+                    Entreprise
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+function filtrer() {
+
+    const recherche =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+    const type =
+        document.getElementById("type")
+        .value;
+
+    const events =
+        document.querySelectorAll(".event");
+
+    events.forEach(event => {
+
+        const texte =
+            event.dataset.search.toLowerCase();
+
+        const typeEvent =
+            event.dataset.type;
+
+        const rechercheOK =
+            texte.includes(recherche);
+
+        const typeOK =
+            type === "all" ||
+            typeEvent === type;
+
+        event.style.display =
+            rechercheOK && typeOK
+            ? "flex"
+            : "none";
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
