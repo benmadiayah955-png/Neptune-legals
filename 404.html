@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Page introuvable — Neptune Legal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#f6faff;
+    color:#18243d;
+    display:flex;
+    flex-direction:column;
+}
+
+header{
+    background:linear-gradient(135deg,#45dfff,#6475ff,#c55cff);
+    color:white;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+}
+
+nav{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    background:rgba(255,255,255,.16);
+    padding:10px 14px;
+    border-radius:12px;
+}
+
+main{
+    flex:1;
+    width:92%;
+    max-width:900px;
+    margin:auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:50px 0;
+}
+
+.error-card{
+    width:100%;
+    background:white;
+    border-radius:28px;
+    padding:45px 30px;
+    text-align:center;
+    box-shadow:0 15px 45px rgba(60,100,170,.12);
+}
+
+.planet{
+    width:130px;
+    height:130px;
+    margin:0 auto 25px;
+    border-radius:50%;
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #ffffff 0 5%,
+            transparent 6%
+        ),
+        linear-gradient(
+            135deg,
+            #45dfff,
+            #6475ff 55%,
+            #c55cff
+        );
+    box-shadow:
+        0 0 0 15px rgba(69,223,255,.08),
+        0 20px 45px rgba(80,100,220,.25);
+    position:relative;
+}
+
+.planet::after{
+    content:"";
+    position:absolute;
+    width:160px;
+    height:35px;
+    border:6px solid rgba(110,130,255,.35);
+    border-radius:50%;
+    top:48px;
+    left:-15px;
+    transform:rotate(-18deg);
+}
+
+.error-number{
+    font-size:72px;
+    font-weight:900;
+    background:linear-gradient(135deg,#45dfff,#6675ff,#c55cff);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    margin-bottom:5px;
+}
+
+h1{
+    font-size:26px;
+    margin-bottom:10px;
+}
+
+.description{
+    color:#7b879a;
+    line-height:1.6;
+    max-width:600px;
+    margin:0 auto 25px;
+}
+
+.buttons{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+button,
+.button{
+    border:none;
+    text-decoration:none;
+    display:inline-block;
+    cursor:pointer;
+    padding:13px 19px;
+    border-radius:13px;
+    font-weight:700;
+    font-size:14px;
+}
+
+.primary{
+    background:linear-gradient(135deg,#45dfff,#6675ff);
+    color:white;
+}
+
+.secondary{
+    background:#edf5ff;
+    color:#536bb0;
+}
+
+.links{
+    margin-top:30px;
+    padding-top:22px;
+    border-top:1px solid #edf1f7;
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    flex-wrap:wrap;
+}
+
+.links a{
+    color:#6174c3;
+    text-decoration:none;
+    font-size:13px;
+}
+
+footer{
+    text-align:center;
+    padding:25px;
+    color:#8995aa;
+    font-size:13px;
+}
+
+@media(max-width:600px){
+
+    .error-card{
+        padding:35px 20px;
+    }
+
+    .error-number{
+        font-size:58px;
+    }
+
+    h1{
+        font-size:22px;
+    }
+
+    .planet{
+        width:105px;
+        height:105px;
+    }
+
+    .planet::after{
+        width:130px;
+        left:-12px;
+        top:39px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🌊 Neptune Legal
+    </div>
+
+    <nav>
+        <a href="index.html">Accueil</a>
+        <a href="aide.html">Aide</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+</header>
+
+
+<main>
+
+    <div class="error-card">
+
+        <div class="planet"></div>
+
+        <div class="error-number">
+            404
+        </div>
+
+        <h1>
+            Cette page a disparu dans l'espace 🚀
+        </h1>
+
+        <p class="description">
+            La page que vous recherchez n'existe pas,
+            a été déplacée ou l'adresse saisie est incorrecte.
+        </p>
+
+
+        <div class="buttons">
+
+            <a
+                href="index.html"
+                class="button primary">
+
+                🏠 Retour à l'accueil
+
+            </a>
+
+            <a
+                href="aide.html"
+                class="button secondary">
+
+                💡 Centre d'aide
+
+            </a>
+
+        </div>
+
+
+        <div class="links">
+
+            <a href="entreprises.html">
+                Entreprises
+            </a>
+
+            <a href="candidatures.html">
+                Candidatures
+            </a>
+
+            <a href="notifications.html">
+                Notifications
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+    Neptune Legal — Navigation
+</footer>
+
+</body>
+</html>
