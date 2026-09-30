@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gestion des entreprises — Neptune Legal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f6faff;
+    color:#18243d;
+}
+
+header{
+    background:linear-gradient(135deg,#45dfff,#6475ff,#c55cff);
+    color:white;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+}
+
+nav{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    background:rgba(255,255,255,.16);
+    padding:10px 14px;
+    border-radius:12px;
+}
+
+.container{
+    width:92%;
+    max-width:1250px;
+    margin:30px auto;
+}
+
+.top{
+    background:white;
+    padding:27px;
+    border-radius:23px;
+    box-shadow:0 10px 35px rgba(60,100,170,.1);
+    margin-bottom:20px;
+}
+
+.top h1{
+    margin-bottom:8px;
+}
+
+.top p{
+    color:#7f8ca2;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 8px 25px rgba(60,100,170,.08);
+}
+
+.stat span{
+    color:#8793a8;
+    font-size:13px;
+}
+
+.stat strong{
+    display:block;
+    font-size:27px;
+    margin-top:7px;
+}
+
+.toolbar{
+    background:white;
+    padding:18px;
+    border-radius:19px;
+    box-shadow:0 8px 25px rgba(60,100,170,.07);
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.search{
+    flex:1;
+    min-width:220px;
+    padding:13px 15px;
+    border:1px solid #e0e7f1;
+    border-radius:13px;
+    outline:none;
+}
+
+select{
+    padding:13px 15px;
+    border:1px solid #e0e7f1;
+    border-radius:13px;
+    background:white;
+    color:#35425c;
+}
+
+.add{
+    background:linear-gradient(135deg,#53dcff,#6978ff);
+    color:white;
+    padding:13px 17px;
+}
+
+.company{
+    background:white;
+    border-radius:21px;
+    padding:22px;
+    margin-bottom:15px;
+    box-shadow:0 8px 25px rgba(60,100,170,.08);
+}
+
+.company-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.company-name{
+    display:flex;
+    gap:14px;
+    align-items:center;
+}
+
+.company-logo{
+    width:58px;
+    height:58px;
+    border-radius:17px;
+    background:linear-gradient(135deg,#55dcff,#6978ff,#c55cff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    font-weight:bold;
+    font-size:21px;
+}
+
+.company h2{
+    font-size:19px;
+    margin-bottom:5px;
+}
+
+.company-sub{
+    color:#8995aa;
+    font-size:13px;
+}
+
+.badge{
+    padding:7px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.green{
+    background:#e7fff1;
+    color:#16a45a;
+}
+
+.orange{
+    background:#fff3dc;
+    color:#d48600;
+}
+
+.red{
+    background:#ffe9ed;
+    color:#d63f58;
+}
+
+.blue{
+    background:#e9f5ff;
+    color:#2786c7;
+}
+
+.details{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+    margin:18px 0;
+}
+
+.detail{
+    background:#f8faff;
+    padding:13px;
+    border-radius:13px;
+}
+
+.detail span{
+    display:block;
+    color:#8995aa;
+    font-size:11px;
+    margin-bottom:5px;
+}
+
+.detail strong{
+    font-size:13px;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    padding:10px 14px;
+    border-radius:11px;
+    font-weight:bold;
+}
+
+.primary{
+    background:#eef2ff;
+    color:#596ce3;
+}
+
+.success{
+    background:#e7fff1;
+    color:#16a45a;
+}
+
+.warning{
+    background:#fff3dc;
+    color:#d48600;
+}
+
+.danger{
+    background:#ffe9ed;
+    color:#d63f58;
+}
+
+.modal-bg{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(24,36,61,.35);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:10;
+}
+
+.modal{
+    background:white;
+    width:100%;
+    max-width:550px;
+    max-height:90vh;
+    overflow:auto;
+    border-radius:24px;
+    padding:25px;
+}
+
+.modal h2{
+    margin-bottom:18px;
+}
+
+.form-group{
+    margin-bottom:14px;
+}
+
+.form-group label{
+    display:block;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    padding:12px;
+    border:1px solid #e0e7f1;
+    border-radius:11px;
+    outline:none;
+}
+
+.modal-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:8px;
+    margin-top:20px;
+}
+
+.cancel{
+    background:#edf1f7;
+    color:#526078;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#8995aa;
+    font-size:13px;
+}
+
+@media(max-width:950px){
+
+    .stats{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .details{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+}
+
+@media(max-width:600px){
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .details{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .company-name{
+        align-items:flex-start;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🌊 Neptune Legal
+    </div>
+
+    <nav>
+        <a href="admin.html">Administration</a>
+        <a href="entreprises.html">Entreprises</a>
+        <a href="index.html">Accueil</a>
+    </nav>
+
+</header>
+
+<div class="container">
+
+<section class="top">
+
+    <h1>🏢 Gestion des entreprises</h1>
+
+    <p>
+        Gérez les entreprises enregistrées sur Neptune Legal :
+        création, modification, activation, suspension et fermeture.
+    </p>
+
+</section>
+
+<!-- STATISTIQUES -->
+
+<div class="stats">
+
+    <div class="stat">
+        <span>Total</span>
+        <strong>37</strong>
+    </div>
+
+    <div class="stat">
+        <span>Actives</span>
+        <strong>31</strong>
+    </div>
+
+    <div class="stat">
+        <span>En attente</span>
+        <strong>3</strong>
+    </div>
+
+    <div class="stat">
+        <span>Suspendues</span>
+        <strong>2</strong>
+    </div>
+
+    <div class="stat">
+        <span>Fermées</span>
+        <strong>1</strong>
+    </div>
+
+</div>
+
+<!-- BARRE OUTILS -->
+
+<div class="toolbar">
+
+    <input
+        id="search"
+        class="search"
+        type="text"
+        placeholder="🔎 Rechercher une entreprise..."
+        oninput="filtrer()"
+    >
+
+    <select id="statut" onchange="filtrer()">
+
+        <option value="tous">Tous les statuts</option>
+        <option value="active">Active</option>
+        <option value="attente">En attente</option>
+        <option value="suspendue">Suspendue</option>
+        <option value="fermee">Fermée</option>
+
+    </select>
+
+    <button class="add" onclick="ouvrirCreation()">
+        ＋ Créer une entreprise
+    </button>
+
+</div>
+
+<!-- ENTREPRISE 1 -->
+
+<div class="company" data-statut="active">
+
+    <div class="company-top">
+
+        <div class="company-name">
+
+            <div class="company-logo">
+                N
+            </div>
+
+            <div>
+                <h2>Restaurant Neptune</h2>
+
+                <div class="company-sub">
+                    Restauration • ID ENT-0001
+                </div>
+            </div>
+
+        </div>
+
+        <span class="badge green">
+            ● Active
+        </span>
+
+    </div>
+
+    <div class="details">
+
+        <div class="detail">
+            <span>Gérant</span>
+            <strong>Lea Thomas</strong>
+        </div>
+
+        <div class="detail">
+            <span>Employés</span>
+            <strong>12</strong>
+        </div>
+
+        <div class="detail">
+            <span>Recrutement</span>
+            <strong>Ouvert</strong>
+        </div>
+
+        <div class="detail">
+            <span>Chiffre d'affaires</span>
+            <strong>125 400 $</strong>
+        </div>
+
+        <div class="detail">
+            <span>Création</span>
+            <strong>18/08/2026</strong>
+        </div>
+
+    </div>
+
+    <div class="actions">
+
+        <button
+            class="primary"
+            onclick="voir('Restaurant Neptune')">
+            👁️ Voir
+        </button>
+
+        <button
+            class="primary"
+            onclick="modifier('Restaurant Neptune')">
+            ✏️ Modifier
+        </button>
+
+        <button
+            class="warning"
+            onclick="suspendre('Restaurant Neptune')">
+            ⏸ Suspendre
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ENTREPRISE 2 -->
+
+<div class="company" data-statut="active">
+
+    <div class="company-top">
+
+        <div class="company-name">
+
+            <div class="company-logo">
+                A
+            </div>
+
+            <div>
+                <h2>AutoKaze</h2>
+
+                <div class="company-sub">
+                    Automobile • ID ENT-0002
+                </div>
+            </div>
+
+        </div>
+
+        <span class="badge green">
+            ● Active
+        </span>
+
+    </div>
+
+    <div class="details">
+
+        <div class="detail">
+            <span>Gérant</span>
+            <strong>Max Martin</strong>
+        </div>
+
+        <div class="detail">
+            <span>Employés</span>
+            <strong>8</strong>
+        </div>
+
+        <div class="detail">
+            <span>Recrutement</span>
+            <strong>Fermé</strong>
+        </div>
+
+        <div class="detail">
+            <span>Chiffre d'affaires</span>
+            <strong>210 800 $</strong>
+        </div>
+
+        <div class="detail">
+            <span>Création</span>
+            <strong>15/08/2026</strong>
+        </div>
+
+    </div>
+
+    <div class="actions">
+
+        <button
+            class="primary"
+            onclick="voir('AutoKaze')">
+            👁️ Voir
+        </button>
+
+        <button
+            class="primary"
+            onclick="modifier('AutoKaze')">
+            ✏️ Modifier
+        </button>
+
+        <button
+            class="warning"
+            onclick="suspendre('AutoKaze')">
+            ⏸ Suspendre
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ENTREPRISE 3 -->
+
+<div class="company" data-statut="attente">
+
+    <div class="company-top">
+
+        <div class="company-name">
+
+            <div class="company-logo">
+                W
+            </div>
+
+            <div>
+                <h2>Weazel News</h2>
+
+                <div class="company-sub">
+                    Média • ID ENT-0003
+                </div>
+            </div>
+
+        </div>
+
+        <span class="badge orange">
+            En attente
+        </span>
+
+    </div>
+
+    <div class="details">
+
+        <div class="detail">
+            <span>Demandeur</span>
+            <strong>Nathan Cooper</strong>
+        </div>
+
+        <div class="detail">
+            <span>Employés prévus</span>
+            <strong>15</strong>
+        </div>
+
+        <div class="detail">
+            <span>Recrutement</span>
+            <strong>Fermé</strong>
+        </div>
+
+        <div class="detail">
+            <span>Budget</span>
+            <strong>180 000 $</strong>
+        </div>
+
+        <div class="detail">
+            <span>Demande</span>
+            <strong>29/09/2026</strong>
+        </div>
+
+    </div>
+
+    <div class="actions">
+
+        <button
+            class="primary"
+            onclick="voir('Weazel News')">
+            👁️ Voir
+        </button>
+
+        <button
+            class="success"
+            onclick="accepter('Weazel News')">
+            ✓ Activer
+        </button>
+
+        <button
+            class="danger"
+            onclick="refuser('Weazel News')">
+            ✕ Refuser
+        </button>
+
+    </div>
+
+</div>
+
+<!-- ENTREPRISE 4 -->
+
+<div class="company" data-statut="suspendue">
+
+    <div class="company-top">
+
+        <div class="company-name">
+
+            <div class="company-logo">
+                E
+            </div>
+
+            <div>
+                <h2>Entreprise Exemple</h2>
+
+                <div class="company-sub">
+                    Commerce • ID ENT-0004
+                </div>
+            </div>
+
+        </div>
+
+        <span class="badge red">
+            Suspendue
+        </span>
+
+    </div>
+
+    <div class="details">
+
+        <div class="detail">
+            <span>Gérant</span>
+            <strong>Julien Morel</strong>
+        </div>
+
+        <div class="detail">
+            <span>Employés</span>
+            <strong>4</strong>
+        </div>
+
+        <div class="detail">
+            <span>Motif</span>
+            <strong>À vérifier</strong>
+        </div>
+
+        <div class="detail">
+            <span>Dernière activité</span>
+            <strong>27/09/2026</strong>
+        </div>
+
+        <div class="detail">
+            <span>Statut</span>
+            <strong>Suspendue</strong>
+        </div>
+
+    </div>
+
+    <div class="actions">
+
+        <button
+            class="primary"
+            onclick="voir('Entreprise Exemple')">
+            👁️ Voir
+        </button>
+
+        <button
+            class="success"
+            onclick="retablir('Entreprise Exemple')">
+            ✓ Rétablir
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+<footer>
+    Neptune Legal — Gestion des entreprises
+</footer>
+
+<!-- MODALE CREATION -->
+
+<div class="modal-bg" id="modal">
+
+    <div class="modal">
+
+        <h2>🏢 Créer une entreprise</h2>
+
+        <div class="form-group">
+
+            <label>Nom de l'entreprise</label>
+
+            <input
+                id="nomEntreprise"
+                type="text"
+                placeholder="Ex : Restaurant Neptune"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Secteur</label>
+
+            <select id="secteur">
+
+                <option>Restauration</option>
+                <option>Automobile</option>
+                <option>Média</option>
+                <option>Commerce</option>
+                <option>Services</option>
+                <option>Autre</option>
+
+            </select>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Gérant</label>
+
+            <input
+                id="gerant"
+                type="text"
+                placeholder="Nom RP du gérant"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Nombre d'employés prévu</label>
+
+            <input
+                id="employes"
+                type="number"
+                min="0"
+                value="0"
+            >
+
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                class="cancel"
+                onclick="fermerCreation()">
+                Annuler
+            </button>
+
+            <button
+                class="add"
+                onclick="creerEntreprise()">
+                Créer
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function filtrer(){
+
+    const recherche =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+    const statut =
+        document.getElementById("statut")
+        .value;
+
+    const entreprises =
+        document.querySelectorAll(".company");
+
+    entreprises.forEach(function(entreprise){
+
+        const texte =
+            entreprise.innerText.toLowerCase();
+
+        const bonTexte =
+            texte.includes(recherche);
+
+        const bonStatut =
+            statut === "tous"
+            || entreprise.dataset.statut === statut;
+
+        entreprise.style.display =
+            bonTexte && bonStatut
+            ? "block"
+            : "none";
+
+    });
+
+}
+
+function voir(nom){
+
+    alert(
+        "Ouverture de la fiche de " +
+        nom +
+        "."
+    );
+
+}
+
+function modifier(nom){
+
+    alert(
+        "Modification de " +
+        nom +
+        " disponible après connexion à la base de données."
+    );
+
+}
+
+function suspendre(nom){
+
+    alert(
+        nom +
+        " sera suspendue lorsque le système Staff sera connecté."
+    );
+
+}
+
+function accepter(nom){
+
+    alert(
+        nom +
+        " pourra être activée depuis le système Staff."
+    );
+
+}
+
+function refuser(nom){
+
+    alert(
+        nom +
+        " pourra être refusée depuis le système Staff."
+    );
+
+}
+
+function retablir(nom){
+
+    alert(
+        nom +
+        " pourra être rétablie depuis le système Staff."
+    );
+
+}
+
+function ouvrirCreation(){
+
+    document.getElementById("modal").style.display="flex";
+
+}
+
+function fermerCreation(){
+
+    document.getElementById("modal").style.display="none";
+
+}
+
+function creerEntreprise(){
+
+    const nom =
+        document.getElementById("nomEntreprise").value;
+
+    const gerant =
+        document.getElementById("gerant").value;
+
+    if(!nom || !gerant){
+
+        alert(
+            "Veuillez renseigner au minimum le nom de l'entreprise et le gérant."
+        );
+
+        return;
+
+    }
+
+    alert(
+        "Entreprise « " +
+        nom +
+        " » préparée pour création.\\n\\nGérant : " +
+        gerant
+    );
+
+    fermerCreation();
+
+}
+
+</script>
+
+</body>
+  </html>
