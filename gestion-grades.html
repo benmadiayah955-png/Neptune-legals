@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gestion des grades — Neptune Legal</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f5fbff;
+    color: #17233c;
+}
+
+header {
+    background: linear-gradient(135deg, #20c9ff, #6875ff, #d45cff);
+    color: white;
+    padding: 22px 18px 30px;
+    border-radius: 0 0 30px 30px;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.back {
+    color: white;
+    text-decoration: none;
+    background: rgba(255,255,255,.2);
+    padding: 9px 13px;
+    border-radius: 12px;
+    font-size: 13px;
+}
+
+header h1 {
+    margin-top: 22px;
+    font-size: 27px;
+}
+
+header p {
+    margin-top: 7px;
+    opacity: .9;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+.info {
+    background: white;
+    padding: 18px;
+    border-radius: 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 8px 25px rgba(53,110,160,.08);
+}
+
+.info strong {
+    font-size: 15px;
+}
+
+.info p {
+    margin-top: 6px;
+    color: #718096;
+    font-size: 12px;
+}
+
+.add {
+    width: 100%;
+    margin-bottom: 18px;
+    border: none;
+    padding: 14px;
+    border-radius: 13px;
+    background: linear-gradient(135deg,#20c9ff,#6875ff);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.grades {
+    display: grid;
+    gap: 15px;
+}
+
+.grade {
+    background: white;
+    padding: 19px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(53,110,160,.08);
+}
+
+.grade-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.grade-title {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.number {
+    width: 35px;
+    height: 35px;
+    border-radius: 12px;
+    background: linear-gradient(135deg,#20c9ff,#6875ff);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.grade-title strong {
+    font-size: 16px;
+}
+
+.grade-title span {
+    display: block;
+    margin-top: 3px;
+    color: #718096;
+    font-size: 11px;
+}
+
+.badge {
+    padding: 6px 10px;
+    border-radius: 20px;
+    background: #e7f8ff;
+    color: #168eb8;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.detail {
+    background: #f7fbfe;
+    padding: 11px;
+    border-radius: 11px;
+}
+
+.detail span {
+    display: block;
+    color: #718096;
+    font-size: 10px;
+}
+
+.detail strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 13px;
+}
+
+.permissions {
+    margin-top: 15px;
+}
+
+.permissions-title {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.permission-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.permission {
+    background: #f0edff;
+    color: #765bc4;
+    padding: 6px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+button {
+    border: none;
+    padding: 10px 13px;
+    border-radius: 11px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.secondary {
+    background: #edf5fa;
+    color: #40516b;
+}
+
+.danger {
+    background: #ffe8ec;
+    color: #d94c63;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20,40,70,.35);
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.modal-box {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 22px;
+    padding: 22px;
+}
+
+.modal-box h2 {
+    margin-bottom: 17px;
+}
+
+.field {
+    margin-bottom: 13px;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dce8f0;
+    border-radius: 11px;
+    outline: none;
+}
+
+.check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 9px 0;
+    font-size: 12px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 9px;
+    margin-top: 18px;
+}
+
+.modal-actions button {
+    flex: 1;
+}
+
+.primary {
+    background: linear-gradient(135deg,#20c9ff,#6875ff);
+    color: white;
+}
+
+@media (min-width:700px) {
+    .grades {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .details {
+        grid-template-columns: repeat(3,1fr);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="top">
+
+        <div class="logo">
+            NEPTUNE LEGAL
+        </div>
+
+        <a href="entreprise-dashboard.html" class="back">
+            ← Tableau de bord
+        </a>
+
+    </div>
+
+    <h1>Gestion des grades</h1>
+
+    <p>
+        Organisez la hiérarchie et les permissions de votre entreprise.
+    </p>
+
+</header>
+
+
+<div class="container">
+
+    <div class="info">
+
+        <strong>
+            Hiérarchie de l'entreprise
+        </strong>
+
+        <p>
+            Le grade placé en premier possède le niveau hiérarchique
+            le plus élevé.
+        </p>
+
+    </div>
+
+
+    <button class="add" onclick="ouvrirModal()">
+        + Créer un nouveau grade
+    </button>
+
+
+    <div class="grades" id="grades">
+
+
+        <!-- GÉRANT -->
+
+        <div class="grade" data-name="Gérant">
+
+            <div class="grade-head">
+
+                <div class="grade-title">
+
+                    <div class="number">
+                        1
+                    </div>
+
+                    <div>
+                        <strong>Gérant</strong>
+                        <span>Direction de l'entreprise</span>
+                    </div>
+
+                </div>
+
+                <div class="badge">
+                    Direction
+                </div>
+
+            </div>
+
+
+            <div class="details">
+
+                <div class="detail">
+                    <span>Employés</span>
+                    <strong>1</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Salaire</span>
+                    <strong>2 500 €</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Niveau</span>
+                    <strong>1 / 5</strong>
+                </div>
+
+            </div>
+
+
+            <div class="permissions">
+
+                <div class="permissions-title">
+                    Permissions
+                </div>
+
+                <div class="permission-list">
+
+                    <span class="permission">
+                        Gérer employés
+                    </span>
+
+                    <span class="permission">
+                        Gérer grades
+                    </span>
+
+                    <span class="permission">
+                        Gérer finances
+                    </span>
+
+                    <span class="permission">
+                        Recruter
+                    </span>
+
+                    <span class="permission">
+                        Gérer stocks
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button
+                    class="secondary"
+                    onclick="modifier('Gérant')">
+                    Modifier
+                </button>
+
+                <button
+                    class="secondary"
+                    onclick="descendre('Gérant')">
+                    ↓ Descendre
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- RESPONSABLE -->
+
+        <div class="grade" data-name="Responsable">
+
+            <div class="grade-head">
+
+                <div class="grade-title">
+
+                    <div class="number">
+                        2
+                    </div>
+
+                    <div>
+                        <strong>Responsable</strong>
+                        <span>Encadrement</span>
+                    </div>
+
+                </div>
+
+                <div class="badge">
+                    Management
+                </div>
+
+            </div>
+
+
+            <div class="details">
+
+                <div class="detail">
+                    <span>Employés</span>
+                    <strong>2</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Salaire</span>
+                    <strong>1 800 €</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Niveau</span>
+                    <strong>2 / 5</strong>
+                </div>
+
+            </div>
+
+
+            <div class="permissions">
+
+                <div class="permissions-title">
+                    Permissions
+                </div>
+
+                <div class="permission-list">
+
+                    <span class="permission">
+                        Gérer employés
+                    </span>
+
+                    <span class="permission">
+                        Recruter
+                    </span>
+
+                    <span class="permission">
+                        Gérer stocks
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button
+                    class="secondary"
+                    onclick="modifier('Responsable')">
+                    Modifier
+                </button>
+
+                <button
+                    class="secondary"
+                    onclick="monter('Responsable')">
+                    ↑ Monter
+                </button>
+
+                <button
+                    class="secondary"
+                    onclick="descendre('Responsable')">
+                    ↓ Descendre
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- EMPLOYÉ -->
+
+        <div class="grade" data-name="Employé">
+
+            <div class="grade-head">
+
+                <div class="grade-title">
+
+                    <div class="number">
+                        3
+                    </div>
+
+                    <div>
+                        <strong>Employé</strong>
+                        <span>Personnel standard</span>
+                    </div>
+
+                </div>
+
+                <div class="badge">
+                    Personnel
+                </div>
+
+            </div>
+
+
+            <div class="details">
+
+                <div class="detail">
+                    <span>Employés</span>
+                    <strong>8</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Salaire</span>
+                    <strong>1 200 €</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Niveau</span>
+                    <strong>3 / 5</strong>
+                </div>
+
+            </div>
+
+
+            <div class="permissions">
+
+                <div class="permissions-title">
+                    Permissions
+                </div>
+
+                <div class="permission-list">
+
+                    <span class="permission">
+                        Accès service
+                    </span>
+
+                    <span class="permission">
+                        Enregistrer ventes
+                    </span>
+
+                    <span class="permission">
+                        Consulter stocks
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button
+                    class="secondary"
+                    onclick="modifier('Employé')">
+                    Modifier
+                </button>
+
+                <button
+                    class="secondary"
+                    onclick="monter('Employé')">
+                    ↑ Monter
+                </button>
+
+                <button
+                    class="secondary"
+                    onclick="descendre('Employé')">
+                    ↓ Descendre
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- STAGIAIRE -->
+
+        <div class="grade" data-name="Stagiaire">
+
+            <div class="grade-head">
+
+                <div class="grade-title">
+
+                    <div class="number">
+                        4
+                    </div>
+
+                    <div>
+                        <strong>Stagiaire</strong>
+                        <span>Nouveau personnel</span>
+                    </div>
+
+                </div>
+
+                <div class="badge">
+                    Débutant
+                </div>
+
+            </div>
+
+
+            <div class="details">
+
+                <div class="detail">
+                    <span>Employés</span>
+                    <strong>3</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Salaire</span>
+                    <strong>900 €</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Niveau</span>
+                    <strong>4 / 5</strong>
+                </div>
+
+            </div>
+
+
+            <div class="permissions">
+
+                <div class="permissions-title">
+                    Permissions
+                </div>
+
+                <div class="permission-list">
+
+                    <span class="permission">
+                        Accès service
+                    </span>
+
+                    <span class="permission">
+                        Enregistrer ventes
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="actions">
+
+                <button
+                    class="secondary"
+                    onclick="modifier('Stagiaire')">
+                    Modifier
+                </button>
+
+                <button
+                    class="secondary"
+                    onclick="monter('Stagiaire')">
+                    ↑ Monter
+                </button>
+
+                <button
+                    class="danger"
+                    onclick="supprimer('Stagiaire')">
+                    Supprimer
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <h2>Créer un grade</h2>
+
+
+        <div class="field">
+
+            <label>Nom du grade</label>
+
+            <input
+                id="gradeNom"
+                type="text"
+                placeholder="Ex : Directeur adjoint"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>Salaire</label>
+
+            <input
+                id="gradeSalaire"
+                type="number"
+                placeholder="Ex : 1500"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>Type</label>
+
+            <select id="gradeType">
+
+                <option>Direction</option>
+                <option>Management</option>
+                <option>Personnel</option>
+                <option>Débutant</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>Permissions</label>
+
+            <label class="check">
+                <input type="checkbox">
+                Gérer les employés
+            </label>
+
+            <label class="check">
+                <input type="checkbox">
+                Recruter
+            </label>
+
+            <label class="check">
+                <input type="checkbox">
+                Gérer les stocks
+            </label>
+
+            <label class="check">
+                <input type="checkbox">
+                Gérer les ventes
+            </label>
+
+            <label class="check">
+                <input type="checkbox">
+                Gérer les finances
+            </label>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="secondary"
+                onclick="fermerModal()">
+                Annuler
+            </button>
+
+            <button
+                class="primary"
+                onclick="creerGrade()">
+                Créer le grade
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function ouvrirModal() {
+
+    document.getElementById("modal")
+        .style.display = "flex";
+
+}
+
+
+function fermerModal() {
+
+    document.getElementById("modal")
+        .style.display = "none";
+
+}
+
+
+function creerGrade() {
+
+    const nom =
+        document.getElementById("gradeNom").value;
+
+    const salaire =
+        document.getElementById("gradeSalaire").value;
+
+    if (!nom.trim()) {
+
+        alert(
+            "Veuillez renseigner le nom du grade."
+        );
+
+        return;
+    }
+
+    alert(
+        "Grade créé : " +
+        nom +
+        (salaire ? "\nSalaire : " + salaire + " €" : "")
+    );
+
+    fermerModal();
+
+}
+
+
+function modifier(nom) {
+
+    alert(
+        "Modification du grade « " +
+        nom +
+        " » disponible prochainement."
+    );
+
+}
+
+
+function monter(nom) {
+
+    alert(
+        "Le grade « " +
+        nom +
+        " » sera remonté dans la hiérarchie."
+    );
+
+}
+
+
+function descendre(nom) {
+
+    alert(
+        "Le grade « " +
+        nom +
+        " » sera descendu dans la hiérarchie."
+    );
+
+}
+
+
+function supprimer(nom) {
+
+    const confirmation = confirm(
+        "Supprimer le grade « " +
+        nom +
+        " » ?"
+    );
+
+    if (confirmation) {
+
+        alert(
+            "Le grade sera supprimé après connexion à la base de données."
+        );
+
+    }
+
+}
+
+</script>
+
+</body>
+              </html>
