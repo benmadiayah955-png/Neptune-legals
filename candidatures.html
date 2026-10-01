@@ -31,13 +31,7 @@ header {
 .logo {
     font-size: 21px;
     font-weight: bold;
-    background: linear-gradient(
-        90deg,
-        #00cfff,
-        #5865f2,
-        #a855f7,
-        #ec4899
-    );
+    background: linear-gradient(90deg, #00cfff, #5865f2, #a855f7, #ec4899);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -50,7 +44,7 @@ header {
 }
 
 .container {
-    max-width: 900px;
+    max-width: 800px;
     margin: auto;
     padding: 30px 20px 50px;
 }
@@ -94,12 +88,6 @@ textarea {
     background: #fbfcff;
 }
 
-input:focus,
-select:focus,
-textarea:focus {
-    border-color: #5865f2;
-}
-
 textarea {
     min-height: 130px;
     resize: vertical;
@@ -116,11 +104,7 @@ textarea {
     padding: 15px;
     border-radius: 13px;
     color: white;
-    background: linear-gradient(
-        90deg,
-        #5865f2,
-        #8b5cf6
-    );
+    background: linear-gradient(90deg, #5865f2, #8b5cf6);
     font-size: 15px;
     font-weight: bold;
     cursor: pointer;
@@ -139,55 +123,6 @@ textarea {
     color: #3949ab;
     text-align: center;
 }
-
-.candidatures {
-    margin-top: 30px;
-}
-
-.candidatures h2 {
-    margin-bottom: 15px;
-}
-
-.card {
-    background: white;
-    border: 1px solid #e6eaf4;
-    border-radius: 18px;
-    padding: 20px;
-    margin-bottom: 15px;
-    box-shadow: 0 5px 20px rgba(50,70,100,.05);
-}
-
-.card-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.card-info {
-    color: #788296;
-    font-size: 14px;
-    line-height: 1.6;
-}
-
-.status {
-    display: inline-block;
-    margin-top: 12px;
-    padding: 6px 10px;
-    border-radius: 8px;
-    background: #eef2ff;
-    color: #5865f2;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.empty {
-    background: white;
-    border: 1px dashed #dfe4ef;
-    border-radius: 18px;
-    padding: 30px;
-    text-align: center;
-    color: #788296;
-}
 </style>
 </head>
 
@@ -203,11 +138,10 @@ textarea {
 
 <div class="container">
 
-    <h1>Mes candidatures</h1>
+    <h1>Déposer une candidature</h1>
 
     <p class="subtitle">
-        Consultez vos candidatures et déposez une nouvelle demande
-        pour rejoindre une entreprise.
+        Remplissez ce formulaire pour déposer votre candidature auprès d'une entreprise.
     </p>
 
     <div class="form">
@@ -215,7 +149,7 @@ textarea {
         <label for="entreprise">Entreprise</label>
 
         <select id="entreprise">
-            <option value="">Sélectionner une entreprise</option>
+            <option value="">Chargement...</option>
         </select>
 
         <label for="nom">Nom</label>
@@ -243,25 +177,13 @@ textarea {
 
         <button
             class="submit"
-            id="submitBtn"
             type="button"
+            id="submitBtn"
         >
             Déposer ma candidature
         </button>
 
         <div class="message" id="message"></div>
-
-    </div>
-
-    <div class="candidatures">
-
-        <h2>Mes candidatures</h2>
-
-        <div id="listeCandidatures">
-            <div class="empty">
-                Chargement des candidatures...
-            </div>
-        </div>
 
     </div>
 
@@ -271,59 +193,30 @@ textarea {
 const SUPABASE_URL = "https://xzmglqxcsrzivvkpemyt.supabase.co";
 const SUPABASE_KEY = "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
 
-let supabaseClient = null;
+const script = document.createElement("script");
 
-function afficherMessage(texte) {
-    const message = document.getElementById("message");
+script.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
-    message.textContent = texte;
-    message.style.display = "block";
-}
+script.onload = async function() {
 
-async function chargerPage() {
+    const supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
-    try {
+    const {
+        data: { user }
+    } = await supabaseClient.auth.getUser();
 
-        const { createClient } = supabase;
-
-        supabaseClient = createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
-
-        const {
-            data: { user },
-            error: userError
-        } = await supabaseClient.auth.getUser();
-
-        if (userError || !user) {
-            window.location.href = "connexion.html";
-            return;
-        }
-
-        document.getElementById("nom").value =
-            user.user_metadata?.full_name ||
-            user.user_metadata?.name ||
-            "";
-
-        await chargerEntreprises();
-
-        await chargerCandidatures(user.id);
-
-    } catch (error) {
-
-        console.error(error);
-
-        document.getElementById("listeCandidatures").innerHTML = `
-            <div class="empty">
-                Impossible de charger la page.
-            </div>
-        `;
+    if (!user) {
+        window.location.href = "connexion.html";
+        return;
     }
-}
 
-
-async function chargerEntreprises() {
+    document.getElementById("nom").value =
+        user.user_metadata?.full_name ||
+        user.user_metadata?.name ||
+        "";
 
     const select = document.getElementById("entreprise");
 
@@ -342,10 +235,7 @@ async function chargerEntreprises() {
             </option>
         `;
 
-        return;
-    }
-
-    if (!data || data.length === 0) {
+    } else if (!data || data.length === 0) {
 
         select.innerHTML = `
             <option value="">
@@ -353,176 +243,70 @@ async function chargerEntreprises() {
             </option>
         `;
 
-        return;
-    }
+    } else {
 
-    select.innerHTML = `
-        <option value="">
-            Sélectionner une entreprise
-        </option>
-    `;
-
-    data.forEach(entreprise => {
-
-        const option = document.createElement("option");
-
-        option.value = entreprise.id;
-        option.textContent = entreprise.nom;
-
-        select.appendChild(option);
-    });
-}
-
-
-async function chargerCandidatures(userId) {
-
-    const liste = document.getElementById("listeCandidatures");
-
-    const { data, error } = await supabaseClient
-        .from("candidatures")
-        .select("*")
-        .eq("candidat_id", userId)
-        .order("created_at", { ascending: false });
-
-    if (error) {
-
-        console.log(
-            "Table candidatures non disponible pour le moment :",
-            error
-        );
-
-        liste.innerHTML = `
-            <div class="empty">
-                Vous n'avez encore aucune candidature.
-            </div>
+        select.innerHTML = `
+            <option value="">
+                Sélectionner une entreprise
+            </option>
         `;
 
-        return;
+        data.forEach(function(entreprise) {
+
+            const option = document.createElement("option");
+
+            option.value = entreprise.id;
+            option.textContent = entreprise.nom;
+
+            select.appendChild(option);
+        });
     }
 
-    if (!data || data.length === 0) {
+    document.getElementById("submitBtn").addEventListener(
+        "click",
+        function() {
 
-        liste.innerHTML = `
-            <div class="empty">
-                Vous n'avez encore aucune candidature.
-            </div>
-        `;
+            const entreprise =
+                document.getElementById("entreprise").value;
 
-        return;
-    }
+            const nom =
+                document.getElementById("nom").value.trim();
 
-    liste.innerHTML = "";
+            const motivation =
+                document.getElementById("motivation").value.trim();
 
-    data.forEach(candidature => {
+            const message =
+                document.getElementById("message");
 
-        const card = document.createElement("div");
+            if (!entreprise) {
+                message.textContent =
+                    "Sélectionnez une entreprise.";
+                message.style.display = "block";
+                return;
+            }
 
-        card.className = "card";
+            if (!nom) {
+                message.textContent =
+                    "Indiquez votre nom.";
+                message.style.display = "block";
+                return;
+            }
 
-        card.innerHTML = `
-            <div class="card-title">
-                ${candidature.entreprise_nom || "Entreprise"}
-            </div>
+            if (!motivation) {
+                message.textContent =
+                    "Indiquez votre motivation.";
+                message.style.display = "block";
+                return;
+            }
 
-            <div class="card-info">
-                ${candidature.motivation || "Aucune motivation renseignée."}
-            </div>
-
-            <div class="status">
-                ${candidature.statut || "En attente"}
-            </div>
-        `;
-
-        liste.appendChild(card);
-    });
-}
-
-
-document.getElementById("submitBtn").addEventListener(
-    "click",
-    async function() {
-
-        const entrepriseId =
-            document.getElementById("entreprise").value;
-
-        const nom =
-            document.getElementById("nom").value.trim();
-
-        const motivation =
-            document.getElementById("motivation").value.trim();
-
-        if (!entrepriseId) {
-            afficherMessage(
-                "Veuillez sélectionner une entreprise."
-            );
-            return;
+            message.textContent =
+                "Votre candidature est prête à être envoyée.";
+            message.style.display = "block";
         }
+    );
+};
 
-        if (!nom) {
-            afficherMessage(
-                "Veuillez renseigner votre nom."
-            );
-            return;
-        }
-
-        if (!motivation) {
-            afficherMessage(
-                "Veuillez renseigner votre motivation."
-            );
-            return;
-        }
-
-        const {
-            data: { user }
-        } = await supabaseClient.auth.getUser();
-
-        if (!user) {
-            window.location.href = "connexion.html";
-            return;
-        }
-
-        const { data: entreprise } =
-            await supabaseClient
-                .from("entreprises")
-                .select("nom")
-                .eq("id", entrepriseId)
-                .single();
-
-        const { error } =
-            await supabaseClient
-                .from("candidatures")
-                .insert({
-                    candidat_id: user.id,
-                    entreprise_id: entrepriseId,
-                    entreprise_nom: entreprise?.nom || "",
-                    nom: nom,
-                    motivation: motivation,
-                    statut: "En attente"
-                });
-
-        if (error) {
-
-            console.error(error);
-
-            afficherMessage(
-                "La candidature ne peut pas encore être enregistrée. La table candidatures doit être configurée dans Supabase."
-            );
-
-            return;
-        }
-
-        afficherMessage(
-            "Votre candidature a bien été déposée."
-        );
-
-        document.getElementById("motivation").value = "";
-
-        await chargerCandidatures(user.id);
-    }
-);
-
-
-chargerPage();
+document.head.appendChild(script);
 </script>
 
 </body>
