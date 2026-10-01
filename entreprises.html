@@ -1,253 +1,333 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Neptune Legal — Candidature</title>
+<title>Neptune Legal — Candidature</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <style>
-        :root {
-            --bleu: #7ACAED;
-            --bleu-fonce: #58A3DD;
-            --bleu-clair: #98CAF7;
-            --violet: #C78BE4;
-            --violet-clair: #D1A6F1;
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-            --fond: #f5f8fc;
-            --blanc: #ffffff;
-            --texte: #172033;
-            --gris: #718096;
-            --bordure: #e2e8f0;
-        }
+body {
+    font-family: Arial, sans-serif;
 
-        * {
-            box-sizing: border-box;
-        }
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(199,139,228,.15),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at top left,
+            rgba(122,202,237,.12),
+            transparent 30%
+        ),
+        #0b1020;
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: var(--fond);
-            color: var(--texte);
-        }
+    color: white;
+    min-height: 100vh;
+}
 
-        header {
-            background: white;
-            border-bottom: 1px solid var(--bordure);
-            padding: 18px 25px;
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+/* HEADER */
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
+header {
+    background: rgba(17,24,45,.96);
+    border-bottom: 1px solid #26304d;
+    padding: 20px 30px;
 
-            background: linear-gradient(
-                90deg,
-                var(--bleu),
-                var(--bleu-fonce),
-                var(--violet),
-                var(--violet-clair)
-            );
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
+.logo {
+    font-size: 24px;
+    font-weight: bold;
 
-        .retour {
-            text-decoration: none;
-            color: var(--bleu-fonce);
-            font-weight: bold;
-        }
+    background: linear-gradient(
+        90deg,
+        #7ACAED,
+        #58A3DD,
+        #C78BE4,
+        #D1A6F1
+    );
 
-        main {
-            width: 100%;
-            max-width: 850px;
-            margin: auto;
-            padding: 40px 20px;
-        }
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
 
-        .titre {
-            margin-bottom: 25px;
-        }
+.retour {
+    text-decoration: none;
+    color: #98CAF7;
+    font-weight: bold;
 
-        .titre h1 {
-            margin: 0 0 8px;
-            font-size: 32px;
-        }
+    padding: 9px 14px;
+    border: 1px solid #26304d;
+    border-radius: 10px;
 
-        .titre p {
-            margin: 0;
-            color: var(--gris);
-        }
+    transition: .2s;
+}
 
-        .card {
-            background: var(--blanc);
-            border: 1px solid var(--bordure);
-            border-radius: 20px;
-            padding: 30px;
+.retour:hover {
+    color: #7ACAED;
+    border-color: #7ACAED;
+    background: rgba(122,202,237,.08);
+}
 
-            box-shadow:
-                0 10px 35px rgba(40, 60, 90, 0.07);
-        }
 
-        .connexion {
-            padding: 14px 16px;
-            margin-bottom: 25px;
+/* MAIN */
 
-            border-radius: 12px;
+main {
+    width: 100%;
+    max-width: 850px;
+    margin: auto;
+    padding: 40px 20px 60px;
+}
 
-            background: linear-gradient(
-                90deg,
-                rgba(122, 202, 237, 0.12),
-                rgba(199, 139, 228, 0.12)
-            );
+.titre {
+    margin-bottom: 25px;
+}
 
-            border: 1px solid var(--bordure);
+.titre h1 {
+    margin-bottom: 8px;
+    font-size: 32px;
+    color: #7ACAED;
+}
 
-            color: var(--gris);
-            font-size: 14px;
-        }
+.titre p {
+    color: #98a9c4;
+}
 
-        .connexion strong {
-            color: var(--texte);
-        }
 
-        .champ {
-            margin-bottom: 22px;
-        }
+/* CARD */
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-            font-weight: bold;
-        }
+.card {
+    background:
+        linear-gradient(
+            145deg,
+            #11182d,
+            #0e1426
+        );
 
-        input,
-        select,
-        textarea {
-            width: 100%;
-            border: 1px solid var(--bordure);
-            border-radius: 12px;
+    border: 1px solid #26304d;
+    border-radius: 20px;
 
-            padding: 14px;
+    padding: 30px;
 
-            font-size: 14px;
-            color: var(--texte);
-            background: #fbfcfe;
+    box-shadow:
+        0 10px 35px rgba(0,0,0,.25);
+}
 
-            outline: none;
-        }
 
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: var(--bleu-fonce);
+/* CONNEXION */
 
-            box-shadow:
-                0 0 0 3px rgba(88, 163, 221, 0.12);
-        }
+.connexion {
+    padding: 14px 16px;
+    margin-bottom: 25px;
 
-        textarea {
-            min-height: 170px;
-            resize: vertical;
-        }
+    border-radius: 12px;
 
-        .info {
-            margin-top: 7px;
-            color: var(--gris);
-            font-size: 12px;
-        }
+    background:
+        linear-gradient(
+            90deg,
+            rgba(122,202,237,.08),
+            rgba(199,139,228,.08)
+        );
 
-        .bouton {
-            width: 100%;
-            border: none;
-            border-radius: 12px;
+    border: 1px solid rgba(122,202,237,.25);
 
-            padding: 15px;
+    color: #98a9c4;
+    font-size: 14px;
+}
 
-            color: white;
-            font-size: 15px;
-            font-weight: bold;
+.connexion strong {
+    color: #7ACAED;
+}
 
-            cursor: pointer;
 
-            background: linear-gradient(
-                90deg,
-                var(--bleu-fonce),
-                var(--violet)
-            );
-        }
+/* CHAMPS */
 
-        .bouton:hover {
-            opacity: 0.92;
-        }
+.champ {
+    margin-bottom: 22px;
+}
 
-        .bouton:disabled {
-            opacity: 0.55;
-            cursor: not-allowed;
-        }
+label {
+    display: block;
+    margin-bottom: 8px;
 
-        .message {
-            display: none;
-            margin-top: 18px;
+    font-size: 14px;
+    font-weight: bold;
 
-            padding: 15px;
-            border-radius: 12px;
+    color: #d8e4f5;
+}
 
-            font-size: 14px;
-            line-height: 1.5;
-        }
+input,
+select,
+textarea {
+    width: 100%;
 
-        .success {
-            display: block;
-            background: #eaf8ef;
-            color: #18733e;
-            border: 1px solid #bce5ca;
-        }
+    border: 1px solid #26304d;
+    border-radius: 12px;
 
-        .error {
-            display: block;
-            background: #fff0f2;
-            color: #a62f43;
-            border: 1px solid #f0c0c8;
-        }
+    padding: 14px;
 
-        .loading {
-            display: block;
-            background: #eef7ff;
-            color: #28628d;
-            border: 1px solid #c8e2f5;
-        }
+    font-size: 14px;
 
-        @media (max-width: 650px) {
+    color: #d8e4f5;
 
-            header {
-                padding: 16px;
-            }
+    background: #0b1020;
 
-            main {
-                padding: 25px 15px;
-            }
+    outline: none;
+}
 
-            .card {
-                padding: 20px;
-            }
+input::placeholder,
+textarea::placeholder {
+    color: #64748b;
+}
 
-            .titre h1 {
-                font-size: 27px;
-            }
-        }
-    </style>
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #7ACAED;
+
+    box-shadow:
+        0 0 0 3px rgba(88,163,221,.12);
+}
+
+select option {
+    background: #11182d;
+    color: white;
+}
+
+textarea {
+    min-height: 170px;
+    resize: vertical;
+}
+
+.info {
+    margin-top: 7px;
+
+    color: #71819b;
+    font-size: 12px;
+}
+
+
+/* BOUTON */
+
+.bouton {
+    width: 100%;
+
+    border: none;
+    border-radius: 12px;
+
+    padding: 15px;
+
+    color: white;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    background:
+        linear-gradient(
+            90deg,
+            #58A3DD,
+            #C78BE4
+        );
+
+    transition: .2s;
+}
+
+.bouton:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px rgba(88,163,221,.20);
+}
+
+.bouton:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+/* MESSAGES */
+
+.message {
+    display: none;
+
+    margin-top: 18px;
+
+    padding: 15px;
+
+    border-radius: 12px;
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.success {
+    display: block;
+
+    background: rgba(70,190,120,.10);
+    color: #8ff0b5;
+
+    border: 1px solid rgba(70,190,120,.40);
+}
+
+.error {
+    display: block;
+
+    background: rgba(220,70,70,.10);
+    color: #ff8585;
+
+    border: 1px solid rgba(220,70,70,.40);
+}
+
+.loading {
+    display: block;
+
+    background: rgba(122,202,237,.10);
+    color: #98CAF7;
+
+    border: 1px solid rgba(122,202,237,.35);
+}
+
+
+/* MOBILE */
+
+@media (max-width:650px) {
+
+    header {
+        padding: 16px;
+    }
+
+    main {
+        padding: 25px 15px 40px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .titre h1 {
+        font-size: 27px;
+    }
+}
+</style>
 </head>
+
 
 <body>
 
@@ -350,7 +430,7 @@
             >
 
             <div class="info">
-                Le nom du fichier sera enregistré avec votre candidature.
+                Le document est sélectionné sur votre appareil mais n'est pas envoyé à Supabase.
             </div>
 
         </div>
@@ -398,10 +478,7 @@ let utilisateur = null;
    MESSAGE
 ================================ */
 
-function message(
-    texte,
-    type
-) {
+function message(texte, type) {
 
     const element =
         document.getElementById("message");
@@ -423,7 +500,7 @@ async function verifierConnexion() {
         data,
         error
     } =
-        await supabaseClient.auth.getUser();
+    await supabaseClient.auth.getUser();
 
 
     if (error || !data.user) {
@@ -486,22 +563,16 @@ async function chargerEntreprises() {
         );
 
 
-    /*
-       IMPORTANT :
-       La table s'appelle Entreprises
-       avec un E majuscule.
-    */
-
     const {
         data,
         error
     } =
-        await supabaseClient
-            .from("Entreprises")
-            .select("id, nom")
-            .order("nom", {
-                ascending: true
-            });
+    await supabaseClient
+        .from("Entreprises")
+        .select("id, Nom")
+        .order("Nom", {
+            ascending: true
+        });
 
 
     if (error) {
@@ -573,7 +644,7 @@ async function chargerEntreprises() {
 
 
             option.textContent =
-                entreprise.nom;
+                entreprise.Nom;
 
 
             select.appendChild(
@@ -586,7 +657,7 @@ async function chargerEntreprises() {
 
 
 /* ================================
-   ENVOYER
+   ENVOYER CANDIDATURE
 ================================ */
 
 async function envoyerCandidature() {
@@ -671,35 +742,26 @@ async function envoyerCandidature() {
         "Envoi en cours...";
 
 
-    const documentNom =
-        fichier
-            ? fichier.name
-            : null;
-
-
     const {
         error
     } =
-        await supabaseClient
-            .from("candidatures")
-            .insert({
+    await supabaseClient
+        .from("candidatures")
+        .insert({
 
-                entreprise_id:
-                    entrepriseId,
+            entreprise_id:
+                entrepriseId,
 
-                nom:
-                    nom,
+            nom:
+                nom,
 
-                motivation:
-                    motivation,
+            motivation:
+                motivation,
 
-                document:
-                    documentNom,
+            statut:
+                "en_attente"
 
-                statut:
-                    "en_attente"
-
-            });
+        });
 
 
     if (error) {
@@ -761,26 +823,11 @@ async function envoyerCandidature() {
 function escapeHTML(value) {
 
     return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 
