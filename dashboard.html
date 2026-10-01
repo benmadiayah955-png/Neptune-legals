@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard — Neptune Legal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f6faff;
+            color: #18243d;
+        }
+
+        header {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #edf1f7;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+        }
+
+        .logo {
+            color: #5268c8;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #5865f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .username {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        main {
+            padding: 45px 6%;
+        }
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+        .welcome h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #7b8799;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #edf1f7;
+            border-radius: 22px;
+            padding: 25px;
+            box-shadow: 0 12px 35px rgba(70,100,170,.08);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #7b8799;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .logout {
+            margin-top: 30px;
+            border: none;
+            padding: 13px 20px;
+            border-radius: 12px;
+            background: #eef1ff;
+            color: #5268c8;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .logout:hover {
+            background: #e2e6ff;
+        }
+
+        @media (max-width: 800px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🌊 Neptune Legal
+    </div>
+
+    <div class="user">
+
+        <div class="avatar" id="avatar">
+            ?
+        </div>
+
+        <div class="username" id="username">
+            Chargement...
+        </div>
+
+    </div>
+
+</header>
+
+<main>
+
+    <section class="welcome">
+
+        <h1>
+            Tableau de bord
+        </h1>
+
+        <p>
+            Bienvenue dans votre espace Neptune Legal.
+        </p>
+
+    </section>
+
+    <section class="grid">
+
+        <div class="card">
+
+            <h2>
+                Mon profil
+            </h2>
+
+            <p>
+                Retrouvez ici les informations liées
+                à votre compte Discord.
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>
+                Mes entreprises
+            </h2>
+
+            <p>
+                Gérez vos entreprises et consultez
+                leurs informations.
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>
+                Mes candidatures
+            </h2>
+
+            <p>
+                Consultez vos candidatures et leur statut.
+            </p>
+
+        </div>
+
+    </section>
+
+    <button class="logout" onclick="deconnexion()">
+        Se déconnecter
+    </button>
+
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+    "https://xzmglqxcsrzivvkpemyt.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+async function chargerUtilisateur() {
+
+    const {
+        data: {
+            session
+        }
+    } = await supabaseClient.auth.getSession();
+
+    if (!session) {
+
+        window.location.href =
+            "connexion.html";
+
+        return;
+    }
+
+    const user = session.user;
+
+    const username =
+        user.user_metadata?.full_name ||
+        user.user_metadata?.name ||
+        user.email ||
+        "Utilisateur";
+
+    document.getElementById("username").textContent =
+        username;
+
+    document.getElementById("avatar").textContent =
+        username.charAt(0).toUpperCase();
+}
+
+
+async function deconnexion() {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href =
+        "connexion.html";
+}
+
+
+chargerUtilisateur();
+
+</script>
+
+</body>
+</html>
