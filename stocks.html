@@ -1,1150 +1,872 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neptune Legal — Stocks</title>
 
-<title>Neptune Legal — Stock</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-<style>
-* {
-    box-sizing: border-box;
-}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #07111f, #101a30, #1b1328);
+            color: white;
+            min-height: 100vh;
+        }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    color: #17202a;
-}
+        header {
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(122, 202, 237, 0.25);
+            background: rgba(9, 22, 37, 0.85);
+            backdrop-filter: blur(12px);
+        }
 
-header {
-    background: #111827;
-    color: white;
-    padding: 18px 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+        header h1 {
+            margin: 0;
+            font-size: 25px;
+            background: linear-gradient(
+                90deg,
+                #7ACAED,
+                #58A3DD,
+                #98CAF7,
+                #C78BE4,
+                #D1A6F1
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 20px;
-    font-weight: bold;
-}
+        header p {
+            margin: 6px 0 0;
+            color: #98CAF7;
+        }
 
-.logo img {
-    width: 42px;
-    height: 42px;
-    object-fit: contain;
-}
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 30px;
+        }
 
-.back {
-    color: white;
-    text-decoration: none;
-}
+        .back {
+            display: inline-block;
+            margin-bottom: 25px;
+            color: #7ACAED;
+            text-decoration: none;
+            transition: 0.2s;
+        }
 
-.container {
-    max-width: 1200px;
-    margin: 30px auto;
-    padding: 0 20px;
-}
+        .back:hover {
+            color: #D1A6F1;
+        }
 
-h1 {
-    margin-bottom: 8px;
-}
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
 
-.subtitle {
-    color: #667085;
-    margin-bottom: 25px;
-}
+        .top h2 {
+            margin: 0;
+            font-size: 28px;
+        }
 
-.stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    margin-bottom: 25px;
-}
+        .top p {
+            color: #98CAF7;
+        }
 
-.stat {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,.06);
-}
+        button {
+            border: none;
+            border-radius: 10px;
+            padding: 12px 18px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            transition: 0.2s;
+        }
 
-.stat strong {
-    display: block;
-    font-size: 28px;
-    margin-top: 8px;
-}
+        button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+        }
 
-.actions {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
+        .primary {
+            background: linear-gradient(
+                135deg,
+                #58A3DD,
+                #7ACAED,
+                #98CAF7
+            );
+            box-shadow: 0 5px 20px rgba(88, 163, 221, 0.25);
+        }
 
-button {
-    border: none;
-    border-radius: 10px;
-    padding: 11px 16px;
-    cursor: pointer;
-    font-weight: bold;
-}
+        .danger {
+            background: linear-gradient(
+                135deg,
+                #C78BE4,
+                #D1A6F1
+            );
+        }
 
-.primary {
-    background: #111827;
-    color: white;
-}
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
 
-.danger {
-    background: #fee2e2;
-    color: #991b1b;
-}
+        .stat {
+            background: rgba(12, 27, 44, 0.85);
+            border: 1px solid rgba(122, 202, 237, 0.25);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+        }
 
-.search {
-    width: 100%;
-    padding: 13px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
+        .stat span {
+            display: block;
+            color: #98CAF7;
+            margin-bottom: 8px;
+        }
 
-.products {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-}
+        .stat strong {
+            font-size: 25px;
+            background: linear-gradient(
+                90deg,
+                #7ACAED,
+                #98CAF7,
+                #D1A6F1
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-.product {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,.06);
-}
+        .toolbar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
 
-.product h3 {
-    margin-top: 0;
-}
+        input,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            border-radius: 10px;
+            border: 1px solid rgba(122, 202, 237, 0.3);
+            background: rgba(9, 22, 37, 0.9);
+            color: white;
+            outline: none;
+            transition: 0.2s;
+        }
 
-.quantity {
-    font-size: 28px;
-    font-weight: bold;
-    margin: 15px 0;
-}
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #7ACAED;
+            box-shadow: 0 0 0 2px rgba(122, 202, 237, 0.1);
+        }
 
-.low {
-    color: #b45309;
-}
+        input::placeholder,
+        textarea::placeholder {
+            color: #7890aa;
+        }
 
-.product-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
+        select {
+            padding: 13px;
+            border-radius: 10px;
+            border: 1px solid rgba(122, 202, 237, 0.3);
+            background: rgba(9, 22, 37, 0.9);
+            color: white;
+            outline: none;
+        }
 
-.product-actions button {
-    flex: 1;
-}
+        .toolbar input {
+            flex: 1;
+        }
 
-.empty {
-    background: white;
-    padding: 35px;
-    text-align: center;
-    border-radius: 15px;
-    color: #667085;
-    grid-column: 1 / -1;
-}
+        .products {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
 
-.error-box {
-    background: #fee2e2;
-    color: #991b1b;
-    padding: 20px;
-    border-radius: 12px;
-    grid-column: 1 / -1;
-    word-break: break-word;
-}
+        .product {
+            background: rgba(12, 27, 44, 0.88);
+            border: 1px solid rgba(122, 202, 237, 0.22);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+            transition: 0.2s;
+        }
 
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.5);
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
+        .product:hover {
+            transform: translateY(-3px);
+            border-color: rgba(199, 139, 228, 0.55);
+            box-shadow:
+                0 10px 35px rgba(88, 163, 221, 0.12),
+                0 0 20px rgba(199, 139, 228, 0.06);
+        }
 
-.modal-box {
-    background: white;
-    width: 100%;
-    max-width: 500px;
-    border-radius: 18px;
-    padding: 25px;
-}
+        .product h3 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            background: linear-gradient(
+                90deg,
+                #7ACAED,
+                #98CAF7,
+                #D1A6F1
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-.modal-box input,
-.modal-box textarea {
-    width: 100%;
-    padding: 12px;
-    margin: 7px 0 15px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-}
+        .description {
+            color: #98CAF7;
+            min-height: 40px;
+        }
 
-.modal-actions {
-    display: flex;
-    gap: 10px;
-}
+        .quantity {
+            font-size: 25px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #7ACAED;
+        }
 
-@media (max-width: 800px) {
-    .stats,
-    .products {
-        grid-template-columns: 1fr;
-    }
-}
-</style>
+        .low {
+            color: #D1A6F1;
+        }
+
+        .price {
+            color: #C78BE4;
+            margin-bottom: 15px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .actions button {
+            padding: 9px 12px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 50px;
+            border: 1px dashed rgba(122, 202, 237, 0.35);
+            border-radius: 15px;
+            color: #98CAF7;
+            grid-column: 1 / -1;
+            background: rgba(12, 27, 44, 0.55);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 7, 15, 0.78);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 500px;
+            background: linear-gradient(
+                145deg,
+                #0c1b2c,
+                #15152a
+            );
+            border: 1px solid rgba(199, 139, 228, 0.35);
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow:
+                0 15px 50px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(122, 202, 237, 0.08);
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            background: linear-gradient(
+                90deg,
+                #7ACAED,
+                #98CAF7,
+                #C78BE4,
+                #D1A6F1
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .field {
+            margin-bottom: 15px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 7px;
+            color: #98CAF7;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-actions button:not(.primary) {
+            background: rgba(152, 202, 247, 0.12);
+            border: 1px solid rgba(152, 202, 247, 0.25);
+            color: #98CAF7;
+        }
+
+        @media (max-width: 800px) {
+            .stats,
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .top,
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
-
-    <div class="logo">
-        <img src="logo.png" alt="Neptune Legal">
-        <span>Neptune Legal</span>
-    </div>
-
-    <a
-        href="entreprise-dashboard.html"
-        class="back"
-    >
-        Retour au tableau de bord
-    </a>
-
+    <h1>Neptune Legal</h1>
+    <p>Gestion des stocks</p>
 </header>
-
 
 <div class="container">
 
-    <h1>Stock</h1>
+    <a class="back" href="entreprise-dashboard.html">
+        ← Retour au tableau de bord
+    </a>
 
-    <p class="subtitle">
-        Gérez les produits et les quantités de votre entreprise.
-    </p>
+    <div class="top">
+        <div>
+            <h2>Stocks</h2>
+            <p>Gérez les produits et les quantités de votre entreprise.</p>
+        </div>
 
+        <button class="primary" onclick="ouvrirModal()">
+            Ajouter un produit
+        </button>
+    </div>
 
     <div class="stats">
-
         <div class="stat">
-            Produits
+            <span>Produits</span>
             <strong id="totalProduits">0</strong>
         </div>
 
         <div class="stat">
-            Quantité totale
+            <span>Quantité totale</span>
             <strong id="quantiteTotale">0</strong>
         </div>
 
         <div class="stat">
-            Stocks faibles
-            <strong id="stocksFaibles">0</strong>
+            <span>Stock faible</span>
+            <strong id="stockFaible">0</strong>
         </div>
 
         <div class="stat">
-            Valeur du stock
+            <span>Valeur du stock</span>
             <strong id="valeurStock">0 €</strong>
         </div>
-
     </div>
 
-
-    <div class="actions">
-
-        <button
-            class="primary"
-            onclick="ouvrirModal()"
+    <div class="toolbar">
+        <input
+            type="text"
+            id="recherche"
+            placeholder="Rechercher un produit..."
+            oninput="afficherProduits()"
         >
-            Ajouter un produit
-        </button>
 
+        <select id="filtre" onchange="afficherProduits()">
+            <option value="tous">Tous</option>
+            <option value="faible">Stock faible</option>
+            <option value="normal">Stock normal</option>
+        </select>
     </div>
 
-
-    <input
-        id="recherche"
-        class="search"
-        type="text"
-        placeholder="Rechercher un produit..."
-        oninput="afficherProduits()"
-    >
-
-
-    <div
-        id="products"
-        class="products"
-    >
-
+    <div id="products" class="products">
         <div class="empty">
-            Chargement...
+            Chargement des stocks...
         </div>
-
     </div>
 
 </div>
 
+<div id="modal" class="modal">
 
-<!-- MODAL -->
-
-<div
-    id="modal"
-    class="modal"
->
-
-    <div class="modal-box">
+    <div class="modal-content">
 
         <h2>Ajouter un produit</h2>
 
+        <div class="field">
+            <label>Nom du produit</label>
+            <input id="nom" type="text" placeholder="Ex : Eau">
+        </div>
 
-        <label>
-            Nom du produit
-        </label>
+        <div class="field">
+            <label>Description</label>
+            <textarea
+                id="description"
+                placeholder="Description du produit"
+            ></textarea>
+        </div>
 
-        <input
-            id="nom"
-            type="text"
-            placeholder="Ex : Eau"
-        >
+        <div class="field">
+            <label>Quantité</label>
+            <input id="quantite" type="number" min="0" value="0">
+        </div>
 
+        <div class="field">
+            <label>Seuil d'alerte</label>
+            <input id="seuil" type="number" min="0" value="5">
+        </div>
 
-        <label>
-            Description
-        </label>
-
-        <textarea
-            id="description"
-            placeholder="Description du produit"
-        ></textarea>
-
-
-        <label>
-            Quantité
-        </label>
-
-        <input
-            id="quantite"
-            type="number"
-            value="0"
-            min="0"
-        >
-
-
-        <label>
-            Seuil d'alerte
-        </label>
-
-        <input
-            id="seuil"
-            type="number"
-            value="5"
-            min="0"
-        >
-
-
-        <label>
-            Prix unitaire
-        </label>
-
-        <input
-            id="prix"
-            type="number"
-            value="0"
-            min="0"
-            step="0.01"
-        >
-
+        <div class="field">
+            <label>Prix unitaire</label>
+            <input id="prix" type="number" min="0" step="0.01" value="0">
+        </div>
 
         <div class="modal-actions">
-
-            <button
-                class="primary"
-                onclick="ajouterProduit()"
-            >
+            <button class="primary" onclick="ajouterProduit()">
                 Ajouter
             </button>
 
-            <button
-                onclick="fermerModal()"
-            >
+            <button onclick="fermerModal()">
                 Annuler
             </button>
-
         </div>
 
     </div>
 
 </div>
 
-
 <script>
+const SUPABASE_URL = "https://xzmglqxcsrzivvkpemyt.supabase.co";
+const SUPABASE_KEY = "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
 
-/* =========================================
-   CONFIGURATION SUPABASE
-========================================= */
-
-const SUPABASE_URL =
-    "https://xzmglqxcsrzivvkpemyt.supabase.co";
-
-const SUPABASE_KEY =
-    "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
-
-
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
-
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 let produits = [];
 
+async function verifierConnexion() {
 
-/* =========================================
-   VERIFICATION DE LA CONNEXION
-========================================= */
-
-async function obtenirUtilisateur() {
-
-    const resultat =
+    const { data, error } =
         await supabaseClient.auth.getUser();
 
-    if (resultat.error) {
-
-        console.error(
-            "Erreur authentification :",
-            resultat.error
-        );
-
-        return null;
+    if (error || !data.user) {
+        window.location.href = "connexion.html";
+        return false;
     }
 
-    return resultat.data.user;
+    return true;
 }
-
-
-/* =========================================
-   CHARGER LES PRODUITS
-========================================= */
 
 async function chargerProduits() {
 
-    const resultat =
+    const connecte = await verifierConnexion();
+
+    if (!connecte) return;
+
+    const { data, error } =
         await supabaseClient
-            .from("stocks")
+            .from("Stocks")
             .select("*")
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
+            .order("created_at", { ascending: false });
 
+    if (error) {
 
-    if (resultat.error) {
+        console.error(error);
 
-        console.error(
-            "Erreur chargement :",
-            resultat.error
-        );
-
-        document.getElementById(
-            "products"
-        ).innerHTML = `
-            <div class="error-box">
-                <strong>Erreur Supabase</strong>
-                <br><br>
-                ${echapper(resultat.error.message)}
+        document.getElementById("products").innerHTML = `
+            <div class="empty">
+                <strong>Erreur Supabase</strong><br><br>
+                ${echapper(error.message)}
             </div>
         `;
 
         return;
     }
 
-
-    produits =
-        resultat.data || [];
-
+    produits = data || [];
 
     afficherProduits();
+    mettreAJourStats();
 }
-
-
-/* =========================================
-   AFFICHER LES PRODUITS
-========================================= */
 
 function afficherProduits() {
 
-    const recherche =
-        document
-            .getElementById("recherche")
-            .value
-            .toLowerCase();
-
-
-    const liste =
-        produits.filter(
-            produit =>
-                String(
-                    produit.nom || ""
-                )
-                .toLowerCase()
-                .includes(recherche)
-        );
-
-
     const container =
-        document.getElementById(
-            "products"
-        );
+        document.getElementById("products");
 
+    const recherche =
+        document.getElementById("recherche")
+            .value
+            .toLowerCase()
+            .trim();
 
-    if (liste.length === 0) {
+    const filtre =
+        document.getElementById("filtre").value;
+
+    const resultat =
+        produits.filter(produit => {
+
+            const nom =
+                (produit.nom || "").toLowerCase();
+
+            const correspondRecherche =
+                nom.includes(recherche);
+
+            const faible =
+                Number(produit.quantite) <=
+                Number(produit.seuil_alerte);
+
+            const correspondFiltre =
+                filtre === "tous" ||
+                (filtre === "faible" && faible) ||
+                (filtre === "normal" && !faible);
+
+            return correspondRecherche &&
+                   correspondFiltre;
+        });
+
+    if (resultat.length === 0) {
 
         container.innerHTML = `
             <div class="empty">
-                Aucun produit dans le stock.
+                Aucun produit trouvé.
             </div>
         `;
 
-    } else {
-
-        container.innerHTML =
-            liste.map(
-                produit => {
-
-                    const quantite =
-                        Number(
-                            produit.quantite || 0
-                        );
-
-
-                    const seuil =
-                        Number(
-                            produit.seuil_alerte || 0
-                        );
-
-
-                    const prix =
-                        Number(
-                            produit.prix_unitaire || 0
-                        );
-
-
-                    const stockFaible =
-                        quantite <= seuil;
-
-
-                    return `
-
-                        <div class="product">
-
-                            <h3>
-                                ${echapper(
-                                    produit.nom
-                                )}
-                            </h3>
-
-                            <p>
-                                ${echapper(
-                                    produit.description || ""
-                                )}
-                            </p>
-
-                            <div class="quantity ${
-                                stockFaible
-                                    ? "low"
-                                    : ""
-                            }">
-                                ${quantite}
-                            </div>
-
-                            <p>
-                                Prix unitaire :
-                                ${prix.toFixed(2)} €
-                            </p>
-
-                            ${
-                                stockFaible
-                                    ? `
-                                        <p class="low">
-                                            Stock faible
-                                        </p>
-                                      `
-                                    : ""
-                            }
-
-
-                            <div class="product-actions">
-
-                                <button
-                                    onclick="
-                                        modifierQuantite(
-                                            '${produit.id}',
-                                            1
-                                        )
-                                    "
-                                >
-                                    +1
-                                </button>
-
-
-                                <button
-                                    onclick="
-                                        modifierQuantite(
-                                            '${produit.id}',
-                                            -1
-                                        )
-                                    "
-                                >
-                                    -1
-                                </button>
-
-
-                                <button
-                                    class="danger"
-                                    onclick="
-                                        supprimerProduit(
-                                            '${produit.id}'
-                                        )
-                                    "
-                                >
-                                    Supprimer
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    `;
-
-                }
-            ).join("");
+        return;
     }
 
+    container.innerHTML =
+        resultat.map(produit => {
 
-    mettreAJourStatistiques();
+            const quantite =
+                Number(produit.quantite) || 0;
+
+            const seuil =
+                Number(produit.seuil_alerte) || 0;
+
+            const prix =
+                Number(produit.prix_unitaire) || 0;
+
+            const faible =
+                quantite <= seuil;
+
+            return `
+                <div class="product">
+
+                    <h3>
+                        ${echapper(produit.nom)}
+                    </h3>
+
+                    <div class="description">
+                        ${echapper(
+                            produit.description ||
+                            "Aucune description"
+                        )}
+                    </div>
+
+                    <div class="quantity ${faible ? "low" : ""}">
+                        ${quantite} unités
+                    </div>
+
+                    <div>
+                        Seuil : ${seuil}
+                    </div>
+
+                    <div class="price">
+                        ${prix.toFixed(2)} € / unité
+                    </div>
+
+                    <div class="actions">
+
+                        <button
+                            class="primary"
+                            onclick="modifierQuantite('${produit.id}', 1)"
+                        >
+                            +1
+                        </button>
+
+                        <button
+                            onclick="modifierQuantite('${produit.id}', -1)"
+                        >
+                            -1
+                        </button>
+
+                        <button
+                            class="danger"
+                            onclick="supprimerProduit('${produit.id}')"
+                        >
+                            Supprimer
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
 }
 
+function mettreAJourStats() {
 
-/* =========================================
-   STATISTIQUES
-========================================= */
-
-function mettreAJourStatistiques() {
-
-    const total =
+    const totalProduits =
         produits.length;
-
 
     const quantiteTotale =
         produits.reduce(
-            (
-                total,
-                produit
-            ) => {
-
-                return total +
-                    Number(
-                        produit.quantite || 0
-                    );
-
-            },
+            (total, produit) =>
+                total +
+                (Number(produit.quantite) || 0),
             0
         );
 
-
-    const stocksFaibles =
+    const stockFaible =
         produits.filter(
             produit =>
-                Number(
-                    produit.quantite || 0
-                )
-                <=
-                Number(
-                    produit.seuil_alerte || 0
-                )
+                Number(produit.quantite) <=
+                Number(produit.seuil_alerte)
         ).length;
 
-
-    const valeur =
+    const valeurStock =
         produits.reduce(
-            (
-                total,
-                produit
-            ) => {
-
-                return total +
-                    (
-                        Number(
-                            produit.quantite || 0
-                        )
-                        *
-                        Number(
-                            produit.prix_unitaire || 0
-                        )
-                    );
-
-            },
+            (total, produit) =>
+                total +
+                (
+                    (Number(produit.quantite) || 0) *
+                    (Number(produit.prix_unitaire) || 0)
+                ),
             0
         );
-
 
     document.getElementById(
         "totalProduits"
-    ).textContent =
-        total;
-
+    ).textContent = totalProduits;
 
     document.getElementById(
         "quantiteTotale"
-    ).textContent =
-        quantiteTotale;
-
+    ).textContent = quantiteTotale;
 
     document.getElementById(
-        "stocksFaibles"
-    ).textContent =
-        stocksFaibles;
-
+        "stockFaible"
+    ).textContent = stockFaible;
 
     document.getElementById(
         "valeurStock"
     ).textContent =
-        valeur.toFixed(2) + " €";
+        valeurStock.toFixed(2) + " €";
 }
-
-
-/* =========================================
-   AJOUTER UN PRODUIT
-========================================= */
 
 async function ajouterProduit() {
 
-    console.log(
-        "Tentative d'ajout d'un produit..."
-    );
-
-
-    /* Vérifier l'utilisateur */
-
-    const user =
-        await obtenirUtilisateur();
-
-
-    if (!user) {
-
-        alert(
-            "Tu dois être connecté avec Discord pour ajouter un produit."
-        );
-
-        window.location.href =
-            "connexion.html";
-
-        return;
-    }
-
-
-    console.log(
-        "Utilisateur connecté :",
-        user.id
-    );
-
-
-    /* Récupérer les valeurs */
-
     const nom =
-        document
-            .getElementById("nom")
+        document.getElementById("nom")
             .value
             .trim();
-
 
     const description =
-        document
-            .getElementById("description")
+        document.getElementById("description")
             .value
             .trim();
-
 
     const quantite =
         Number(
-            document
-                .getElementById("quantite")
-                .value
+            document.getElementById("quantite").value
         );
-
 
     const seuil =
         Number(
-            document
-                .getElementById("seuil")
-                .value
+            document.getElementById("seuil").value
         );
-
 
     const prix =
         Number(
-            document
-                .getElementById("prix")
-                .value
+            document.getElementById("prix").value
         );
-
-
-    /* Vérification */
 
     if (!nom) {
-
-        alert(
-            "Veuillez entrer le nom du produit."
-        );
-
+        alert("Entre le nom du produit.");
         return;
     }
 
+    const { data: userData } =
+        await supabaseClient.auth.getUser();
 
-    if (
-        !Number.isFinite(quantite) ||
-        !Number.isFinite(seuil) ||
-        !Number.isFinite(prix)
-    ) {
-
-        alert(
-            "Veuillez entrer des valeurs numériques valides."
-        );
-
+    if (!userData.user) {
+        window.location.href = "connexion.html";
         return;
     }
 
-
-    if (
-        quantite < 0 ||
-        seuil < 0 ||
-        prix < 0
-    ) {
-
-        alert(
-            "Les valeurs ne peuvent pas être négatives."
-        );
-
-        return;
-    }
-
-
-    /* =====================================
-       INSERTION SUPABASE
-    ===================================== */
-
-    const resultat =
+    const { data, error } =
         await supabaseClient
-            .from("stocks")
+            .from("Stocks")
             .insert({
-
                 nom: nom,
-
-                description:
-                    description || null,
-
-                quantite:
-                    quantite,
-
-                seuil_alerte:
-                    seuil,
-
-                prix_unitaire:
-                    prix,
-
-                entreprise_id:
-                    null
-
+                description: description || null,
+                quantite: quantite || 0,
+                seuil_alerte: seuil || 5,
+                prix_unitaire: prix || 0,
+                entreprise_id: null
             })
             .select()
             .single();
 
-
-    /* =====================================
-       ERREUR SUPABASE
-    ===================================== */
-
-    if (resultat.error) {
+    if (error) {
 
         console.error(
-            "ERREUR SUPABASE COMPLETE :",
-            resultat.error
+            "Erreur Supabase :",
+            error
         );
-
-
-        const erreur =
-            resultat.error;
-
 
         alert(
-            "Erreur lors de l'ajout du produit.\n\n"
-            +
-            "Message : "
-            +
-            (erreur.message || "inconnu")
-            +
-            "\n\nCode : "
-            +
-            (erreur.code || "inconnu")
-            +
-            "\n\nDétails : "
-            +
-            (erreur.details || "aucun")
-            +
-            "\n\nIndice : "
-            +
-            (erreur.hint || "aucun")
+            "Erreur Supabase :\n\n" +
+            error.message +
+            "\n\nCode : " +
+            (error.code || "inconnu")
         );
-
 
         return;
     }
 
-
-    /* =====================================
-       PRODUIT AJOUTÉ
-    ===================================== */
-
-    console.log(
-        "Produit ajouté avec succès :",
-        resultat.data
-    );
-
+    produits.unshift(data);
 
     fermerModal();
 
+    document.getElementById("nom").value = "";
+    document.getElementById("description").value = "";
+    document.getElementById("quantite").value = "0";
+    document.getElementById("seuil").value = "5";
+    document.getElementById("prix").value = "0";
 
-    document.getElementById(
-        "nom"
-    ).value = "";
-
-
-    document.getElementById(
-        "description"
-    ).value = "";
-
-
-    document.getElementById(
-        "quantite"
-    ).value = 0;
-
-
-    document.getElementById(
-        "seuil"
-    ).value = 5;
-
-
-    document.getElementById(
-        "prix"
-    ).value = 0;
-
-
-    await chargerProduits();
+    afficherProduits();
+    mettreAJourStats();
 }
 
-
-/* =========================================
-   MODIFIER LA QUANTITE
-========================================= */
-
-async function modifierQuantite(
-    id,
-    variation
-) {
+async function modifierQuantite(id, changement) {
 
     const produit =
         produits.find(
-            p => p.id === id
+            produit => produit.id === id
         );
 
-
-    if (!produit) {
-        return;
-    }
-
-
-    const ancienneQuantite =
-        Number(
-            produit.quantite || 0
-        );
-
+    if (!produit) return;
 
     const nouvelleQuantite =
         Math.max(
             0,
-            ancienneQuantite + variation
+            Number(produit.quantite) +
+            changement
         );
 
-
-    const resultat =
+    const { data, error } =
         await supabaseClient
-            .from("stocks")
+            .from("Stocks")
             .update({
-
-                quantite:
-                    nouvelleQuantite
-
+                quantite: nouvelleQuantite
             })
-            .eq(
-                "id",
-                id
-            );
+            .eq("id", id)
+            .select()
+            .single();
 
-
-    if (resultat.error) {
-
-        console.error(
-            "Erreur modification :",
-            resultat.error
-        );
-
+    if (error) {
 
         alert(
-            "Erreur lors de la modification :\n\n"
-            +
-            resultat.error.message
+            "Erreur Supabase :\n\n" +
+            error.message
         );
-
 
         return;
     }
 
+    const index =
+        produits.findIndex(
+            produit => produit.id === id
+        );
 
-    await chargerProduits();
+    produits[index] = data;
+
+    afficherProduits();
+    mettreAJourStats();
 }
 
+async function supprimerProduit(id) {
 
-/* =========================================
-   SUPPRIMER UN PRODUIT
-========================================= */
-
-async function supprimerProduit(
-    id
-) {
-
-    const confirmation =
-        confirm(
-            "Voulez-vous vraiment supprimer ce produit ?"
-        );
-
-
-    if (!confirmation) {
+    if (!confirm("Supprimer ce produit ?")) {
         return;
     }
 
-
-    const resultat =
+    const { error } =
         await supabaseClient
-            .from("stocks")
+            .from("Stocks")
             .delete()
-            .eq(
-                "id",
-                id
-            );
+            .eq("id", id);
 
-
-    if (resultat.error) {
-
-        console.error(
-            "Erreur suppression :",
-            resultat.error
-        );
-
+    if (error) {
 
         alert(
-            "Erreur lors de la suppression :\n\n"
-            +
-            resultat.error.message
+            "Erreur Supabase :\n\n" +
+            error.message
         );
-
 
         return;
     }
 
+    produits =
+        produits.filter(
+            produit => produit.id !== id
+        );
 
-    await chargerProduits();
+    afficherProduits();
+    mettreAJourStats();
 }
-
-
-/* =========================================
-   MODAL
-========================================= */
 
 function ouvrirModal() {
-
-    document.getElementById(
-        "modal"
-    ).style.display =
-        "flex";
+    document.getElementById("modal").style.display = "flex";
 }
-
 
 function fermerModal() {
-
-    document.getElementById(
-        "modal"
-    ).style.display =
-        "none";
+    document.getElementById("modal").style.display = "none";
 }
 
+function echapper(texte) {
 
-/* =========================================
-   SECURITE AFFICHAGE
-========================================= */
-
-function echapper(
-    texte
-) {
-
-    return String(
-        texte
-    )
-    .replaceAll(
-        "&",
-        "&amp;"
-    )
-    .replaceAll(
-        "<",
-        "&lt;"
-    )
-    .replaceAll(
-        ">",
-        "&gt;"
-    )
-    .replaceAll(
-        '"',
-        "&quot;"
-    )
-    .replaceAll(
-        "'",
-        "&#039;"
-    );
+    return String(texte)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
-
-
-/* =========================================
-   LANCEMENT
-========================================= */
 
 chargerProduits();
-
 </script>
 
 </body>
