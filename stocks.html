@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Neptune Legal — Stock</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -160,12 +161,13 @@ button {
     grid-column: 1 / -1;
 }
 
-.error {
+.error-box {
     background: #fee2e2;
     color: #991b1b;
     padding: 20px;
     border-radius: 12px;
     grid-column: 1 / -1;
+    word-break: break-word;
 }
 
 .modal {
@@ -212,15 +214,21 @@ button {
 <body>
 
 <header>
+
     <div class="logo">
         <img src="logo.png" alt="Neptune Legal">
         <span>Neptune Legal</span>
     </div>
 
-    <a href="entreprise-dashboard.html" class="back">
+    <a
+        href="entreprise-dashboard.html"
+        class="back"
+    >
         Retour au tableau de bord
     </a>
+
 </header>
+
 
 <div class="container">
 
@@ -229,6 +237,7 @@ button {
     <p class="subtitle">
         Gérez les produits et les quantités de votre entreprise.
     </p>
+
 
     <div class="stats">
 
@@ -254,13 +263,18 @@ button {
 
     </div>
 
+
     <div class="actions">
 
-        <button class="primary" onclick="ouvrirModal()">
+        <button
+            class="primary"
+            onclick="ouvrirModal()"
+        >
             Ajouter un produit
         </button>
 
     </div>
+
 
     <input
         id="recherche"
@@ -270,7 +284,11 @@ button {
         oninput="afficherProduits()"
     >
 
-    <div id="products" class="products">
+
+    <div
+        id="products"
+        class="products"
+    >
 
         <div class="empty">
             Chargement...
@@ -281,15 +299,21 @@ button {
 </div>
 
 
-<!-- MODAL AJOUT PRODUIT -->
+<!-- MODAL -->
 
-<div id="modal" class="modal">
+<div
+    id="modal"
+    class="modal"
+>
 
     <div class="modal-box">
 
         <h2>Ajouter un produit</h2>
 
-        <label>Nom du produit</label>
+
+        <label>
+            Nom du produit
+        </label>
 
         <input
             id="nom"
@@ -297,14 +321,20 @@ button {
             placeholder="Ex : Eau"
         >
 
-        <label>Description</label>
+
+        <label>
+            Description
+        </label>
 
         <textarea
             id="description"
             placeholder="Description du produit"
         ></textarea>
 
-        <label>Quantité</label>
+
+        <label>
+            Quantité
+        </label>
 
         <input
             id="quantite"
@@ -313,7 +343,10 @@ button {
             min="0"
         >
 
-        <label>Seuil d'alerte</label>
+
+        <label>
+            Seuil d'alerte
+        </label>
 
         <input
             id="seuil"
@@ -322,7 +355,10 @@ button {
             min="0"
         >
 
-        <label>Prix unitaire</label>
+
+        <label>
+            Prix unitaire
+        </label>
 
         <input
             id="prix"
@@ -331,6 +367,7 @@ button {
             min="0"
             step="0.01"
         >
+
 
         <div class="modal-actions">
 
@@ -341,7 +378,9 @@ button {
                 Ajouter
             </button>
 
-            <button onclick="fermerModal()">
+            <button
+                onclick="fermerModal()"
+            >
                 Annuler
             </button>
 
@@ -354,9 +393,9 @@ button {
 
 <script>
 
-/* ==========================================
-   SUPABASE
-========================================== */
+/* =========================================
+   CONFIGURATION SUPABASE
+========================================= */
 
 const SUPABASE_URL =
     "https://xzmglqxcsrzivvkpemyt.supabase.co";
@@ -364,88 +403,90 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
 
+
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
 
+
 let produits = [];
 
 
-/* ==========================================
-   VERIFIER LA CONNEXION
-========================================== */
+/* =========================================
+   VERIFICATION DE LA CONNEXION
+========================================= */
 
-async function verifierConnexion() {
+async function obtenirUtilisateur() {
 
-    const {
-        data: { user },
-        error
-    } = await supabaseClient.auth.getUser();
+    const resultat =
+        await supabaseClient.auth.getUser();
 
-    if (error) {
+    if (resultat.error) {
 
         console.error(
             "Erreur authentification :",
-            error
+            resultat.error
         );
 
         return null;
     }
 
-    return user;
+    return resultat.data.user;
 }
 
 
-/* ==========================================
+/* =========================================
    CHARGER LES PRODUITS
-========================================== */
+========================================= */
 
 async function chargerProduits() {
 
-    const {
-        data,
-        error
-    } = await supabaseClient
-        .from("stocks")
-        .select("*")
-        .order(
-            "created_at",
-            {
-                ascending: false
-            }
-        );
+    const resultat =
+        await supabaseClient
+            .from("stocks")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
 
-    if (error) {
+
+    if (resultat.error) {
 
         console.error(
-            "Erreur chargement stocks :",
-            error
+            "Erreur chargement :",
+            resultat.error
         );
 
         document.getElementById(
             "products"
         ).innerHTML = `
-            <div class="error">
-                <strong>Impossible de charger le stock.</strong>
+            <div class="error-box">
+                <strong>Erreur Supabase</strong>
                 <br><br>
-                ${echapper(error.message)}
+                ${echapper(resultat.error.message)}
             </div>
         `;
 
         return;
     }
 
-    produits = data || [];
+
+    produits =
+        resultat.data || [];
+
 
     afficherProduits();
 }
 
 
-/* ==========================================
+/* =========================================
    AFFICHER LES PRODUITS
-========================================== */
+========================================= */
 
 function afficherProduits() {
 
@@ -455,13 +496,17 @@ function afficherProduits() {
             .value
             .toLowerCase();
 
+
     const liste =
         produits.filter(
             produit =>
-                (produit.nom || "")
-                    .toLowerCase()
-                    .includes(recherche)
+                String(
+                    produit.nom || ""
+                )
+                .toLowerCase()
+                .includes(recherche)
         );
+
 
     const container =
         document.getElementById(
@@ -488,21 +533,25 @@ function afficherProduits() {
                             produit.quantite || 0
                         );
 
+
                     const seuil =
                         Number(
                             produit.seuil_alerte || 0
                         );
+
 
                     const prix =
                         Number(
                             produit.prix_unitaire || 0
                         );
 
-                    const faible =
+
+                    const stockFaible =
                         quantite <= seuil;
 
 
                     return `
+
                         <div class="product">
 
                             <h3>
@@ -518,7 +567,9 @@ function afficherProduits() {
                             </p>
 
                             <div class="quantity ${
-                                faible ? "low" : ""
+                                stockFaible
+                                    ? "low"
+                                    : ""
                             }">
                                 ${quantite}
                             </div>
@@ -529,16 +580,15 @@ function afficherProduits() {
                             </p>
 
                             ${
-                                faible
-                                ?
-                                `
-                                <p class="low">
-                                    Stock faible
-                                </p>
-                                `
-                                :
-                                ""
+                                stockFaible
+                                    ? `
+                                        <p class="low">
+                                            Stock faible
+                                        </p>
+                                      `
+                                    : ""
                             }
+
 
                             <div class="product-actions">
 
@@ -553,6 +603,7 @@ function afficherProduits() {
                                     +1
                                 </button>
 
+
                                 <button
                                     onclick="
                                         modifierQuantite(
@@ -563,6 +614,7 @@ function afficherProduits() {
                                 >
                                     -1
                                 </button>
+
 
                                 <button
                                     class="danger"
@@ -578,38 +630,46 @@ function afficherProduits() {
                             </div>
 
                         </div>
+
                     `;
+
                 }
             ).join("");
     }
 
-    mettreAJourStats();
+
+    mettreAJourStatistiques();
 }
 
 
-/* ==========================================
+/* =========================================
    STATISTIQUES
-========================================== */
+========================================= */
 
-function mettreAJourStats() {
+function mettreAJourStatistiques() {
 
     const total =
         produits.length;
 
-    const quantite =
+
+    const quantiteTotale =
         produits.reduce(
             (
-                somme,
+                total,
                 produit
-            ) =>
-                somme +
-                Number(
-                    produit.quantite || 0
-                ),
+            ) => {
+
+                return total +
+                    Number(
+                        produit.quantite || 0
+                    );
+
+            },
             0
         );
 
-    const faibles =
+
+    const stocksFaibles =
         produits.filter(
             produit =>
                 Number(
@@ -621,22 +681,26 @@ function mettreAJourStats() {
                 )
         ).length;
 
+
     const valeur =
         produits.reduce(
             (
-                somme,
+                total,
                 produit
-            ) =>
-                somme +
-                (
-                    Number(
-                        produit.quantite || 0
-                    )
-                    *
-                    Number(
-                        produit.prix_unitaire || 0
-                    )
-                ),
+            ) => {
+
+                return total +
+                    (
+                        Number(
+                            produit.quantite || 0
+                        )
+                        *
+                        Number(
+                            produit.prix_unitaire || 0
+                        )
+                    );
+
+            },
             0
         );
 
@@ -650,13 +714,13 @@ function mettreAJourStats() {
     document.getElementById(
         "quantiteTotale"
     ).textContent =
-        quantite;
+        quantiteTotale;
 
 
     document.getElementById(
         "stocksFaibles"
     ).textContent =
-        faibles;
+        stocksFaibles;
 
 
     document.getElementById(
@@ -666,16 +730,21 @@ function mettreAJourStats() {
 }
 
 
-/* ==========================================
+/* =========================================
    AJOUTER UN PRODUIT
-========================================== */
+========================================= */
 
 async function ajouterProduit() {
 
-    /* Vérifier la connexion */
+    console.log(
+        "Tentative d'ajout d'un produit..."
+    );
+
+
+    /* Vérifier l'utilisateur */
 
     const user =
-        await verifierConnexion();
+        await obtenirUtilisateur();
 
 
     if (!user) {
@@ -691,7 +760,13 @@ async function ajouterProduit() {
     }
 
 
-    /* Récupérer les champs */
+    console.log(
+        "Utilisateur connecté :",
+        user.id
+    );
+
+
+    /* Récupérer les valeurs */
 
     const nom =
         document
@@ -731,12 +806,26 @@ async function ajouterProduit() {
         );
 
 
-    /* Vérifications */
+    /* Vérification */
 
     if (!nom) {
 
         alert(
             "Veuillez entrer le nom du produit."
+        );
+
+        return;
+    }
+
+
+    if (
+        !Number.isFinite(quantite) ||
+        !Number.isFinite(seuil) ||
+        !Number.isFinite(prix)
+    ) {
+
+        alert(
+            "Veuillez entrer des valeurs numériques valides."
         );
 
         return;
@@ -757,72 +846,90 @@ async function ajouterProduit() {
     }
 
 
-    /* Insérer dans Supabase */
+    /* =====================================
+       INSERTION SUPABASE
+    ===================================== */
 
-    const {
-        data,
-        error
-    } = await supabaseClient
-        .from("stocks")
-        .insert({
+    const resultat =
+        await supabaseClient
+            .from("stocks")
+            .insert({
 
-            nom: nom,
+                nom: nom,
 
-            description:
-                description || null,
+                description:
+                    description || null,
 
-            quantite:
-                quantite,
+                quantite:
+                    quantite,
 
-            seuil_alerte:
-                seuil,
+                seuil_alerte:
+                    seuil,
 
-            prix_unitaire:
-                prix,
+                prix_unitaire:
+                    prix,
 
-            entreprise_id:
-                null
+                entreprise_id:
+                    null
 
-        })
-        .select()
-        .single();
+            })
+            .select()
+            .single();
 
 
-    /* Gestion de l'erreur */
+    /* =====================================
+       ERREUR SUPABASE
+    ===================================== */
 
-    if (error) {
+    if (resultat.error) {
 
         console.error(
-            "Erreur Supabase :",
-            error
+            "ERREUR SUPABASE COMPLETE :",
+            resultat.error
         );
 
+
+        const erreur =
+            resultat.error;
+
+
         alert(
-            "Erreur lors de l'ajout du produit :\n\n"
+            "Erreur lors de l'ajout du produit.\n\n"
             +
-            error.message
+            "Message : "
+            +
+            (erreur.message || "inconnu")
             +
             "\n\nCode : "
             +
-            (error.code || "inconnu")
+            (erreur.code || "inconnu")
+            +
+            "\n\nDétails : "
+            +
+            (erreur.details || "aucun")
+            +
+            "\n\nIndice : "
+            +
+            (erreur.hint || "aucun")
         );
+
 
         return;
     }
 
 
+    /* =====================================
+       PRODUIT AJOUTÉ
+    ===================================== */
+
     console.log(
-        "Produit ajouté :",
-        data
+        "Produit ajouté avec succès :",
+        resultat.data
     );
 
 
-    /* Fermer la fenêtre */
-
     fermerModal();
 
-
-    /* Réinitialiser les champs */
 
     document.getElementById(
         "nom"
@@ -849,15 +956,13 @@ async function ajouterProduit() {
     ).value = 0;
 
 
-    /* Recharger le stock */
-
     await chargerProduits();
 }
 
 
-/* ==========================================
+/* =========================================
    MODIFIER LA QUANTITE
-========================================== */
+========================================= */
 
 async function modifierQuantite(
     id,
@@ -875,45 +980,48 @@ async function modifierQuantite(
     }
 
 
+    const ancienneQuantite =
+        Number(
+            produit.quantite || 0
+        );
+
+
     const nouvelleQuantite =
         Math.max(
             0,
-            Number(
-                produit.quantite || 0
-            )
-            +
-            variation
+            ancienneQuantite + variation
         );
 
 
-    const {
-        error
-    } = await supabaseClient
-        .from("stocks")
-        .update({
+    const resultat =
+        await supabaseClient
+            .from("stocks")
+            .update({
 
-            quantite:
-                nouvelleQuantite
+                quantite:
+                    nouvelleQuantite
 
-        })
-        .eq(
-            "id",
-            id
-        );
+            })
+            .eq(
+                "id",
+                id
+            );
 
 
-    if (error) {
+    if (resultat.error) {
 
         console.error(
             "Erreur modification :",
-            error
+            resultat.error
         );
 
+
         alert(
-            "Impossible de modifier la quantité :\n\n"
+            "Erreur lors de la modification :\n\n"
             +
-            error.message
+            resultat.error.message
         );
+
 
         return;
     }
@@ -923,9 +1031,9 @@ async function modifierQuantite(
 }
 
 
-/* ==========================================
-   SUPPRIMER
-========================================== */
+/* =========================================
+   SUPPRIMER UN PRODUIT
+========================================= */
 
 async function supprimerProduit(
     id
@@ -942,29 +1050,30 @@ async function supprimerProduit(
     }
 
 
-    const {
-        error
-    } = await supabaseClient
-        .from("stocks")
-        .delete()
-        .eq(
-            "id",
-            id
-        );
+    const resultat =
+        await supabaseClient
+            .from("stocks")
+            .delete()
+            .eq(
+                "id",
+                id
+            );
 
 
-    if (error) {
+    if (resultat.error) {
 
         console.error(
             "Erreur suppression :",
-            error
+            resultat.error
         );
 
+
         alert(
-            "Impossible de supprimer le produit :\n\n"
+            "Erreur lors de la suppression :\n\n"
             +
-            error.message
+            resultat.error.message
         );
+
 
         return;
     }
@@ -974,9 +1083,9 @@ async function supprimerProduit(
 }
 
 
-/* ==========================================
+/* =========================================
    MODAL
-========================================== */
+========================================= */
 
 function ouvrirModal() {
 
@@ -996,9 +1105,9 @@ function fermerModal() {
 }
 
 
-/* ==========================================
-   PROTECTION AFFICHAGE
-========================================== */
+/* =========================================
+   SECURITE AFFICHAGE
+========================================= */
 
 function echapper(
     texte
@@ -1030,9 +1139,9 @@ function echapper(
 }
 
 
-/* ==========================================
-   DEMARRAGE
-========================================== */
+/* =========================================
+   LANCEMENT
+========================================= */
 
 chargerProduits();
 
