@@ -364,8 +364,8 @@
             >
 
             <div class="help">
-                Le document sera enregistré comme pièce jointe
-                dans votre candidature.
+                La gestion des pièces jointes sera ajoutée
+                prochainement.
             </div>
 
         </div>
@@ -517,22 +517,10 @@ async function chargerEntreprises() {
             });
 
 
-    console.log(
-        "Entreprises chargées :",
-        data
-    );
-
-
-    console.log(
-        "Erreur Entreprises :",
-        error
-    );
-
-
     if (error) {
 
         console.error(
-            "Erreur complète :",
+            "Erreur Entreprises :",
             error
         );
 
@@ -546,8 +534,7 @@ async function chargerEntreprises() {
 
 
         afficherMessage(
-            "Impossible de charger les entreprises. " +
-            "Erreur Supabase : " +
+            "Impossible de charger les entreprises : " +
             error.message,
             "error"
         );
@@ -634,12 +621,6 @@ async function envoyerCandidature() {
         ).value.trim();
 
 
-    const fichier =
-        document.getElementById(
-            "document"
-        ).files[0];
-
-
     if (!utilisateurActuel) {
 
         afficherMessage(
@@ -696,11 +677,13 @@ async function envoyerCandidature() {
     );
 
 
-    const documentNom =
-        fichier
-            ? fichier.name
-            : null;
+    /*
+       IMPORTANT :
 
+       On n'envoie PAS de colonne "document"
+       car cette colonne n'existe pas encore
+       dans la table candidatures.
+    */
 
     const {
         error
@@ -717,9 +700,6 @@ async function envoyerCandidature() {
 
                 motivation:
                     motivation,
-
-                document:
-                    documentNom,
 
                 statut:
                     "en_attente"
