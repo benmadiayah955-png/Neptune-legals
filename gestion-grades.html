@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Gestion des grades — Neptune Legal</title>
-
-<style>
+<!DOCTYPE html><html lang="fr">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Gestion des grades — Neptune Legal</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
 
 * {
     box-sizing: border-box;
@@ -18,30 +11,16 @@
 
 body {
     min-height: 100vh;
-
     background:
-        radial-gradient(
-            circle at top right,
-            rgba(199,139,228,.15),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at top left,
-            rgba(122,202,237,.12),
-            transparent 30%
-        ),
+        radial-gradient(circle at top right, rgba(199,139,228,.15), transparent 30%),
+        radial-gradient(circle at top left, rgba(122,202,237,.12), transparent 30%),
         #0b1020;
-
     color: #ffffff;
 }
 
 header {
     background: rgba(17,24,45,.96);
-
-    color: white;
-
     padding: 22px 18px 30px;
-
     border-bottom: 1px solid #26304d;
     border-radius: 0 0 30px 30px;
 }
@@ -55,15 +34,7 @@ header {
 .logo {
     font-size: 21px;
     font-weight: bold;
-
-    background: linear-gradient(
-        90deg,
-        #7ACAED,
-        #58A3DD,
-        #C78BE4,
-        #D1A6F1
-    );
-
+    background: linear-gradient(90deg,#7ACAED,#58A3DD,#C78BE4,#D1A6F1);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -71,25 +42,12 @@ header {
 
 .back {
     color: #7ACAED;
-
     text-decoration: none;
-
     background: rgba(122,202,237,.10);
-
     border: 1px solid rgba(122,202,237,.20);
-
     padding: 9px 13px;
-
     border-radius: 12px;
-
     font-size: 13px;
-
-    transition: .2s;
-}
-
-.back:hover {
-    background: rgba(122,202,237,.18);
-    color: #D1A6F1;
 }
 
 header h1 {
@@ -108,23 +66,19 @@ header p {
     padding: 20px;
 }
 
-.info {
-    background: linear-gradient(
-        145deg,
-        #11182d,
-        #0e1426
-    );
-
+.info,
+.grade,
+.empty,
+.loading,
+.error {
+    background: linear-gradient(145deg,#11182d,#0e1426);
     border: 1px solid #26304d;
-
-    padding: 18px;
-
     border-radius: 18px;
+}
 
+.info {
+    padding: 18px;
     margin-bottom: 18px;
-
-    box-shadow:
-        0 8px 25px rgba(0,0,0,.18);
 }
 
 .info strong {
@@ -133,44 +87,20 @@ header p {
 
 .info p {
     margin-top: 6px;
-
     color: #9aa8c2;
-
     font-size: 12px;
 }
 
 .add {
     width: 100%;
-
     margin-bottom: 18px;
-
     border: 1px solid rgba(122,202,237,.20);
-
     padding: 14px;
-
     border-radius: 13px;
-
-    background: linear-gradient(
-        135deg,
-        #58A3DD,
-        #7ACAED,
-        #C78BE4
-    );
-
+    background: linear-gradient(135deg,#58A3DD,#7ACAED,#C78BE4);
     color: white;
-
     font-weight: bold;
-
     cursor: pointer;
-
-    transition: .2s;
-}
-
-.add:hover {
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 10px 25px rgba(88,163,221,.18);
 }
 
 .grades {
@@ -179,67 +109,32 @@ header p {
 }
 
 .grade {
-    background: linear-gradient(
-        145deg,
-        #11182d,
-        #0e1426
-    );
-
-    border: 1px solid #26304d;
-
     padding: 19px;
-
-    border-radius: 20px;
-
-    box-shadow:
-        0 8px 25px rgba(0,0,0,.18);
-
-    transition: .2s;
-}
-
-.grade:hover {
-    border-color: rgba(122,202,237,.35);
+    box-shadow: 0 8px 25px rgba(0,0,0,.18);
 }
 
 .grade-head {
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
     gap: 10px;
 }
 
 .grade-title {
     display: flex;
-
     align-items: center;
-
     gap: 11px;
 }
 
 .number {
     width: 35px;
     height: 35px;
-
     border-radius: 12px;
-
-    background: linear-gradient(
-        135deg,
-        #7ACAED,
-        #58A3DD,
-        #C78BE4
-    );
-
+    background: linear-gradient(135deg,#7ACAED,#58A3DD,#C78BE4);
     color: white;
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
     font-weight: bold;
 }
 
@@ -249,65 +144,45 @@ header p {
 
 .grade-title span {
     display: block;
-
     margin-top: 3px;
-
     color: #7f8da8;
-
     font-size: 11px;
 }
 
 .badge {
     padding: 6px 10px;
-
     border-radius: 20px;
-
     background: rgba(122,202,237,.10);
-
     border: 1px solid rgba(122,202,237,.18);
-
     color: #7ACAED;
-
     font-size: 10px;
-
     font-weight: bold;
 }
 
 .details {
     display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
+    grid-template-columns: repeat(3,1fr);
     gap: 10px;
-
     margin-top: 15px;
 }
 
 .detail {
     background: #0b1020;
-
     border: 1px solid #26304d;
-
     padding: 11px;
-
     border-radius: 11px;
 }
 
 .detail span {
     display: block;
-
     color: #7f8da8;
-
     font-size: 10px;
 }
 
 .detail strong {
     display: block;
-
     margin-top: 4px;
-
     color: #ffffff;
-
     font-size: 13px;
 }
 
@@ -317,123 +192,86 @@ header p {
 
 .permissions-title {
     font-size: 12px;
-
     font-weight: bold;
-
     margin-bottom: 8px;
 }
 
 .permission-list {
     display: flex;
-
     flex-wrap: wrap;
-
     gap: 7px;
 }
 
 .permission {
     background: rgba(199,139,228,.10);
-
     border: 1px solid rgba(199,139,228,.16);
-
     color: #D1A6F1;
-
     padding: 6px 9px;
-
     border-radius: 20px;
-
     font-size: 10px;
 }
 
 .actions {
     display: flex;
-
     gap: 8px;
-
     margin-top: 15px;
-
     flex-wrap: wrap;
 }
 
 button {
     border: none;
-
     padding: 10px 13px;
-
     border-radius: 11px;
-
     cursor: pointer;
-
     font-weight: bold;
-
-    transition: .2s;
-}
-
-button:hover {
-    transform: translateY(-1px);
 }
 
 .secondary {
     background: rgba(88,163,221,.10);
-
     border: 1px solid rgba(88,163,221,.20);
-
     color: #7ACAED;
 }
 
 .danger {
     background: rgba(224,82,82,.10);
-
     border: 1px solid rgba(224,82,82,.20);
+    color: #ff7777;
+}
 
+.empty,
+.loading,
+.error {
+    padding: 35px 20px;
+    text-align: center;
+    color: #9aa8c2;
+}
+
+.error {
     color: #ff7777;
 }
 
 .modal {
     display: none;
-
     position: fixed;
-
     inset: 0;
-
     background: rgba(3,7,18,.78);
-
     backdrop-filter: blur(5px);
-
     padding: 20px;
-
     align-items: center;
-
     justify-content: center;
-
     z-index: 10;
 }
 
 .modal-box {
-    background: linear-gradient(
-        145deg,
-        #11182d,
-        #0e1426
-    );
-
+    background: linear-gradient(145deg,#11182d,#0e1426);
     border: 1px solid #26304d;
-
     color: white;
-
     width: 100%;
-
     max-width: 500px;
-
     max-height: 90vh;
-
     overflow-y: auto;
-
     border-radius: 22px;
-
     padding: 22px;
-
-    box-shadow:
-        0 20px 60px rgba(0,0,0,.45);
 }
 
 .modal-box h2 {
@@ -446,52 +284,30 @@ button:hover {
 
 .field label {
     display: block;
-
     margin-bottom: 6px;
-
     font-size: 12px;
-
     font-weight: bold;
 }
 
 .field input,
 .field select {
     width: 100%;
-
     padding: 12px;
-
     background: #0b1020;
-
     color: #ffffff;
-
     border: 1px solid #26304d;
-
     border-radius: 11px;
-
     outline: none;
-}
-
-.field input:focus,
-.field select:focus {
-    border-color: #7ACAED;
-}
-
-.field input::placeholder {
-    color: #68758d;
 }
 
 .check {
     display: flex !important;
-
     align-items: center;
-
     gap: 8px;
-
     margin: 9px 0;
-
     color: #cbd5e6;
-
     font-size: 12px !important;
+    font-weight: normal !important;
 }
 
 .check input {
@@ -500,9 +316,7 @@ button:hover {
 
 .modal-actions {
     display: flex;
-
     gap: 9px;
-
     margin-top: 18px;
 }
 
@@ -511,143 +325,343 @@ button:hover {
 }
 
 .primary {
-    background: linear-gradient(
-        135deg,
-        #58A3DD,
-        #7ACAED,
-        #C78BE4
-    );
-
+    background: linear-gradient(135deg,#58A3DD,#7ACAED,#C78BE4);
     color: white;
 }
 
-@media (min-width:700px) {
+</style></head><body><header><div class="top">
 
-    .grades {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .details {
-        grid-template-columns: repeat(3,1fr);
-    }
-
-}
-
-@media (max-width:600px) {
-
-    .top {
-        gap: 10px;
-    }
-
-    .logo {
-        font-size: 18px;
-    }
-
-    .back {
-        font-size: 12px;
-    }
-
-    header h1 {
-        font-size: 24px;
-    }
-
-}
-
-</style>
-</head>
-
-<body>
-
-<header>
-
-    <div class="top">
-
-        <div class="logo">
-            NEPTUNE LEGAL
-        </div>
-
-        <a href="entreprise-dashboard.html" class="back">
-            ← Tableau de bord
-        </a>
-
+    <div class="logo">
+        NEPTUNE LEGAL
     </div>
 
-    <h1>Gestion des grades</h1>
+    <a href="entreprise-dashboard.html" class="back">
+        ← Tableau de bord
+    </a>
+
+</div>
+
+<h1>Gestion des grades</h1>
+
+<p>
+    Organisez la hiérarchie et les permissions de votre entreprise.
+</p>
+
+</header><div class="container"><div class="info">
+
+    <strong>
+        Hiérarchie de l'entreprise
+    </strong>
 
     <p>
-        Organisez la hiérarchie et les permissions de votre entreprise.
+        Le grade placé en premier possède le niveau hiérarchique
+        le plus élevé.
     </p>
 
-</header>
+</div>
 
+<button class="add" onclick="ouvrirModal()">
+    + Créer un nouveau grade
+</button>
 
-<div class="container">
+<div class="grades" id="grades">
+    <div class="loading">
+        Chargement des grades...
+    </div>
+</div>
 
-    <div class="info">
+</div><div class="modal" id="modal"><div class="modal-box">
 
-        <strong>
-            Hiérarchie de l'entreprise
-        </strong>
+    <h2 id="modalTitle">
+        Créer un grade
+    </h2>
 
-        <p>
-            Le grade placé en premier possède le niveau hiérarchique
-            le plus élevé.
-        </p>
+    <div class="field">
+
+        <label>Nom du grade</label>
+
+        <input
+            id="gradeNom"
+            type="text"
+            placeholder="Ex : Directeur adjoint"
+        >
 
     </div>
 
+    <div class="field">
 
-    <button class="add" onclick="ouvrirModal()">
-        + Créer un nouveau grade
-    </button>
+        <label>Description</label>
+
+        <input
+            id="gradeDescription"
+            type="text"
+            placeholder="Description du grade"
+        >
+
+    </div>
+
+    <div class="field">
+
+        <label>Salaire</label>
+
+        <input
+            id="gradeSalaire"
+            type="number"
+            min="0"
+            placeholder="Ex : 1500"
+        >
+
+    </div>
+
+    <div class="field">
+
+        <label>Niveau</label>
+
+        <input
+            id="gradeNiveau"
+            type="number"
+            min="1"
+            value="1"
+        >
+
+    </div>
+
+    <div class="field">
+
+        <label>Type</label>
+
+        <select id="gradeType">
+
+            <option value="Direction">Direction</option>
+            <option value="Management">Management</option>
+            <option value="Personnel">Personnel</option>
+            <option value="Débutant">Débutant</option>
+
+        </select>
+
+    </div>
+
+    <div class="field">
+
+        <label>Permissions</label>
+
+        <label class="check">
+            <input type="checkbox" value="Gérer employés">
+            Gérer les employés
+        </label>
+
+        <label class="check">
+            <input type="checkbox" value="Gérer grades">
+            Gérer les grades
+        </label>
+
+        <label class="check">
+            <input type="checkbox" value="Recruter">
+            Recruter
+        </label>
+
+        <label class="check">
+            <input type="checkbox" value="Gérer stocks">
+            Gérer les stocks
+        </label>
+
+        <label class="check">
+            <input type="checkbox" value="Gérer ventes">
+            Gérer les ventes
+        </label>
+
+        <label class="check">
+            <input type="checkbox" value="Gérer finances">
+            Gérer les finances
+        </label>
+
+    </div>
+
+    <div class="modal-actions">
+
+        <button
+            class="secondary"
+            onclick="fermerModal()">
+            Annuler
+        </button>
+
+        <button
+            class="primary"
+            onclick="enregistrerGrade()">
+            Enregistrer
+        </button>
+
+    </div>
+
+</div>
+
+</div><script>
+
+const SUPABASE_URL =
+    "https://xzmglqxcsrzivvkpemyt.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+let gradeEnModification = null;
 
 
-    <div class="grades" id="grades">
+async function chargerGrades() {
 
+    const container =
+        document.getElementById("grades");
 
-        <div class="grade" data-name="Gérant">
+    container.innerHTML =
+        '<div class="loading">Chargement des grades...</div>';
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("grades")
+        .select("*")
+        .order("niveau", {
+            ascending: true
+        })
+        .order("created_at", {
+            ascending: true
+        });
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="error">
+                Erreur lors du chargement des grades.<br><br>
+                ${escapeHtml(error.message)}
+            </div>
+        `;
+
+        return;
+    }
+
+    if (!data || data.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty">
+                Aucun grade enregistré pour le moment.
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = "";
+
+    data.forEach((grade, index) => {
+
+        const permissions =
+            Array.isArray(grade.permissions)
+                ? grade.permissions
+                : [];
+
+        const niveau =
+            Number(grade.niveau || index + 1);
+
+        const salaire =
+            Number(grade.salaire || 0);
+
+        const carte =
+            document.createElement("div");
+
+        carte.className = "grade";
+
+        let permissionsHTML =
+            permissions.length > 0
+                ? permissions.map(permission => `
+                    <span class="permission">
+                        ${escapeHtml(permission)}
+                    </span>
+                `).join("")
+                : `
+                    <span class="permission">
+                        Aucune permission
+                    </span>
+                `;
+
+        carte.innerHTML = `
 
             <div class="grade-head">
 
                 <div class="grade-title">
 
                     <div class="number">
-                        1
+                        ${index + 1}
                     </div>
 
                     <div>
-                        <strong>Gérant</strong>
-                        <span>Direction de l'entreprise</span>
+                        <strong>
+                            ${escapeHtml(grade.nom)}
+                        </strong>
+
+                        <span>
+                            ${escapeHtml(
+                                grade.description ||
+                                "Aucune description"
+                            )}
+                        </span>
+
                     </div>
 
                 </div>
 
                 <div class="badge">
-                    Direction
+                    ${escapeHtml(grade.type || "Personnel")}
                 </div>
 
             </div>
-
 
             <div class="details">
 
                 <div class="detail">
-                    <span>Employés</span>
-                    <strong>1</strong>
+
+                    <span>
+                        Niveau
+                    </span>
+
+                    <strong>
+                        ${niveau}
+                    </strong>
+
                 </div>
 
                 <div class="detail">
-                    <span>Salaire</span>
-                    <strong>2 500 €</strong>
+
+                    <span>
+                        Salaire
+                    </span>
+
+                    <strong>
+                        ${salaire.toLocaleString("fr-FR")} €
+                    </strong>
+
                 </div>
 
                 <div class="detail">
-                    <span>Niveau</span>
-                    <strong>1 / 5</strong>
+
+                    <span>
+                        Employés
+                    </span>
+
+                    <strong>
+                        Non défini
+                    </strong>
+
                 </div>
 
             </div>
-
 
             <div class="permissions">
 
@@ -656,446 +670,101 @@ button:hover {
                 </div>
 
                 <div class="permission-list">
-
-                    <span class="permission">
-                        Gérer employés
-                    </span>
-
-                    <span class="permission">
-                        Gérer grades
-                    </span>
-
-                    <span class="permission">
-                        Gérer finances
-                    </span>
-
-                    <span class="permission">
-                        Recruter
-                    </span>
-
-                    <span class="permission">
-                        Gérer stocks
-                    </span>
-
+                    ${permissionsHTML}
                 </div>
 
             </div>
-
 
             <div class="actions">
 
                 <button
                     class="secondary"
-                    onclick="modifier('Gérant')">
+                    onclick="modifierGrade('${grade.id}')">
                     Modifier
                 </button>
 
-                <button
-                    class="secondary"
-                    onclick="descendre('Gérant')">
-                    ↓ Descendre
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="grade" data-name="Responsable">
-
-            <div class="grade-head">
-
-                <div class="grade-title">
-
-                    <div class="number">
-                        2
-                    </div>
-
-                    <div>
-                        <strong>Responsable</strong>
-                        <span>Encadrement</span>
-                    </div>
-
-                </div>
-
-                <div class="badge">
-                    Management
-                </div>
-
-            </div>
-
-
-            <div class="details">
-
-                <div class="detail">
-                    <span>Employés</span>
-                    <strong>2</strong>
-                </div>
-
-                <div class="detail">
-                    <span>Salaire</span>
-                    <strong>1 800 €</strong>
-                </div>
-
-                <div class="detail">
-                    <span>Niveau</span>
-                    <strong>2 / 5</strong>
-                </div>
-
-            </div>
-
-
-            <div class="permissions">
-
-                <div class="permissions-title">
-                    Permissions
-                </div>
-
-                <div class="permission-list">
-
-                    <span class="permission">
-                        Gérer employés
-                    </span>
-
-                    <span class="permission">
-                        Recruter
-                    </span>
-
-                    <span class="permission">
-                        Gérer stocks
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="actions">
-
-                <button
-                    class="secondary"
-                    onclick="modifier('Responsable')">
-                    Modifier
-                </button>
-
-                <button
-                    class="secondary"
-                    onclick="monter('Responsable')">
-                    ↑ Monter
-                </button>
-
-                <button
-                    class="secondary"
-                    onclick="descendre('Responsable')">
-                    ↓ Descendre
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="grade" data-name="Employé">
-
-            <div class="grade-head">
-
-                <div class="grade-title">
-
-                    <div class="number">
-                        3
-                    </div>
-
-                    <div>
-                        <strong>Employé</strong>
-                        <span>Personnel standard</span>
-                    </div>
-
-                </div>
-
-                <div class="badge">
-                    Personnel
-                </div>
-
-            </div>
-
-
-            <div class="details">
-
-                <div class="detail">
-                    <span>Employés</span>
-                    <strong>8</strong>
-                </div>
-
-                <div class="detail">
-                    <span>Salaire</span>
-                    <strong>1 200 €</strong>
-                </div>
-
-                <div class="detail">
-                    <span>Niveau</span>
-                    <strong>3 / 5</strong>
-                </div>
-
-            </div>
-
-
-            <div class="permissions">
-
-                <div class="permissions-title">
-                    Permissions
-                </div>
-
-                <div class="permission-list">
-
-                    <span class="permission">
-                        Accès service
-                    </span>
-
-                    <span class="permission">
-                        Enregistrer ventes
-                    </span>
-
-                    <span class="permission">
-                        Consulter stocks
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="actions">
-
-                <button
-                    class="secondary"
-                    onclick="modifier('Employé')">
-                    Modifier
-                </button>
-
-                <button
-                    class="secondary"
-                    onclick="monter('Employé')">
-                    ↑ Monter
-                </button>
-
-                <button
-                    class="secondary"
-                    onclick="descendre('Employé')">
-                    ↓ Descendre
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="grade" data-name="Stagiaire">
-
-            <div class="grade-head">
-
-                <div class="grade-title">
-
-                    <div class="number">
-                        4
-                    </div>
-
-                    <div>
-                        <strong>Stagiaire</strong>
-                        <span>Nouveau personnel</span>
-                    </div>
-
-                </div>
-
-                <div class="badge">
-                    Débutant
-                </div>
-
-            </div>
-
-
-            <div class="details">
-
-                <div class="detail">
-                    <span>Employés</span>
-                    <strong>3</strong>
-                </div>
-
-                <div class="detail">
-                    <span>Salaire</span>
-                    <strong>900 €</strong>
-                </div>
-
-                <div class="detail">
-                    <span>Niveau</span>
-                    <strong>4 / 5</strong>
-                </div>
-
-            </div>
-
-
-            <div class="permissions">
-
-                <div class="permissions-title">
-                    Permissions
-                </div>
-
-                <div class="permission-list">
-
-                    <span class="permission">
-                        Accès service
-                    </span>
-
-                    <span class="permission">
-                        Enregistrer ventes
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="actions">
-
-                <button
-                    class="secondary"
-                    onclick="modifier('Stagiaire')">
-                    Modifier
-                </button>
-
-                <button
-                    class="secondary"
-                    onclick="monter('Stagiaire')">
-                    ↑ Monter
-                </button>
+                ${
+                    index > 0
+                    ? `
+                    <button
+                        class="secondary"
+                        onclick="monterGrade('${grade.id}')">
+                        ↑ Monter
+                    </button>
+                    `
+                    : ""
+                }
+
+                ${
+                    index < data.length - 1
+                    ? `
+                    <button
+                        class="secondary"
+                        onclick="descendreGrade('${grade.id}')">
+                        ↓ Descendre
+                    </button>
+                    `
+                    : ""
+                }
 
                 <button
                     class="danger"
-                    onclick="supprimer('Stagiaire')">
+                    onclick="supprimerGrade('${grade.id}')">
                     Supprimer
                 </button>
 
             </div>
+        `;
 
-        </div>
+        container.appendChild(carte);
 
-    </div>
-
-</div>
-
-
-<div class="modal" id="modal">
-
-    <div class="modal-box">
-
-        <h2>Créer un grade</h2>
-
-
-        <div class="field">
-
-            <label>Nom du grade</label>
-
-            <input
-                id="gradeNom"
-                type="text"
-                placeholder="Ex : Directeur adjoint"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label>Salaire</label>
-
-            <input
-                id="gradeSalaire"
-                type="number"
-                placeholder="Ex : 1500"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label>Type</label>
-
-            <select id="gradeType">
-
-                <option>Direction</option>
-                <option>Management</option>
-                <option>Personnel</option>
-                <option>Débutant</option>
-
-            </select>
-
-        </div>
-
-
-        <div class="field">
-
-            <label>Permissions</label>
-
-            <label class="check">
-                <input type="checkbox">
-                Gérer les employés
-            </label>
-
-            <label class="check">
-                <input type="checkbox">
-                Recruter
-            </label>
-
-            <label class="check">
-                <input type="checkbox">
-                Gérer les stocks
-            </label>
-
-            <label class="check">
-                <input type="checkbox">
-                Gérer les ventes
-            </label>
-
-            <label class="check">
-                <input type="checkbox">
-                Gérer les finances
-            </label>
-
-        </div>
-
-
-        <div class="modal-actions">
-
-            <button
-                class="secondary"
-                onclick="fermerModal()">
-                Annuler
-            </button>
-
-            <button
-                class="primary"
-                onclick="creerGrade()">
-                Créer le grade
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<script>
-
-function ouvrirModal() {
-
-    document.getElementById("modal")
-        .style.display = "flex";
+    });
 
 }
 
 
+function ouvrirModal(grade = null) {
+
+    gradeEnModification = grade ? grade.id : null;
+
+    document.getElementById("modalTitle").textContent =
+        grade
+            ? "Modifier le grade"
+            : "Créer un grade";
+
+    document.getElementById("gradeNom").value =
+        grade?.nom || "";
+
+    document.getElementById("gradeDescription").value =
+        grade?.description || "";
+
+    document.getElementById("gradeSalaire").value =
+        grade?.salaire || 0;
+
+    document.getElementById("gradeNiveau").value =
+        grade?.niveau || 1;
+
+    document.getElementById("gradeType").value =
+        grade?.type || "Personnel";
+
+    document
+        .querySelectorAll('.check input[type="checkbox"]')
+        .forEach(checkbox => {
+
+            checkbox.checked =
+                Array.isArray(grade?.permissions) &&
+                grade.permissions.includes(checkbox.value);
+
+        });
+
+    document.getElementById("modal")
+        .style.display = "flex";
+}
+
+
 function fermerModal() {
+
+    gradeEnModification = null;
 
     document.getElementById("modal")
         .style.display = "none";
@@ -1103,86 +772,280 @@ function fermerModal() {
 }
 
 
-function creerGrade() {
+async function enregistrerGrade() {
 
     const nom =
-        document.getElementById("gradeNom").value;
+        document.getElementById("gradeNom")
+            .value
+            .trim();
+
+    const description =
+        document.getElementById("gradeDescription")
+            .value
+            .trim();
 
     const salaire =
-        document.getElementById("gradeSalaire").value;
+        Number(
+            document.getElementById("gradeSalaire")
+                .value || 0
+        );
 
-    if (!nom.trim()) {
+    const niveau =
+        Number(
+            document.getElementById("gradeNiveau")
+                .value || 1
+        );
+
+    const type =
+        document.getElementById("gradeType")
+            .value;
+
+    const permissions =
+        Array.from(
+            document.querySelectorAll(
+                '.check input[type="checkbox"]:checked'
+            )
+        ).map(
+            checkbox => checkbox.value
+        );
+
+    if (!nom) {
+
+        alert("Veuillez renseigner le nom du grade.");
+
+        return;
+    }
+
+    if (salaire < 0 || niveau < 1) {
+
+        alert("Les valeurs saisies sont invalides.");
+
+        return;
+    }
+
+    const gradeData = {
+        nom: nom,
+        description: description || null,
+        type: type,
+        salaire: salaire,
+        niveau: niveau,
+        permissions: permissions
+    };
+
+    let error;
+
+    if (gradeEnModification) {
+
+        const result =
+            await supabaseClient
+                .from("grades")
+                .update(gradeData)
+                .eq("id", gradeEnModification);
+
+        error = result.error;
+
+    } else {
+
+        const result =
+            await supabaseClient
+                .from("grades")
+                .insert(gradeData);
+
+        error = result.error;
+    }
+
+    if (error) {
+
+        console.error(error);
 
         alert(
-            "Veuillez renseigner le nom du grade."
+            "Erreur lors de l'enregistrement :\n\n" +
+            error.message
         );
 
         return;
     }
 
-    alert(
-        "Grade créé : " +
-        nom +
-        (salaire ? "\nSalaire : " + salaire + " €" : "")
-    );
-
     fermerModal();
 
-}
-
-
-function modifier(nom) {
-
-    alert(
-        "Modification du grade « " +
-        nom +
-        " » disponible prochainement."
-    );
+    await chargerGrades();
 
 }
 
 
-function monter(nom) {
+async function modifierGrade(id) {
 
-    alert(
-        "Le grade « " +
-        nom +
-        " » sera remonté dans la hiérarchie."
-    );
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("grades")
+        .select("*")
+        .eq("id", id)
+        .single();
 
-}
-
-
-function descendre(nom) {
-
-    alert(
-        "Le grade « " +
-        nom +
-        " » sera descendu dans la hiérarchie."
-    );
-
-}
-
-
-function supprimer(nom) {
-
-    const confirmation = confirm(
-        "Supprimer le grade « " +
-        nom +
-        " » ?"
-    );
-
-    if (confirmation) {
+    if (error) {
 
         alert(
-            "Le grade sera supprimé après connexion à la base de données."
+            "Impossible de récupérer le grade :\n\n" +
+            error.message
         );
 
+        return;
     }
+
+    ouvrirModal(data);
 
 }
 
-</script>
 
-</body>
+async function supprimerGrade(id) {
+
+    const confirmation =
+        confirm(
+            "Voulez-vous vraiment supprimer ce grade ?"
+        );
+
+    if (!confirmation) {
+        return;
+    }
+
+    const {
+        error
+    } = await supabaseClient
+        .from("grades")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Erreur lors de la suppression :\n\n" +
+            error.message
+        );
+
+        return;
+    }
+
+    await chargerGrades();
+
+}
+
+
+async function monterGrade(id) {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("grades")
+        .select("id,niveau")
+        .order("niveau", {
+            ascending: true
+        });
+
+    if (error || !data) {
+
+        alert("Impossible de modifier la hiérarchie.");
+
+        return;
+    }
+
+    const index =
+        data.findIndex(
+            grade => grade.id === id
+        );
+
+    if (index <= 0) {
+        return;
+    }
+
+    const actuel = data[index];
+    const precedent = data[index - 1];
+
+    await supabaseClient
+        .from("grades")
+        .update({
+            niveau: precedent.niveau
+        })
+        .eq("id", actuel.id);
+
+    await supabaseClient
+        .from("grades")
+        .update({
+            niveau: actuel.niveau
+        })
+        .eq("id", precedent.id);
+
+    await chargerGrades();
+
+}
+
+
+async function descendreGrade(id) {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("grades")
+        .select("id,niveau")
+        .order("niveau", {
+            ascending: true
+        });
+
+    if (error || !data) {
+
+        alert("Impossible de modifier la hiérarchie.");
+
+        return;
+    }
+
+    const index =
+        data.findIndex(
+            grade => grade.id === id
+        );
+
+    if (index === -1 || index >= data.length - 1) {
+        return;
+    }
+
+    const actuel = data[index];
+    const suivant = data[index + 1];
+
+    await supabaseClient
+        .from("grades")
+        .update({
+            niveau: suivant.niveau
+        })
+        .eq("id", actuel.id);
+
+    await supabaseClient
+        .from("grades")
+        .update({
+            niveau: actuel.niveau
+        })
+        .eq("id", suivant.id);
+
+    await chargerGrades();
+
+}
+
+
+function escapeHtml(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+chargerGrades();
+
+</script></body>
 </html>
