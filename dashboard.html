@@ -17,84 +17,201 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: #0b1020;
+            background:
+                radial-gradient(circle at top right, rgba(199,139,228,0.15), transparent 30%),
+                radial-gradient(circle at top left, rgba(122,202,237,0.12), transparent 30%),
+                #0b1020;
             color: white;
             min-height: 100vh;
         }
 
         header {
-            padding: 20px 30px;
-            background: #11182d;
+            background: rgba(17,24,45,0.96);
             border-bottom: 1px solid #26304d;
+            padding: 20px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            max-width: 1250px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
         }
 
         header h1 {
             color: #7ACAED;
-            font-size: 26px;
+            font-size: 27px;
         }
 
         header p {
             color: #98CAF7;
-            margin-top: 6px;
+            margin-top: 5px;
         }
 
-        main {
-            max-width: 1200px;
-            margin: auto;
-            padding: 30px;
-        }
-
-        .card {
-            background: #11182d;
-            border: 1px solid #26304d;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-        }
-
-        .card h2 {
-            color: #7ACAED;
-            margin-bottom: 18px;
-        }
-
-        .info {
-            margin: 12px 0;
-            color: #d8e4f5;
-        }
-
-        .value {
+        .role-badge {
+            padding: 10px 15px;
+            border-radius: 10px;
+            background: rgba(122,202,237,0.10);
+            border: 1px solid #7ACAED;
             color: #98CAF7;
             font-weight: bold;
         }
 
-        .access {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            background: rgba(122, 202, 237, 0.10);
-            border: 1px solid #7ACAED;
+        main {
+            max-width: 1250px;
+            margin: auto;
+            padding: 35px 25px 50px;
+        }
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+        .welcome h2 {
+            font-size: 28px;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #98a9c4;
+        }
+
+        .status {
+            padding: 14px 18px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            background: rgba(122,202,237,0.08);
+            border: 1px solid rgba(122,202,237,0.35);
             color: #d8e4f5;
         }
 
-        .error {
-            background: rgba(220, 70, 70, 0.12);
-            border: 1px solid #dc4646;
+        .status.error {
+            background: rgba(220,70,70,0.12);
+            border-color: #dc4646;
             color: #ff8585;
         }
 
-        .loading {
-            color: #98CAF7;
+        .section-title {
+            color: #7ACAED;
+            font-size: 20px;
+            margin-bottom: 15px;
         }
 
-        pre {
-            white-space: pre-wrap;
-            word-break: break-word;
-            margin-top: 15px;
-            padding: 15px;
-            border-radius: 10px;
-            background: #080c17;
-            color: #b9c8df;
-            font-size: 13px;
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin-bottom: 35px;
+        }
+
+        .card {
+            display: block;
+            text-decoration: none;
+            background: linear-gradient(
+                145deg,
+                rgba(17,24,45,0.98),
+                rgba(14,20,38,0.98)
+            );
+            border: 1px solid #26304d;
+            border-radius: 16px;
+            padding: 23px;
+            min-height: 145px;
+            transition: 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #7ACAED;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        }
+
+        .card h3 {
+            color: #7ACAED;
+            font-size: 19px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #98a9c4;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .card.admin {
+            border-color: rgba(199,139,228,0.45);
+        }
+
+        .card.admin h3 {
+            color: #C78BE4;
+        }
+
+        .profile {
+            background: #11182d;
+            border: 1px solid #26304d;
+            border-radius: 16px;
+            padding: 22px;
+            margin-top: 10px;
+        }
+
+        .profile h2 {
+            color: #7ACAED;
+            margin-bottom: 18px;
+        }
+
+        .profile-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 11px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .profile-row:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            color: #8fa1bd;
+        }
+
+        .value {
+            color: #d8e4f5;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 650px) {
+            .header-content {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .role-badge {
+                width: 100%;
+            }
+
+            .profile-row {
+                flex-direction: column;
+            }
+
+            .value {
+                text-align: left;
+            }
+
+            main {
+                padding: 25px 15px 40px;
+            }
         }
     </style>
 </head>
@@ -102,55 +219,151 @@
 <body>
 
 <header>
-    <h1>Neptune Legal</h1>
-    <p>Tableau de bord</p>
+    <div class="header-content">
+        <div>
+            <h1>Neptune Legal</h1>
+            <p>Tableau de bord</p>
+        </div>
+
+        <div id="roleBadge" class="role-badge">
+            Vérification...
+        </div>
+    </div>
 </header>
 
 <main>
 
-    <div class="card">
-        <h2>Connexion</h2>
+    <div class="welcome">
+        <h2>Bienvenue sur Neptune Legal</h2>
+        <p>Gérez vos entreprises, employés, candidatures et services depuis votre espace.</p>
+    </div>
 
-        <div id="connexion" class="loading">
-            Vérification de la connexion...
-        </div>
+    <div id="status" class="status">
+        Vérification de votre compte Discord...
+    </div>
+
+    <!-- ESPACE PRINCIPAL -->
+
+    <h2 class="section-title">Gestion</h2>
+
+    <div class="grid">
+
+        <a href="entreprises.html" class="card">
+            <h3>Entreprises</h3>
+            <p>Consulter et gérer les entreprises disponibles sur Neptune Legal.</p>
+        </a>
+
+        <a href="candidatures.html" class="card">
+            <h3>Candidatures</h3>
+            <p>Déposer une candidature et suivre son statut.</p>
+        </a>
+
+        <a href="finances.html" class="card">
+            <h3>Finances</h3>
+            <p>Consulter et gérer les opérations financières.</p>
+        </a>
+
+        <a href="stocks.html" class="card">
+            <h3>Stocks</h3>
+            <p>Gérer les stocks, quantités, prix et seuils d'alerte.</p>
+        </a>
+
+        <a href="heures-service.html" class="card">
+            <h3>Heures de service</h3>
+            <p>Consulter et gérer les heures de service.</p>
+        </a>
+
+        <a href="profil-utilisateur.html" class="card">
+            <h3>Mon profil</h3>
+            <p>Consulter les informations de votre profil Neptune Legal.</p>
+        </a>
+
     </div>
 
 
-    <div class="card">
-        <h2>Profil Discord</h2>
+    <!-- GESTION ENTREPRISE -->
 
-        <div class="info">
-            Discord :
-            <span id="discordName" class="value">
-                Chargement...
-            </span>
-        </div>
+    <h2 class="section-title">Gestion entreprise</h2>
 
-        <div class="info">
-            ID Discord :
-            <span id="discordId" class="value">
-                Chargement...
-            </span>
-        </div>
+    <div class="grid">
 
-        <div class="info">
-            Rôle Neptune Legal :
-            <span id="discordRole" class="value">
-                Chargement...
-            </span>
-        </div>
+        <a href="entreprise-dashboard.html" class="card">
+            <h3>Tableau entreprise</h3>
+            <p>Accéder à l'espace de gestion de votre entreprise.</p>
+        </a>
 
-        <div id="accessBox" class="access">
-            Vérification des permissions...
-        </div>
+        <a href="gestion-employes.html" class="card">
+            <h3>Employés</h3>
+            <p>Gérer les employés et leurs informations.</p>
+        </a>
+
+        <a href="gestion-grades.html" class="card">
+            <h3>Grades</h3>
+            <p>Gérer les grades et la hiérarchie de l'entreprise.</p>
+        </a>
+
+        <a href="gestion-candidatures.html" class="card">
+            <h3>Gestion des candidatures</h3>
+            <p>Accepter, refuser et gérer les candidatures reçues.</p>
+        </a>
+
     </div>
 
 
-    <div class="card">
-        <h2>Diagnostic</h2>
+    <!-- ADMINISTRATION -->
 
-        <pre id="diagnostic">Chargement...</pre>
+    <section id="adminSection" class="hidden">
+
+        <h2 class="section-title">Administration</h2>
+
+        <div class="grid">
+
+            <a href="admin.html" class="card admin">
+                <h3>Administration</h3>
+                <p>Accéder au centre d'administration de Neptune Legal.</p>
+            </a>
+
+            <a href="utilisateurs.html" class="card admin">
+                <h3>Utilisateurs</h3>
+                <p>Gérer les utilisateurs de Neptune Legal.</p>
+            </a>
+
+            <a href="gestion-utilisateurs.html" class="card admin">
+                <h3>Gestion utilisateurs</h3>
+                <p>Administrer les comptes et permissions utilisateurs.</p>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- PROFIL -->
+
+    <div class="profile">
+
+        <h2>Mon compte</h2>
+
+        <div class="profile-row">
+            <span class="label">Discord</span>
+            <span id="discordName" class="value">Chargement...</span>
+        </div>
+
+        <div class="profile-row">
+            <span class="label">ID Discord</span>
+            <span id="discordId" class="value">Chargement...</span>
+        </div>
+
+        <div class="profile-row">
+            <span class="label">Rôle Neptune Legal</span>
+            <span id="discordRole" class="value">Chargement...</span>
+        </div>
+
+        <div class="profile-row">
+            <span class="label">Accès</span>
+            <span id="accessValue" class="value">Vérification...</span>
+        </div>
+
     </div>
 
 </main>
@@ -182,27 +395,6 @@
     const FUNCTION_NAME =
         "R-les_discord";
 
-    const FUNCTION_URL =
-        SUPABASE_URL +
-        "/functions/v1/" +
-        FUNCTION_NAME;
-
-
-    /* =========================
-       DIAGNOSTIC
-    ========================= */
-
-    function diagnostic(message) {
-
-        console.log(message);
-
-        const box =
-            document.getElementById("diagnostic");
-
-        box.textContent +=
-            message + "\n";
-    }
-
 
     /* =========================
        DASHBOARD
@@ -210,19 +402,14 @@
 
     async function chargerDashboard() {
 
+        const status =
+            document.getElementById("status");
+
         try {
 
-            document.getElementById(
-                "diagnostic"
-            ).textContent = "";
-
-
-            diagnostic(
-                "ÉTAPE 1 : récupération de la session..."
-            );
-
-
-            /* SESSION */
+            /*
+             * SESSION SUPABASE
+             */
 
             const {
                 data: sessionData,
@@ -232,12 +419,7 @@
 
 
             if (sessionError) {
-
-                throw new Error(
-                    "Erreur session : " +
-                    sessionError.message
-                );
-
+                throw sessionError;
             }
 
 
@@ -247,44 +429,30 @@
 
             if (!session) {
 
-                document.getElementById(
-                    "connexion"
-                ).textContent =
-                    "Vous n'êtes pas connecté.";
+                status.textContent =
+                    "Vous n'êtes pas connecté. Redirection vers la connexion...";
 
+                status.classList.add("error");
 
-                diagnostic(
-                    "Aucune session Supabase trouvée."
-                );
-
+                setTimeout(() => {
+                    window.location.href = "connexion.html";
+                }, 1200);
 
                 return;
             }
 
 
-            diagnostic(
-                "ÉTAPE 2 : session Supabase trouvée."
-            );
-
+            /*
+             * UTILISATEUR
+             */
 
             const user =
                 session.user;
 
 
-            document.getElementById(
-                "connexion"
-            ).textContent =
-                "Connecté";
-
-
-            /* =========================
-               IDENTITÉ DISCORD
-            ========================= */
-
-            diagnostic(
-                "ÉTAPE 3 : recherche de l'identifiant Discord..."
-            );
-
+            /*
+             * IDENTIFIANT DISCORD
+             */
 
             const discordIdentity =
                 user.identities?.find(
@@ -302,52 +470,16 @@
 
             if (!discordUserId) {
 
-                document.getElementById(
-                    "discordId"
-                ).textContent =
-                    "Introuvable";
-
-
-                document.getElementById(
-                    "discordRole"
-                ).textContent =
-                    "Aucun accès";
-
-
-                document.getElementById(
-                    "accessBox"
-                ).textContent =
-                    "Impossible de récupérer votre identifiant Discord.";
-
-
-                document.getElementById(
-                    "accessBox"
-                ).classList.add("error");
-
-
-                diagnostic(
-                    "ERREUR : identifiant Discord introuvable."
+                throw new Error(
+                    "Identifiant Discord introuvable."
                 );
 
-
-                return;
             }
 
 
-            diagnostic(
-                "ÉTAPE 4 : Discord ID trouvé."
-            );
-
-
-            document.getElementById(
-                "discordId"
-            ).textContent =
-                discordUserId;
-
-
-            /* =========================
-               NOM DISCORD
-            ========================= */
+            /*
+             * NOM DISCORD
+             */
 
             const discordName =
                 user.user_metadata?.full_name ||
@@ -363,20 +495,15 @@
                 discordName;
 
 
-            /* =========================
-               APPEL EDGE FUNCTION
-            ========================= */
-
-            diagnostic(
-                "ÉTAPE 5 : appel de R-les_discord..."
-            );
+            document.getElementById(
+                "discordId"
+            ).textContent =
+                discordUserId;
 
 
-            console.log(
-                "URL fonction :",
-                FUNCTION_URL
-            );
-
+            /*
+             * VÉRIFICATION DU RÔLE DISCORD
+             */
 
             const {
                 data: roleData,
@@ -395,14 +522,7 @@
 
             if (functionError) {
 
-                console.error(
-                    "Erreur Edge Function :",
-                    functionError
-                );
-
-
                 throw new Error(
-                    "Impossible de contacter la fonction Supabase : " +
                     functionError.message
                 );
 
@@ -412,26 +532,11 @@
             if (!roleData) {
 
                 throw new Error(
-                    "La fonction n'a retourné aucune donnée."
+                    "Aucune réponse de Neptune Legal."
                 );
 
             }
 
-
-            diagnostic(
-                "ÉTAPE 6 : réponse de R-les_discord reçue."
-            );
-
-
-            console.log(
-                "Réponse :",
-                roleData
-            );
-
-
-            /* =========================
-               ERREUR RETOURNÉE
-            ========================= */
 
             if (roleData.error) {
 
@@ -442,9 +547,9 @@
             }
 
 
-            /* =========================
-               RÔLE
-            ========================= */
+            /*
+             * RÔLE
+             */
 
             const role =
                 roleData.role ||
@@ -461,90 +566,97 @@
                 role;
 
 
-            /* =========================
-               PERMISSIONS
-            ========================= */
-
-            const accessBox =
-                document.getElementById(
-                    "accessBox"
-                );
+            document.getElementById(
+                "roleBadge"
+            ).textContent =
+                role;
 
 
-            accessBox.classList.remove(
-                "error"
-            );
-
+            /*
+             * MEMBRE DISCORD
+             */
 
             if (roleData.member === false) {
 
-                accessBox.textContent =
+                status.textContent =
                     "Vous n'êtes pas membre du serveur Discord Neptune.";
 
-                accessBox.classList.add(
-                    "error"
-                );
+                status.classList.add("error");
 
+                document.getElementById(
+                    "accessValue"
+                ).textContent =
+                    "Aucun accès";
+
+                return;
             }
 
-            else if (fullAccess) {
 
-                accessBox.textContent =
-                    "Accès complet autorisé — rôle : " +
-                    role;
+            /*
+             * PERMISSIONS
+             */
+
+            if (fullAccess) {
+
+                status.textContent =
+                    "Connexion réussie — accès complet autorisé.";
+
+                document.getElementById(
+                    "accessValue"
+                ).textContent =
+                    "Accès complet";
+
+                document.getElementById(
+                    "adminSection"
+                ).classList.remove("hidden");
 
             }
 
             else if (role === "Citoyens") {
 
-                accessBox.textContent =
-                    "Accès citoyen autorisé.";
+                status.textContent =
+                    "Connexion réussie — accès citoyen autorisé.";
+
+                document.getElementById(
+                    "accessValue"
+                ).textContent =
+                    "Accès citoyen";
 
             }
 
             else {
 
-                accessBox.textContent =
-                    "Aucun accès administrateur.";
+                status.textContent =
+                    "Votre compte ne possède pas de rôle Neptune Legal autorisé.";
 
-                accessBox.classList.add(
-                    "error"
-                );
+                status.classList.add("error");
+
+                document.getElementById(
+                    "accessValue"
+                ).textContent =
+                    "Aucun accès";
 
             }
 
 
-            /* =========================
-               LOCAL STORAGE
-            ========================= */
+            /*
+             * LOCAL STORAGE
+             */
 
             localStorage.setItem(
                 "neptune_role",
                 role
             );
 
-
             localStorage.setItem(
                 "neptune_full_access",
                 String(fullAccess)
             );
 
-
             localStorage.setItem(
                 "neptune_discord_user_id",
                 discordUserId
             );
-
-
-            diagnostic(
-                "ÉTAPE 7 : permissions enregistrées."
-            );
-
-
-            diagnostic(
-                "Connexion Neptune Legal réussie."
-            );
-
 
         }
 
@@ -555,44 +667,24 @@
                 error
             );
 
+            status.textContent =
+                "Erreur pendant la vérification de votre compte.";
+
+            status.classList.add("error");
 
             document.getElementById(
-                "connexion"
+                "accessValue"
             ).textContent =
-                "Erreur de connexion";
-
-
-            const accessBox =
-                document.getElementById(
-                    "accessBox"
-                );
-
-
-            accessBox.textContent =
-                "Une erreur est survenue pendant la vérification des permissions.";
-
-
-            accessBox.classList.add(
-                "error"
-            );
-
-
-            diagnostic(
-                "ERREUR : " +
-                (
-                    error?.message ||
-                    String(error)
-                )
-            );
+                "Erreur";
 
         }
 
     }
 
 
-    /* =========================
-       LANCEMENT
-    ========================= */
+    /*
+     * LANCEMENT
+     */
 
     chargerDashboard();
 
