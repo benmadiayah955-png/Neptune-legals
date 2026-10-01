@@ -22,7 +22,7 @@ body{
 }
 
 header{
-    background:linear-gradient(135deg,#45dfff,#6475ff,#c55cff);
+    background:linear-gradient(135deg,#7ACAED,#58A3DD,#C78BE4);
     color:white;
     padding:18px 6%;
     display:flex;
@@ -60,7 +60,7 @@ nav a{
 .back{
     display:inline-block;
     margin-bottom:18px;
-    color:#6173e8;
+    color:#58A3DD;
     text-decoration:none;
     font-weight:bold;
 }
@@ -80,7 +80,7 @@ nav a{
     width:95px;
     height:95px;
     border-radius:28px;
-    background:linear-gradient(135deg,#55dcff,#6978ff,#c55cff);
+    background:linear-gradient(135deg,#7ACAED,#58A3DD,#C78BE4);
     color:white;
     display:flex;
     align-items:center;
@@ -148,13 +148,13 @@ button{
 }
 
 .primary{
-    background:linear-gradient(135deg,#53dcff,#6978ff);
+    background:linear-gradient(135deg,#7ACAED,#58A3DD);
     color:white;
 }
 
 .secondary{
-    background:#eef2ff;
-    color:#596ce3;
+    background:#eef7ff;
+    color:#58A3DD;
 }
 
 .danger{
@@ -257,7 +257,7 @@ button{
 }
 
 .timeline{
-    border-left:3px solid #6978ff;
+    border-left:3px solid #58A3DD;
     padding-left:16px;
 }
 
@@ -290,6 +290,71 @@ button{
     padding:20px;
     border-radius:16px;
     margin-bottom:20px;
+}
+
+#success{
+    display:none;
+    background:#e7fff1;
+    color:#16a45a;
+    padding:15px;
+    border-radius:14px;
+    margin-bottom:20px;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(20,35,60,.55);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:1000;
+}
+
+.modal-box{
+    width:100%;
+    max-width:500px;
+    background:white;
+    border-radius:24px;
+    padding:25px;
+    box-shadow:0 20px 60px rgba(0,0,0,.2);
+}
+
+.modal-box h2{
+    margin-bottom:20px;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:7px;
+    font-size:13px;
+    font-weight:bold;
+    color:#69778e;
+}
+
+.form-group input{
+    width:100%;
+    padding:13px;
+    border:1px solid #dfe7f2;
+    border-radius:12px;
+    outline:none;
+    font-size:14px;
+}
+
+.form-group input:focus{
+    border-color:#58A3DD;
+}
+
+.modal-actions{
+    display:flex;
+    gap:10px;
+    justify-content:flex-end;
+    margin-top:20px;
 }
 
 footer{
@@ -353,6 +418,8 @@ footer{
 
 <div id="error"></div>
 
+<div id="success"></div>
+
 <div id="profileContent" style="display:none;">
 
 <section class="profile">
@@ -377,7 +444,7 @@ footer{
 
     <div class="actions">
 
-        <button class="primary" onclick="modifier()">
+        <button class="primary" onclick="ouvrirModification()">
             Modifier
         </button>
 
@@ -547,29 +614,98 @@ footer{
 
 </div>
 
+<!-- MODALE MODIFICATION -->
+
+<div class="modal" id="editModal">
+
+    <div class="modal-box">
+
+        <h2>Modifier le profil</h2>
+
+        <div class="form-group">
+            <label for="editFullName">Nom RP</label>
+            <input
+                type="text"
+                id="editFullName"
+                placeholder="Nom et prénom"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="editUsername">Nom d'utilisateur</label>
+            <input
+                type="text"
+                id="editUsername"
+                placeholder="Nom d'utilisateur"
+            >
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                class="secondary"
+                onclick="fermerModification()"
+            >
+                Annuler
+            </button>
+
+            <button
+                class="primary"
+                onclick="sauvegarderProfil()"
+                id="saveButton"
+            >
+                Enregistrer
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 <footer>
     Neptune Legal — Profil utilisateur
 </footer>
 
 <script>
 
-const SUPABASE_URL = "https://xzmglqxcsrzivvkpemyt.supabase.co";
+const SUPABASE_URL =
+    "https://xzmglqxcsrzivvkpemyt.supabase.co";
 
-const SUPABASE_KEY = "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
+const SUPABASE_KEY =
+    "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
 
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+let currentUserId = null;
+let currentProfile = null;
 
 function afficherErreur(message){
 
     document.getElementById("loading").style.display = "none";
 
-    const error = document.getElementById("error");
+    const error =
+        document.getElementById("error");
 
     error.textContent = message;
     error.style.display = "block";
+}
+
+function afficherSucces(message){
+
+    const success =
+        document.getElementById("success");
+
+    success.textContent = message;
+    success.style.display = "block";
+
+    setTimeout(() => {
+        success.style.display = "none";
+    }, 3000);
 }
 
 function formatDate(dateString){
@@ -580,11 +716,14 @@ function formatDate(dateString){
 
     const date = new Date(dateString);
 
-    return date.toLocaleDateString("fr-FR", {
-        day:"2-digit",
-        month:"long",
-        year:"numeric"
-    });
+    return date.toLocaleDateString(
+        "fr-FR",
+        {
+            day:"2-digit",
+            month:"long",
+            year:"numeric"
+        }
+    );
 }
 
 function calculerAnciennete(dateString){
@@ -613,11 +752,13 @@ function calculerAnciennete(dateString){
 
 async function chargerProfil(){
 
-    const params = new URLSearchParams(
-        window.location.search
-    );
+    const params =
+        new URLSearchParams(
+            window.location.search
+        );
 
-    const userId = params.get("id");
+    const userId =
+        params.get("id");
 
     if(!userId){
 
@@ -627,6 +768,8 @@ async function chargerProfil(){
 
         return;
     }
+
+    currentUserId = userId;
 
     const {
         data,
@@ -642,13 +785,18 @@ async function chargerProfil(){
         console.error(error);
 
         afficherErreur(
-            "Impossible de charger ce profil. Vérifie que l'utilisateur existe dans Supabase."
+            "Impossible de charger ce profil."
         );
 
         return;
     }
 
-    const profile = data;
+    currentProfile = data;
+
+    afficherProfil(data);
+}
+
+function afficherProfil(profile){
 
     const name =
         profile.full_name ||
@@ -664,9 +812,11 @@ async function chargerProfil(){
         profile.status ||
         "actif";
 
-    document.getElementById("profileName").textContent = name;
+    document.getElementById("profileName").textContent =
+        name;
 
-    document.getElementById("fullName").textContent = name;
+    document.getElementById("fullName").textContent =
+        name;
 
     document.getElementById("discordName").textContent =
         "Discord : " + discord;
@@ -684,7 +834,8 @@ async function chargerProfil(){
         calculerAnciennete(profile.created_at);
 
     document.getElementById("historyCreated").textContent =
-        "Compte créé le " + formatDate(profile.created_at);
+        "Compte créé le " +
+        formatDate(profile.created_at);
 
     const badge =
         document.getElementById("statusBadge");
@@ -752,12 +903,89 @@ async function chargerProfil(){
         "block";
 }
 
-function modifier(){
+function ouvrirModification(){
 
-    alert(
-        "La modification du profil sera connectée à Supabase dans une prochaine étape."
+    if(!currentProfile){
+        return;
+    }
+
+    document.getElementById("editFullName").value =
+        currentProfile.full_name || "";
+
+    document.getElementById("editUsername").value =
+        currentProfile.username || "";
+
+    document.getElementById("editModal").style.display =
+        "flex";
+}
+
+function fermerModification(){
+
+    document.getElementById("editModal").style.display =
+        "none";
+}
+
+async function sauvegarderProfil(){
+
+    if(!currentUserId){
+        return;
+    }
+
+    const fullName =
+        document.getElementById("editFullName").value.trim();
+
+    const username =
+        document.getElementById("editUsername").value.trim();
+
+    if(!fullName){
+
+        alert("Le nom RP est obligatoire.");
+        return;
+    }
+
+    const saveButton =
+        document.getElementById("saveButton");
+
+    saveButton.disabled = true;
+    saveButton.textContent = "Enregistrement...";
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("profiles")
+        .update({
+            full_name: fullName,
+            username: username || null
+        })
+        .eq("id", currentUserId)
+        .select()
+        .single();
+
+    saveButton.disabled = false;
+    saveButton.textContent = "Enregistrer";
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Erreur Supabase : " +
+            error.message
+        );
+
+        return;
+    }
+
+    currentProfile = data;
+
+    afficherProfil(data);
+
+    fermerModification();
+
+    afficherSucces(
+        "Profil modifié avec succès."
     );
-
 }
 
 function contacter(){
@@ -789,4 +1017,4 @@ chargerProfil();
 </script>
 
 </body>
-</html
+</html>
