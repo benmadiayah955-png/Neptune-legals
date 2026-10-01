@@ -20,8 +20,6 @@
             min-height: 100vh;
         }
 
-        /* HEADER */
-
         header {
             width: 100%;
             padding: 18px 22px;
@@ -81,11 +79,8 @@
 
         .menu {
             font-size: 25px;
-            cursor: pointer;
             color: #5865f2;
         }
-
-        /* HERO */
 
         .hero {
             padding: 55px 22px 35px;
@@ -130,8 +125,6 @@
             margin-bottom: 28px;
         }
 
-        /* BUTTONS */
-
         .buttons {
             display: flex;
             flex-direction: column;
@@ -168,8 +161,6 @@
             border: 1px solid #dfe5f2;
         }
 
-        /* CARDS */
-
         .section {
             padding: 25px 20px 50px;
             max-width: 1050px;
@@ -194,12 +185,6 @@
             border-radius: 20px;
             padding: 23px;
             box-shadow: 0 8px 30px rgba(47,63,96,.06);
-            transition: .2s;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(88,101,242,.12);
         }
 
         .icon {
@@ -240,8 +225,6 @@
             line-height: 1.6;
         }
 
-        /* STATS */
-
         .stats {
             display: grid;
             grid-template-columns: repeat(2,1fr);
@@ -276,8 +259,6 @@
             font-size: 12px;
         }
 
-        /* FOOTER */
-
         footer {
             background: white;
             border-top: 1px solid #e8ebf5;
@@ -290,8 +271,6 @@
         footer strong {
             color: #5865f2;
         }
-
-        /* DESKTOP */
 
         @media (min-width: 700px) {
 
@@ -340,7 +319,7 @@
 <section class="hero">
 
     <div class="badge">
-        ✦ PORTAIL OFFICIEL
+        PORTAIL OFFICIEL
     </div>
 
     <h1>
@@ -357,12 +336,18 @@
 
     <div class="buttons">
 
-        <a href="#" class="btn primary">
-            🔵 Connecter Discord
+        <a
+            href="connexion.html"
+            class="btn primary"
+        >
+            Connecter Discord
         </a>
 
-        <a href="#" class="btn secondary">
-            📋 Découvrir le portail
+        <a
+            href="#portail"
+            class="btn secondary"
+        >
+            Découvrir le portail
         </a>
 
     </div>
@@ -370,7 +355,7 @@
 </section>
 
 
-<section class="section">
+<section class="section" id="portail">
 
     <h2 class="section-title">
         Tout votre espace professionnel
@@ -379,74 +364,51 @@
     <div class="cards">
 
         <div class="card">
+            <div class="icon cyan">🏢</div>
 
-            <div class="icon cyan">
-                🏢
-            </div>
-
-            <h3>
-                Entreprises
-            </h3>
+            <h3>Entreprises</h3>
 
             <p>
                 Gérez votre entreprise, vos employés,
                 vos grades, vos documents et vos informations.
             </p>
-
         </div>
 
 
         <div class="card">
+            <div class="icon blue">👥</div>
 
-            <div class="icon blue">
-                👥
-            </div>
-
-            <h3>
-                Recrutement
-            </h3>
+            <h3>Recrutement</h3>
 
             <p>
                 Publiez vos offres et recevez directement
                 les candidatures des joueurs.
             </p>
-
         </div>
 
 
         <div class="card">
+            <div class="icon purple">📦</div>
 
-            <div class="icon purple">
-                📦
-            </div>
-
-            <h3>
-                Stocks & ventes
-            </h3>
+            <h3>Stocks & ventes</h3>
 
             <p>
                 Les restaurants peuvent gérer leurs stocks,
                 leurs produits et suivre leurs ventes.
             </p>
-
         </div>
 
 
         <div class="card">
+            <div class="icon pink">📊</div>
 
-            <div class="icon pink">
-                📊
-            </div>
-
-            <h3>
-                Suivi & statistiques
-            </h3>
+            <h3>Suivi & statistiques</h3>
 
             <p>
                 Consultez les heures de service,
-                les impôts, les ventes et l'activité de votre entreprise.
+                les impôts, les ventes et l'activité
+                de votre entreprise.
             </p>
-
         </div>
 
     </div>
@@ -482,9 +444,13 @@
 <footer>
 
     <strong>NEPTUNE</strong>
+
     <br><br>
+
     Portail légal • Gestion des entreprises • Recrutement
+
     <br><br>
+
     © 2026 Neptune
 
 </footer>
