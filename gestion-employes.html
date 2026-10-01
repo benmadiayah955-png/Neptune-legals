@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
 
 <meta charset="UTF-8">
@@ -45,6 +44,7 @@ header {
     );
 
     -webkit-background-clip: text;
+    background-clip: text;
     color: transparent;
 }
 
@@ -71,9 +71,6 @@ h1 {
     line-height: 1.5;
 }
 
-
-/* BOUTON */
-
 .add {
     width: 100%;
     border: none;
@@ -92,21 +89,15 @@ h1 {
         #a855f7,
         #ec4899
     );
+
+    cursor: pointer;
 }
 
-
-/* EMPLOYÉ */
-
 .employee {
-
     background: white;
-
     border: 1px solid #e6eaf4;
-
     border-radius: 20px;
-
     padding: 20px;
-
     margin-bottom: 14px;
 
     box-shadow:
@@ -114,25 +105,19 @@ h1 {
 }
 
 .top {
-
     display: flex;
-
     align-items: center;
-
     gap: 14px;
-
     margin-bottom: 18px;
 }
 
 .avatar {
-
     width: 55px;
     height: 55px;
 
     border-radius: 50%;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -144,6 +129,8 @@ h1 {
         #5865f2,
         #a855f7
     );
+
+    color: white;
 }
 
 .name {
@@ -158,7 +145,6 @@ h1 {
 }
 
 .grade {
-
     display: inline-block;
 
     margin-top: 6px;
@@ -176,9 +162,208 @@ h1 {
     font-weight: bold;
 }
 
-
-/* INFORMATIONS */
-
 .infos {
+    display: grid;
 
-    display:
+    grid-template-columns:
+        repeat(auto-fit, minmax(150px, 1fr));
+
+    gap: 12px;
+}
+
+.info {
+    background: #f8f9fd;
+    border-radius: 12px;
+    padding: 13px;
+}
+
+.info-label {
+    color: #8a93a3;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.info-value {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 17px;
+    flex-wrap: wrap;
+}
+
+.action {
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.primary {
+    background: #eef0ff;
+    color: #5865f2;
+}
+
+.danger {
+    background: #fff0f0;
+    color: #e05252;
+}
+
+.empty {
+    background: white;
+    border: 1px dashed #dfe4ef;
+    border-radius: 18px;
+    padding: 35px 20px;
+    text-align: center;
+    color: #788296;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Neptune Legal
+    </div>
+
+    <a href="entreprises.html" class="back">
+        Retour aux entreprises
+    </a>
+
+</header>
+
+<div class="container">
+
+    <h1>
+        Gestion des employés
+    </h1>
+
+    <p class="subtitle">
+        Gérez les employés, leurs grades et leur évolution au sein de votre entreprise.
+    </p>
+
+    <button
+        class="add"
+        type="button"
+        onclick="ajouterEmploye()"
+    >
+        Ajouter un employé
+    </button>
+
+    <div id="listeEmployes">
+
+        <div class="employee">
+
+            <div class="top">
+
+                <div class="avatar">
+                    N
+                </div>
+
+                <div>
+
+                    <div class="name">
+                        Neptune Legal
+                    </div>
+
+                    <div class="discord">
+                        Aucun employé enregistré
+                    </div>
+
+                    <span class="grade">
+                        Exemple
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="infos">
+
+                <div class="info">
+
+                    <div class="info-label">
+                        Grade
+                    </div>
+
+                    <div class="info-value">
+                        Aucun
+                    </div>
+
+                </div>
+
+                <div class="info">
+
+                    <div class="info-label">
+                        Heures
+                    </div>
+
+                    <div class="info-value">
+                        0 h
+                    </div>
+
+                </div>
+
+                <div class="info">
+
+                    <div class="info-label">
+                        Statut
+                    </div>
+
+                    <div class="info-value">
+                        Aucun employé
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="actions">
+
+                <button
+                    class="action primary"
+                    type="button"
+                    onclick="voirEmploye()"
+                >
+                    Voir le profil
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function ajouterEmploye() {
+
+    alert(
+        "La gestion des employés sera connectée à Supabase dans la prochaine étape."
+    );
+
+}
+
+function voirEmploye() {
+
+    alert(
+        "Aucun employé réel n'est encore enregistré."
+    );
+
+}
+
+</script>
+
+</body>
+</html>
