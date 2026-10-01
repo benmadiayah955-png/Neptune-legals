@@ -15,37 +15,63 @@
 }
 
 body {
-    background: #f7fbff;
-    color: #172033;
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(199, 139, 228, 0.15),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at top left,
+            rgba(122, 202, 237, 0.12),
+            transparent 30%
+        ),
+        #0b1020;
+
+    color: white;
 }
 
 header {
-    background: white;
+    background: rgba(17, 24, 45, 0.96);
     padding: 18px 20px;
-    border-bottom: 1px solid #e5e9f5;
+
+    border-bottom: 1px solid #26304d;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    backdrop-filter: blur(10px);
 }
 
 .logo {
     font-size: 21px;
     font-weight: bold;
+
     background: linear-gradient(
         90deg,
-        #00cfff,
-        #5865f2,
-        #a855f7,
-        #ec4899
+        #7ACAED,
+        #58A3DD,
+        #98CAF7,
+        #C78BE4,
+        #D1A6F1
     );
+
     -webkit-background-clip: text;
+    background-clip: text;
     color: transparent;
 }
 
 .back {
-    color: #5865f2;
+    color: #98CAF7;
     text-decoration: none;
     font-weight: bold;
+}
+
+.back:hover {
+    color: white;
 }
 
 .container {
@@ -55,31 +81,46 @@ header {
 }
 
 .profile {
-    background: white;
-    border: 1px solid #e6eaf4;
+    background:
+        linear-gradient(
+            145deg,
+            #11182d,
+            #0e1426
+        );
+
+    border: 1px solid #26304d;
     border-radius: 22px;
+
     padding: 25px;
+
     display: flex;
     align-items: center;
     gap: 18px;
+
     margin-bottom: 20px;
-    box-shadow: 0 8px 25px rgba(50,70,100,.06);
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.25);
 }
 
 .avatar {
     width: 65px;
     height: 65px;
+
     border-radius: 50%;
+
     background: linear-gradient(
         135deg,
-        #00cfff,
-        #5865f2,
-        #a855f7,
-        #ec4899
+        #7ACAED,
+        #58A3DD,
+        #C78BE4,
+        #D1A6F1
     );
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     color: white;
     font-size: 28px;
 }
@@ -90,16 +131,23 @@ header {
 }
 
 .profile p {
-    color: #788296;
+    color: #aebbd0;
 }
 
 .badge {
     display: inline-block;
+
     margin-top: 8px;
+
     padding: 6px 10px;
+
     border-radius: 20px;
-    background: #eef0ff;
-    color: #5865f2;
+
+    background: rgba(122, 202, 237, 0.12);
+    border: 1px solid rgba(122, 202, 237, 0.22);
+
+    color: #98CAF7;
+
     font-size: 12px;
     font-weight: bold;
 }
@@ -107,43 +155,70 @@ header {
 .stats {
     display: grid;
     grid-template-columns: repeat(2,1fr);
+
     gap: 12px;
+
     margin-bottom: 20px;
 }
 
 .stat {
-    background: white;
-    border: 1px solid #e6eaf4;
+    background:
+        linear-gradient(
+            145deg,
+            #11182d,
+            #0e1426
+        );
+
+    border: 1px solid #26304d;
     border-radius: 18px;
+
     padding: 20px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.20);
 }
 
 .stat strong {
     display: block;
+
     font-size: 25px;
+
     margin-bottom: 6px;
+
     background: linear-gradient(
         90deg,
-        #00bfff,
-        #5865f2,
-        #ec4899
+        #7ACAED,
+        #58A3DD,
+        #C78BE4
     );
+
     -webkit-background-clip: text;
+    background-clip: text;
     color: transparent;
 }
 
 .stat span {
-    color: #788296;
+    color: #8f9db5;
     font-size: 13px;
 }
 
 .card {
-    background: white;
-    border: 1px solid #e6eaf4;
+    background:
+        linear-gradient(
+            145deg,
+            #11182d,
+            #0e1426
+        );
+
+    border: 1px solid #26304d;
     border-radius: 20px;
+
     padding: 22px;
+
     margin-bottom: 15px;
-    box-shadow: 0 8px 25px rgba(50,70,100,.05);
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.20);
 }
 
 .card h2 {
@@ -154,8 +229,10 @@ header {
 .row {
     display: flex;
     justify-content: space-between;
+
     padding: 13px 0;
-    border-bottom: 1px solid #edf0f6;
+
+    border-bottom: 1px solid #202a45;
 }
 
 .row:last-child {
@@ -163,33 +240,71 @@ header {
 }
 
 .label {
-    color: #7b8495;
+    color: #8492aa;
 }
 
 .value {
     font-weight: bold;
+    color: #e7edf7;
 }
 
 .button {
     display: block;
+
     width: 100%;
+
     border: none;
+
     padding: 14px;
+
     border-radius: 13px;
+
     margin-top: 10px;
+
     color: white;
+
     font-weight: bold;
+
     background: linear-gradient(
         90deg,
-        #00cfff,
-        #5865f2,
-        #a855f7
+        #58A3DD,
+        #7ACAED,
+        #C78BE4
     );
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 25px rgba(122, 202, 237, 0.20);
 }
 
 @media (min-width: 700px) {
     .stats {
         grid-template-columns: repeat(4,1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    body {
+        padding-bottom: 20px;
+    }
+
+    .container {
+        padding: 20px 15px;
+    }
+
+    .profile {
+        padding: 20px;
+    }
+
+    .profile h1 {
+        font-size: 20px;
     }
 }
 </style>
@@ -342,7 +457,7 @@ header {
             📨 Contacter le staff
         </h2>
 
-        <p style="color:#788296; line-height:1.6;">
+        <p style="color:#8492aa; line-height:1.6;">
             Besoin d'aide concernant votre entreprise,
             votre candidature ou votre compte ?
         </p>
@@ -356,4 +471,4 @@ header {
 </div>
 
 </body>
-  </html>
+</html>
