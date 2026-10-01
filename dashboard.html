@@ -61,6 +61,12 @@
             font-weight: 700;
         }
 
+        .role {
+            font-size: 12px;
+            color: #5268c8;
+            margin-top: 3px;
+        }
+
         main {
             padding: 45px 6%;
         }
@@ -137,6 +143,22 @@
             background: #e2e6ff;
         }
 
+        .loading {
+            text-align: center;
+            color: #7b8799;
+            padding: 30px;
+        }
+
+        .error {
+            background: #fff1f1;
+            border: 1px solid #ffd5d5;
+            color: #c0392b;
+            padding: 15px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            display: none;
+        }
+
         @media (max-width: 800px) {
             .grid {
                 grid-template-columns: 1fr;
@@ -159,8 +181,14 @@
             ?
         </div>
 
-        <div class="username" id="username">
-            Chargement...
+        <div>
+            <div class="username" id="username">
+                Chargement...
+            </div>
+
+            <div class="role" id="role">
+                Vérification du rôle...
+            </div>
         </div>
 
     </div>
@@ -181,6 +209,9 @@
         </p>
 
     </section>
+
+
+    <div class="error" id="errorMessage"></div>
 
 
     <section class="grid">
@@ -273,6 +304,10 @@ const SUPABASE_URL =
 const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
 
+const DISCORD_ROLES_FUNCTION =
+    `${SUPABASE_URL}/functions/v1/discord-roles`;
+
+
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
@@ -282,47 +317,207 @@ const supabaseClient =
 
 async function chargerUtilisateur() {
 
-    const {
-        data: {
-            session
+    try {
+
+        const {
+            data: {
+                session
+            }
+        } = await supabaseClient.auth.getSession();
+
+
+        if (!session) {
+
+            window.location.href =
+                "connexion.html";
+
+            return;
         }
-    } = await supabaseClient.auth.getSession();
 
 
-    if (!session) {
+        const user =
+            session.user;
 
-        window.location.href =
-            "connexion.html";
 
-        return;
+        const username =
+            user.user_metadata?.full_name ||
+            user.user_metadata?.name ||
+            user.user_metadata?.global_name ||
+            user.email ||
+            "Utilisateur";
+
+
+        document.getElementById("username").textContent =
+            username;
+
+
+        document.getElementById("avatar").textContent =
+            username.charAt(0).toUpperCase();
+
+
+        /*
+         * Récupération de l'ID Discord
+         */
+
+        const discordUserId =
+            user.user_metadata?.provider_id ||
+            user.user_metadata?.sub ||
+            user.identities?.find(
+                identity =>
+                    identity.provider === "discord"
+            )?.identity_data?.sub;
+
+
+        if (!discordUserId) {
+
+            document.getElementById("role").textContent =
+                "Discord non identifié";
+
+            afficherErreur(
+                "Impossible de récupérer votre identifiant Discord."
+            );
+
+            return;
+        }
+
+
+        /*
+         * Appel de l'Edge Function
+         */
+
+        const response =
+            await fetch(
+                DISCORD_ROLES_FUNCTION,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        discord_user_id:
+                            discordUserId
+                    })
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            console.error(
+                "Erreur Discord :",
+                result
+            );
+
+            document.getElementById("role").textContent =
+                "Erreur de vérification";
+
+            afficherErreur(
+                "Impossible de vérifier votre rôle Discord."
+            );
+
+            return;
+        }
+
+
+        /*
+         * Utilisateur absent du serveur
+         */
+
+        if (!result.member) {
+
+            document.getElementById("role").textContent =
+                "Aucun accès";
+
+            afficherErreur(
+                "Votre compte Discord n'est pas reconnu comme membre du serveur Neptune."
+            );
+
+            return;
+        }
+
+
+        /*
+         * Affichage du rôle
+         */
+
+        document.getElementById("role").textContent =
+            result.role;
+
+
+        /*
+         * Stockage temporaire du rôle
+         * pour les autres pages
+         */
+
+        sessionStorage.setItem(
+            "neptune_role",
+            result.role
+        );
+
+        sessionStorage.setItem(
+            "neptune_full_access",
+            result.full_access
+        );
+
+        sessionStorage.setItem(
+            "neptune_discord_user_id",
+            result.discord_user_id
+        );
+
+
+        console.log(
+            "Rôle Discord :",
+            result.role
+        );
+
+        console.log(
+            "Accès complet :",
+            result.full_access
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Erreur dashboard :",
+            error
+        );
+
+        document.getElementById("role").textContent =
+            "Erreur";
+
+        afficherErreur(
+            "Une erreur est survenue lors de la connexion à Neptune Legal."
+        );
     }
 
-
-    const user =
-        session.user;
+}
 
 
-    const username =
-        user.user_metadata?.full_name ||
-        user.user_metadata?.name ||
-        user.user_metadata?.global_name ||
-        user.email ||
-        "Utilisateur";
+function afficherErreur(message) {
 
+    const element =
+        document.getElementById("errorMessage");
 
-    document.getElementById("username").textContent =
-        username;
+    element.textContent =
+        message;
 
-
-    document.getElementById("avatar").textContent =
-        username.charAt(0).toUpperCase();
-
+    element.style.display =
+        "block";
 }
 
 
 async function deconnexion() {
 
     await supabaseClient.auth.signOut();
+
+    sessionStorage.clear();
 
     window.location.href =
         "connexion.html";
