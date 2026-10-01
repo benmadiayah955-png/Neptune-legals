@@ -58,7 +58,6 @@
             margin-bottom: 25px;
             color: #7ACAED;
             text-decoration: none;
-            transition: 0.2s;
         }
 
         .back:hover {
@@ -104,7 +103,6 @@
                 #7ACAED,
                 #98CAF7
             );
-            box-shadow: 0 5px 20px rgba(88, 163, 221, 0.25);
         }
 
         .danger {
@@ -127,7 +125,6 @@
             border: 1px solid rgba(122, 202, 237, 0.25);
             border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
         }
 
         .stat span {
@@ -155,7 +152,8 @@
         }
 
         input,
-        textarea {
+        textarea,
+        select {
             width: 100%;
             padding: 13px;
             border-radius: 10px;
@@ -163,28 +161,12 @@
             background: rgba(9, 22, 37, 0.9);
             color: white;
             outline: none;
-            transition: 0.2s;
         }
 
         input:focus,
         textarea:focus,
         select:focus {
             border-color: #7ACAED;
-            box-shadow: 0 0 0 2px rgba(122, 202, 237, 0.1);
-        }
-
-        input::placeholder,
-        textarea::placeholder {
-            color: #7890aa;
-        }
-
-        select {
-            padding: 13px;
-            border-radius: 10px;
-            border: 1px solid rgba(122, 202, 237, 0.3);
-            background: rgba(9, 22, 37, 0.9);
-            color: white;
-            outline: none;
         }
 
         .toolbar input {
@@ -202,21 +184,10 @@
             border: 1px solid rgba(122, 202, 237, 0.22);
             border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
-            transition: 0.2s;
-        }
-
-        .product:hover {
-            transform: translateY(-3px);
-            border-color: rgba(199, 139, 228, 0.55);
-            box-shadow:
-                0 10px 35px rgba(88, 163, 221, 0.12),
-                0 0 20px rgba(199, 139, 228, 0.06);
         }
 
         .product h3 {
             margin-top: 0;
-            margin-bottom: 8px;
             background: linear-gradient(
                 90deg,
                 #7ACAED,
@@ -265,7 +236,6 @@
             border-radius: 15px;
             color: #98CAF7;
             grid-column: 1 / -1;
-            background: rgba(12, 27, 44, 0.55);
         }
 
         .modal {
@@ -276,7 +246,6 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            backdrop-filter: blur(8px);
         }
 
         .modal-content {
@@ -290,9 +259,6 @@
             border: 1px solid rgba(199, 139, 228, 0.35);
             border-radius: 18px;
             padding: 25px;
-            box-shadow:
-                0 15px 50px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(122, 202, 237, 0.08);
         }
 
         .modal-content h2 {
@@ -370,6 +336,7 @@
     </div>
 
     <div class="stats">
+
         <div class="stat">
             <span>Produits</span>
             <strong id="totalProduits">0</strong>
@@ -389,9 +356,11 @@
             <span>Valeur du stock</span>
             <strong id="valeurStock">0 €</strong>
         </div>
+
     </div>
 
     <div class="toolbar">
+
         <input
             type="text"
             id="recherche"
@@ -404,6 +373,7 @@
             <option value="faible">Stock faible</option>
             <option value="normal">Stock normal</option>
         </select>
+
     </div>
 
     <div id="products" class="products">
@@ -449,6 +419,7 @@
         </div>
 
         <div class="modal-actions">
+
             <button class="primary" onclick="ajouterProduit()">
                 Ajouter
             </button>
@@ -456,6 +427,7 @@
             <button onclick="fermerModal()">
                 Annuler
             </button>
+
         </div>
 
     </div>
@@ -463,15 +435,21 @@
 </div>
 
 <script>
-const SUPABASE_URL = "https://xzmglqxcsrzivvkpemyt.supabase.co";
-const SUPABASE_KEY = "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
 
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+const SUPABASE_URL =
+    "https://xzmglqxcsrzivvkpemyt.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
 let produits = [];
+
 
 async function verifierConnexion() {
 
@@ -479,16 +457,21 @@ async function verifierConnexion() {
         await supabaseClient.auth.getUser();
 
     if (error || !data.user) {
-        window.location.href = "connexion.html";
+
+        window.location.href =
+            "connexion.html";
+
         return false;
     }
 
     return true;
 }
 
+
 async function chargerProduits() {
 
-    const connecte = await verifierConnexion();
+    const connecte =
+        await verifierConnexion();
 
     if (!connecte) return;
 
@@ -496,13 +479,17 @@ async function chargerProduits() {
         await supabaseClient
             .from("Stocks")
             .select("*")
-            .order("created_at", { ascending: false });
+            .order("created_at", {
+                ascending: false
+            });
 
     if (error) {
 
         console.error(error);
 
-        document.getElementById("products").innerHTML = `
+        document.getElementById(
+            "products"
+        ).innerHTML = `
             <div class="empty">
                 <strong>Erreur Supabase</strong><br><br>
                 ${echapper(error.message)}
@@ -517,6 +504,7 @@ async function chargerProduits() {
     afficherProduits();
     mettreAJourStats();
 }
+
 
 function afficherProduits() {
 
@@ -536,7 +524,8 @@ function afficherProduits() {
         produits.filter(produit => {
 
             const nom =
-                (produit.nom || "").toLowerCase();
+                (produit.nom || "")
+                    .toLowerCase();
 
             const correspondRecherche =
                 nom.includes(recherche);
@@ -547,12 +536,19 @@ function afficherProduits() {
 
             const correspondFiltre =
                 filtre === "tous" ||
-                (filtre === "faible" && faible) ||
-                (filtre === "normal" && !faible);
+                (
+                    filtre === "faible" &&
+                    faible
+                ) ||
+                (
+                    filtre === "normal" &&
+                    !faible
+                );
 
             return correspondRecherche &&
                    correspondFiltre;
         });
+
 
     if (resultat.length === 0) {
 
@@ -564,6 +560,7 @@ function afficherProduits() {
 
         return;
     }
+
 
     container.innerHTML =
         resultat.map(produit => {
@@ -581,6 +578,7 @@ function afficherProduits() {
                 quantite <= seuil;
 
             return `
+
                 <div class="product">
 
                     <h3>
@@ -631,10 +629,12 @@ function afficherProduits() {
                     </div>
 
                 </div>
+
             `;
 
         }).join("");
 }
+
 
 function mettreAJourStats() {
 
@@ -645,7 +645,9 @@ function mettreAJourStats() {
         produits.reduce(
             (total, produit) =>
                 total +
-                (Number(produit.quantite) || 0),
+                (
+                    Number(produit.quantite) || 0
+                ),
             0
         );
 
@@ -661,29 +663,37 @@ function mettreAJourStats() {
             (total, produit) =>
                 total +
                 (
-                    (Number(produit.quantite) || 0) *
-                    (Number(produit.prix_unitaire) || 0)
+                    (
+                        Number(produit.quantite) || 0
+                    ) *
+                    (
+                        Number(produit.prix_unitaire) || 0
+                    )
                 ),
             0
         );
 
     document.getElementById(
         "totalProduits"
-    ).textContent = totalProduits;
+    ).textContent =
+        totalProduits;
 
     document.getElementById(
         "quantiteTotale"
-    ).textContent = quantiteTotale;
+    ).textContent =
+        quantiteTotale;
 
     document.getElementById(
         "stockFaible"
-    ).textContent = stockFaible;
+    ).textContent =
+        stockFaible;
 
     document.getElementById(
         "valeurStock"
     ).textContent =
         valeurStock.toFixed(2) + " €";
 }
+
 
 async function ajouterProduit() {
 
@@ -699,45 +709,69 @@ async function ajouterProduit() {
 
     const quantite =
         Number(
-            document.getElementById("quantite").value
+            document.getElementById("quantite")
+                .value
         );
 
     const seuil =
         Number(
-            document.getElementById("seuil").value
+            document.getElementById("seuil")
+                .value
         );
 
     const prix =
         Number(
-            document.getElementById("prix").value
+            document.getElementById("prix")
+                .value
         );
 
+
     if (!nom) {
-        alert("Entre le nom du produit.");
+
+        alert(
+            "Entre le nom du produit."
+        );
+
         return;
     }
+
 
     const { data: userData } =
         await supabaseClient.auth.getUser();
 
+
     if (!userData.user) {
-        window.location.href = "connexion.html";
+
+        window.location.href =
+            "connexion.html";
+
         return;
     }
+
+
+    /*
+     * IMPORTANT :
+     * entreprise_id n'est volontairement
+     * pas envoyé pour le moment.
+     */
 
     const { data, error } =
         await supabaseClient
             .from("Stocks")
             .insert({
                 nom: nom,
-                description: description || null,
-                quantite: quantite || 0,
-                seuil_alerte: seuil || 5,
-                prix_unitaire: prix || 0,
-                entreprise_id: null
+                description:
+                    description || null,
+                quantite:
+                    quantite || 0,
+                seuil_alerte:
+                    seuil || 5,
+                prix_unitaire:
+                    prix || 0
             })
             .select()
             .single();
+
 
     if (error) {
 
@@ -750,34 +784,59 @@ async function ajouterProduit() {
             "Erreur Supabase :\n\n" +
             error.message +
             "\n\nCode : " +
-            (error.code || "inconnu")
+            (
+                error.code ||
+                "inconnu"
+            )
         );
 
         return;
     }
 
+
     produits.unshift(data);
 
     fermerModal();
 
-    document.getElementById("nom").value = "";
-    document.getElementById("description").value = "";
-    document.getElementById("quantite").value = "0";
-    document.getElementById("seuil").value = "5";
-    document.getElementById("prix").value = "0";
+    document.getElementById(
+        "nom"
+    ).value = "";
+
+    document.getElementById(
+        "description"
+    ).value = "";
+
+    document.getElementById(
+        "quantite"
+    ).value = "0";
+
+    document.getElementById(
+        "seuil"
+    ).value = "5";
+
+    document.getElementById(
+        "prix"
+    ).value = "0";
+
 
     afficherProduits();
     mettreAJourStats();
 }
 
-async function modifierQuantite(id, changement) {
+
+async function modifierQuantite(
+    id,
+    changement
+) {
 
     const produit =
         produits.find(
-            produit => produit.id === id
+            produit =>
+                produit.id === id
         );
 
     if (!produit) return;
+
 
     const nouvelleQuantite =
         Math.max(
@@ -786,15 +845,18 @@ async function modifierQuantite(id, changement) {
             changement
         );
 
+
     const { data, error } =
         await supabaseClient
             .from("Stocks")
             .update({
-                quantite: nouvelleQuantite
+                quantite:
+                    nouvelleQuantite
             })
             .eq("id", id)
             .select()
             .single();
+
 
     if (error) {
 
@@ -806,9 +868,11 @@ async function modifierQuantite(id, changement) {
         return;
     }
 
+
     const index =
         produits.findIndex(
-            produit => produit.id === id
+            produit =>
+                produit.id === id
         );
 
     produits[index] = data;
@@ -817,17 +881,24 @@ async function modifierQuantite(id, changement) {
     mettreAJourStats();
 }
 
+
 async function supprimerProduit(id) {
 
-    if (!confirm("Supprimer ce produit ?")) {
+    if (
+        !confirm(
+            "Supprimer ce produit ?"
+        )
+    ) {
         return;
     }
+
 
     const { error } =
         await supabaseClient
             .from("Stocks")
             .delete()
             .eq("id", id);
+
 
     if (error) {
 
@@ -839,34 +910,62 @@ async function supprimerProduit(id) {
         return;
     }
 
+
     produits =
         produits.filter(
-            produit => produit.id !== id
+            produit =>
+                produit.id !== id
         );
 
     afficherProduits();
     mettreAJourStats();
 }
 
+
 function ouvrirModal() {
-    document.getElementById("modal").style.display = "flex";
+
+    document.getElementById(
+        "modal"
+    ).style.display = "flex";
 }
 
+
 function fermerModal() {
-    document.getElementById("modal").style.display = "none";
+
+    document.getElementById(
+        "modal"
+    ).style.display = "none";
 }
+
 
 function echapper(texte) {
 
     return String(texte)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 }
 
+
 chargerProduits();
+
 </script>
 
 </body>
