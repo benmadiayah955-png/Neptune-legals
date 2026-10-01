@@ -98,7 +98,6 @@
     <div class="container">
         <div class="card">
 
-            <!-- Si ton logo porte un autre nom, modifie uniquement cette ligne -->
             <img
                 src="logo.png"
                 alt="Neptune Legal"
@@ -168,11 +167,9 @@
                         provider: "discord",
 
                         options: {
-
                             redirectTo:
                                 window.location.origin +
                                 "/Neptune-legals/dashboard.html"
-
                         }
 
                     });
@@ -193,6 +190,7 @@
                     buttonText.textContent =
                         "Continuer avec Discord";
 
+                    return;
                 }
 
             } catch (error) {
