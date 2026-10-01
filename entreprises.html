@@ -6,6 +6,8 @@
 
 <title>Neptune — Entreprises</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 * {
     box-sizing: border-box;
@@ -64,6 +66,11 @@ header {
     margin-bottom: 25px;
 }
 
+.section-title {
+    margin: 35px 0 15px;
+    font-size: 22px;
+}
+
 .grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -116,6 +123,47 @@ header {
     );
 }
 
+.company-card {
+    position: relative;
+}
+
+.company-status {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    background: #e8f8ee;
+    color: #168544;
+}
+
+.company-status.inactive {
+    background: #ffeaea;
+    color: #d33;
+}
+
+.no-company {
+    background: white;
+    border: 1px solid #e7ebf5;
+    border-radius: 20px;
+    padding: 25px;
+    color: #778196;
+}
+
+.loading {
+    color: #778196;
+    padding: 20px 0;
+}
+
+.error {
+    color: #d33;
+    background: #ffeaea;
+    padding: 15px;
+    border-radius: 12px;
+}
+
 @media (min-width: 700px) {
     .grid {
         grid-template-columns: repeat(2, 1fr);
@@ -130,7 +178,7 @@ header {
 <header>
 
     <div class="logo">
-        🪐 NEPTUNE
+        NEPTUNE
     </div>
 
     <a href="index.html" class="back">
@@ -148,6 +196,8 @@ header {
     <p class="subtitle">
         Retrouvez ici les services disponibles pour les entreprises.
     </p>
+
+    <!-- SERVICES -->
 
     <div class="grid">
 
@@ -183,7 +233,7 @@ header {
                 entreprise et gérez votre recrutement.
             </p>
 
-            <a href="#" class="button">
+            <a href="candidatures.html" class="button">
                 Voir les candidatures
             </a>
 
@@ -202,7 +252,7 @@ header {
                 leurs heures et leur évolution.
             </p>
 
-            <a href="#" class="button">
+            <a href="gestion-employes.html" class="button">
                 Gérer les employés
             </a>
 
@@ -221,7 +271,7 @@ header {
                 heures de service et statistiques.
             </p>
 
-            <a href="#" class="button">
+            <a href="entreprise-dashboard.html" class="button">
                 Ouvrir le tableau de bord
             </a>
 
@@ -229,7 +279,152 @@ header {
 
     </div>
 
+    <!-- ENTREPRISES REELLES -->
+
+    <h2 class="section-title">
+        Entreprises disponibles
+    </h2>
+
+    <div id="entreprises" class="grid">
+        <div class="loading">
+            Chargement des entreprises...
+        </div>
+    </div>
+
 </div>
+
+<script>
+
+const SUPABASE_URL = "https://xzmglqxcsrzivvkpemyt.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+async function chargerEntreprises() {
+
+    const container = document.getElementById("entreprises");
+
+    const { data, error } = await supabaseClient
+        .from("entreprises")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="error">
+                Impossible de charger les entreprises.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    if (!data || data.length === 0) {
+
+        container.innerHTML = `
+            <div class="no-company">
+                Aucune entreprise n'est disponible pour le moment.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    data.forEach(entreprise => {
+
+        const nom = entreprise.nom || "Entreprise sans nom";
+
+        const description =
+            entreprise.description ||
+            "Aucune description disponible.";
+
+        const statut =
+            entreprise.statut || "active";
+
+        const statutTexte =
+            statut.toLowerCase() === "active"
+                ? "Active"
+                : statut;
+
+
+        const card = document.createElement("div");
+
+        card.className = "card company-card";
+
+
+        if (statut.toLowerCase() === "active") {
+
+            card.innerHTML = `
+                <div class="company-status">
+                    ${statutTexte}
+                </div>
+
+                <div class="icon">
+                    🏢
+                </div>
+
+                <h2>
+                    ${nom}
+                </h2>
+
+                <p>
+                    ${description}
+                </p>
+
+                <a
+                    href="entreprise-dashboard.html?id=${encodeURIComponent(entreprise.id)}"
+                    class="button"
+                >
+                    Voir l'entreprise
+                </a>
+            `;
+
+        } else {
+
+            card.innerHTML = `
+                <div class="company-status inactive">
+                    ${statutTexte}
+                </div>
+
+                <div class="icon">
+                    🏢
+                </div>
+
+                <h2>
+                    ${nom}
+                </h2>
+
+                <p>
+                    ${description}
+                </p>
+            `;
+        }
+
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+chargerEntreprises();
+
+</script>
 
 </body>
 </html>
