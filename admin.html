@@ -6,6 +6,8 @@
 
 <title>Administration — Neptune Legal</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{
     box-sizing:border-box;
@@ -20,7 +22,13 @@ body{
 }
 
 header{
-    background:linear-gradient(135deg,#45dfff,#6475ff,#c55cff);
+    background:linear-gradient(
+        135deg,
+        #7ACAED,
+        #58A3DD,
+        #C78BE4,
+        #D1A6F1
+    );
     color:white;
     padding:18px 6%;
     display:flex;
@@ -72,9 +80,20 @@ nav a{
     color:#7c899f;
 }
 
+.staff-badge{
+    display:inline-block;
+    margin-top:15px;
+    padding:8px 13px;
+    border-radius:20px;
+    background:#eef8ff;
+    color:#58A3DD;
+    font-weight:bold;
+    font-size:13px;
+}
+
 .stats{
     display:grid;
-    grid-template-columns:repeat(5,1fr);
+    grid-template-columns:repeat(4,1fr);
     gap:15px;
     margin-bottom:22px;
 }
@@ -126,8 +145,8 @@ nav a{
     background:#fbfdff;
     border-radius:17px;
     padding:18px;
-    cursor:pointer;
-    text-align:left;
+    text-decoration:none;
+    color:#18243d;
     transition:.2s;
 }
 
@@ -149,15 +168,6 @@ nav a{
 .action span{
     color:#8995aa;
     font-size:13px;
-}
-
-.search{
-    width:100%;
-    padding:13px 15px;
-    border:1px solid #e1e8f2;
-    border-radius:13px;
-    outline:none;
-    margin-bottom:15px;
 }
 
 .item{
@@ -188,6 +198,11 @@ nav a{
     font-weight:bold;
 }
 
+.blue{
+    background:#eef8ff;
+    color:#58A3DD;
+}
+
 .green{
     background:#e7fff1;
     color:#16a45a;
@@ -203,45 +218,23 @@ nav a{
     color:#dc4058;
 }
 
-.activity{
-    border-left:3px solid #6878ff;
-    padding:12px 15px;
-    margin-bottom:13px;
-    background:#f8faff;
-    border-radius:0 12px 12px 0;
-}
-
-.activity strong{
-    display:block;
-    margin-bottom:4px;
-}
-
-.activity span{
+.info{
     color:#8995aa;
-    font-size:12px;
+    font-size:13px;
+    line-height:1.6;
 }
 
-button{
-    border:none;
-    cursor:pointer;
-    padding:10px 14px;
-    border-radius:11px;
-    font-weight:bold;
+.loading{
+    color:#8995aa;
+    padding:10px 0;
 }
 
-.primary{
-    background:linear-gradient(135deg,#53dcff,#6978ff);
-    color:white;
-}
-
-.secondary{
-    background:#eef2ff;
-    color:#596ce3;
-}
-
-.danger{
-    background:#ffe9ed;
-    color:#d43d55;
+.empty{
+    color:#8995aa;
+    background:#f8faff;
+    padding:15px;
+    border-radius:14px;
+    font-size:13px;
 }
 
 footer{
@@ -252,18 +245,21 @@ footer{
 }
 
 @media(max-width:1000px){
+
     .stats{
-        grid-template-columns:repeat(3,1fr);
+        grid-template-columns:repeat(2,1fr);
     }
 
     .layout{
         grid-template-columns:1fr;
     }
+
 }
 
 @media(max-width:650px){
+
     .stats{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:1fr 1fr;
     }
 
     .actions{
@@ -273,7 +269,9 @@ footer{
     .welcome h1{
         font-size:25px;
     }
+
 }
+
 </style>
 </head>
 
@@ -282,287 +280,316 @@ footer{
 <header>
 
     <div class="logo">
-        🌊 Neptune Legal
+        Neptune Legal
     </div>
 
     <nav>
         <a href="index.html">Accueil</a>
-        <a href="entreprises.html">Entreprises</a>
-        <a href="employes.html">Mon espace</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="utilisateurs.html">Utilisateurs</a>
     </nav>
 
 </header>
 
 <div class="container">
 
-    <section class="welcome">
+<section class="welcome">
 
-        <h1>⚙️ Administration</h1>
+    <h1>Administration</h1>
 
-        <p>
-            Bienvenue dans le centre de gestion de Neptune Legal.
-            Gérez les utilisateurs, entreprises, candidatures et activités du portail.
-        </p>
+    <p>
+        Centre de gestion Staff de Neptune Legal.
+        Gérez les utilisateurs, entreprises et demandes du portail.
+    </p>
 
-    </section>
+    <div class="staff-badge">
+        Accès Administration
+    </div>
 
-    <!-- STATISTIQUES -->
+</section>
 
-    <div class="stats">
+<!-- STATISTIQUES -->
 
-        <div class="stat">
-            <span>Utilisateurs</span>
-            <strong>248</strong>
-        </div>
+<div class="stats">
 
-        <div class="stat">
-            <span>Entreprises</span>
-            <strong>37</strong>
-        </div>
+    <div class="stat">
+        <span>Utilisateurs</span>
+        <strong id="usersCount">0</strong>
+    </div>
 
-        <div class="stat">
-            <span>Candidatures</span>
-            <strong>19</strong>
-        </div>
+    <div class="stat">
+        <span>Entreprises</span>
+        <strong id="companiesCount">0</strong>
+    </div>
 
-        <div class="stat">
-            <span>Entreprises actives</span>
-            <strong>31</strong>
-        </div>
+    <div class="stat">
+        <span>Finances</span>
+        <strong id="financeCount">0</strong>
+    </div>
 
-        <div class="stat">
-            <span>Alertes</span>
-            <strong>4</strong>
-        </div>
+    <div class="stat">
+        <span>Stocks</span>
+        <strong id="stockCount">0</strong>
+    </div>
+
+</div>
+
+<div class="layout">
+
+<div>
+
+<!-- GESTION RAPIDE -->
+
+<section class="section">
+
+    <h2>Gestion Staff</h2>
+
+    <div class="actions">
+
+        <a class="action" href="utilisateurs.html">
+
+            <div class="icon">Utilisateurs</div>
+
+            <strong>Gestion des utilisateurs</strong>
+
+            <span>
+                Consulter les profils et gérer les comptes.
+            </span>
+
+        </a>
+
+        <a class="action" href="entreprises.html">
+
+            <div class="icon">Entreprises</div>
+
+            <strong>Gestion des entreprises</strong>
+
+            <span>
+                Consulter les entreprises enregistrées.
+            </span>
+
+        </a>
+
+        <a class="action" href="candidatures.html">
+
+            <div class="icon">Candidatures</div>
+
+            <strong>Gestion des candidatures</strong>
+
+            <span>
+                Consulter les dossiers déposés.
+            </span>
+
+        </a>
+
+        <a class="action" href="tickets.html">
+
+            <div class="icon">Tickets</div>
+
+            <strong>Tickets Staff</strong>
+
+            <span>
+                Consulter et traiter les demandes.
+            </span>
+
+        </a>
+
+        <a class="action" href="finances.html">
+
+            <div class="icon">Finances</div>
+
+            <strong>Ventes & finances</strong>
+
+            <span>
+                Consulter les données financières.
+            </span>
+
+        </a>
+
+        <a class="action" href="stocks.html">
+
+            <div class="icon">Stocks</div>
+
+            <strong>Gestion des stocks</strong>
+
+            <span>
+                Consulter les produits et quantités.
+            </span>
+
+        </a>
+
+        <a class="action" href="gestion-employes.html">
+
+            <div class="icon">Employés</div>
+
+            <strong>Gestion des employés</strong>
+
+            <span>
+                Consulter les employés des entreprises.
+            </span>
+
+        </a>
+
+        <a class="action" href="gestion-grades.html">
+
+            <div class="icon">Grades</div>
+
+            <strong>Gestion des grades</strong>
+
+            <span>
+                Gérer les grades des entreprises.
+            </span>
+
+        </a>
 
     </div>
 
-    <div class="layout">
+</section>
 
-        <!-- COLONNE PRINCIPALE -->
+<!-- FORMULAIRES -->
 
-        <div>
+<section class="section">
 
-            <section class="section">
+    <h2>Formulaires à traiter</h2>
 
-                <h2>🛠️ Gestion rapide</h2>
-
-                <div class="actions">
-
-                    <div class="action" onclick="ouvrir('Utilisateurs')">
-                        <div class="icon">👥</div>
-                        <strong>Utilisateurs</strong>
-                        <span>Gérer les comptes et accès</span>
-                    </div>
-
-                    <div class="action" onclick="ouvrir('Entreprises')">
-                        <div class="icon">🏢</div>
-                        <strong>Entreprises</strong>
-                        <span>Gérer les entreprises enregistrées</span>
-                    </div>
-
-                    <div class="action" onclick="ouvrir('Candidatures')">
-                        <div class="icon">📩</div>
-                        <strong>Candidatures</strong>
-                        <span>Consulter les demandes</span>
-                    </div>
-
-                    <div class="action" onclick="ouvrir('Reprises')">
-                        <div class="icon">📋</div>
-                        <strong>Reprises</strong>
-                        <span>Examiner les dossiers de reprise</span>
-                    </div>
-
-                    <div class="action" onclick="ouvrir('Finances')">
-                        <div class="icon">💰</div>
-                        <strong>Finances</strong>
-                        <span>Consulter les données financières</span>
-                    </div>
-
-                    <div class="action" onclick="ouvrir('Sanctions')">
-                        <div class="icon">⚠️</div>
-                        <strong>Sanctions</strong>
-                        <span>Gérer les sanctions administratives</span>
-                    </div>
-
-                    <div class="action" onclick="ouvrir('Logs')">
-                        <div class="icon">📜</div>
-                        <strong>Logs</strong>
-                        <span>Consulter les actions effectuées</span>
-                    </div>
-
-                    <div class="action" onclick="ouvrir('Paramètres')">
-                        <div class="icon">⚙️</div>
-                        <strong>Paramètres</strong>
-                        <span>Configuration du portail</span>
-                    </div>
-
-                </div>
-
-            </section>
-
-            <!-- ENTREPRISES -->
-
-            <section class="section">
-
-                <h2>🏢 Entreprises récentes</h2>
-
-                <input
-                    class="search"
-                    id="search"
-                    type="text"
-                    placeholder="Rechercher une entreprise..."
-                    oninput="rechercher()"
-                >
-
-                <div id="entreprises">
-
-                    <div class="item entreprise">
-                        <div>
-                            <strong>Restaurant Neptune</strong>
-                            <span>Restauration • 12 employés</span>
-                        </div>
-
-                        <span class="badge green">
-                            Active
-                        </span>
-                    </div>
-
-                    <div class="item entreprise">
-                        <div>
-                            <strong>AutoKaze</strong>
-                            <span>Automobile • 8 employés</span>
-                        </div>
-
-                        <span class="badge green">
-                            Active
-                        </span>
-                    </div>
-
-                    <div class="item entreprise">
-                        <div>
-                            <strong>Weazel News</strong>
-                            <span>Média • 15 employés</span>
-                        </div>
-
-                        <span class="badge orange">
-                            À vérifier
-                        </span>
-                    </div>
-
-                    <div class="item entreprise">
-                        <div>
-                            <strong>Maisonette 10</strong>
-                            <span>Restauration • 6 employés</span>
-                        </div>
-
-                        <span class="badge green">
-                            Active
-                        </span>
-                    </div>
-
-                </div>
-
-            </section>
-
-        </div>
-
-        <!-- COLONNE DROITE -->
+    <div class="item">
 
         <div>
 
-            <section class="section">
+            <strong>Candidatures</strong>
 
-                <h2>📩 Candidatures</h2>
-
-                <div class="item">
-                    <div>
-                        <strong>Alex Morgan</strong>
-                        <span>Restaurant Neptune</span>
-                    </div>
-
-                    <span class="badge orange">
-                        En attente
-                    </span>
-                </div>
-
-                <div class="item">
-                    <div>
-                        <strong>Lucas Brown</strong>
-                        <span>AutoKaze</span>
-                    </div>
-
-                    <span class="badge green">
-                        Acceptée
-                    </span>
-                </div>
-
-                <button
-                    class="secondary"
-                    onclick="window.location.href='recrutement.html'"
-                >
-                    Voir les candidatures
-                </button>
-
-            </section>
-
-            <section class="section">
-
-                <h2>📜 Activité récente</h2>
-
-                <div class="activity">
-                    <strong>Nouvelle entreprise créée</strong>
-                    <span>Restaurant Neptune • il y a 12 min</span>
-                </div>
-
-                <div class="activity">
-                    <strong>Candidature déposée</strong>
-                    <span>Alex Morgan • il y a 28 min</span>
-                </div>
-
-                <div class="activity">
-                    <strong>Employé ajouté</strong>
-                    <span>AutoKaze • il y a 1 h</span>
-                </div>
-
-                <div class="activity">
-                    <strong>Dossier modifié</strong>
-                    <span>Weazel News • il y a 2 h</span>
-                </div>
-
-            </section>
-
-            <section class="section">
-
-                <h2>⚠️ Alertes</h2>
-
-                <div class="item">
-                    <div>
-                        <strong>Entreprise à vérifier</strong>
-                        <span>Weazel News</span>
-                    </div>
-
-                    <span class="badge orange">
-                        1
-                    </span>
-                </div>
-
-                <div class="item">
-                    <div>
-                        <strong>Dossiers en attente</strong>
-                        <span>3 candidatures</span>
-                    </div>
-
-                    <span class="badge orange">
-                        3
-                    </span>
-                </div>
-
-            </section>
+            <span>
+                Les demandes de recrutement pourront être validées ici.
+            </span>
 
         </div>
+
+        <span class="badge blue">
+            Gestion
+        </span>
 
     </div>
+
+    <div class="item">
+
+        <div>
+
+            <strong>Reprises d'entreprises</strong>
+
+            <span>
+                Les demandes de reprise seront traitées par le Staff.
+            </span>
+
+        </div>
+
+        <span class="badge blue">
+            Gestion
+        </span>
+
+    </div>
+
+    <div class="item">
+
+        <div>
+
+            <strong>Demandes diverses</strong>
+
+            <span>
+                Les futurs formulaires pourront être ajoutés ici.
+            </span>
+
+        </div>
+
+        <span class="badge blue">
+            Gestion
+        </span>
+
+    </div>
+
+</section>
+
+</div>
+
+<!-- COLONNE DROITE -->
+
+<div>
+
+<section class="section">
+
+    <h2>État du portail</h2>
+
+    <div class="item">
+
+        <div>
+            <strong>Supabase</strong>
+            <span>Connexion à la base de données</span>
+        </div>
+
+        <span class="badge green">
+            Connecté
+        </span>
+
+    </div>
+
+    <div class="item">
+
+        <div>
+            <strong>Profils</strong>
+            <span>Données utilisateurs</span>
+        </div>
+
+        <span class="badge green">
+            Actif
+        </span>
+
+    </div>
+
+    <div class="item">
+
+        <div>
+            <strong>Entreprises</strong>
+            <span>Données entreprises</span>
+        </div>
+
+        <span class="badge green">
+            Actif
+        </span>
+
+    </div>
+
+</section>
+
+<section class="section">
+
+    <h2>Actions Staff</h2>
+
+    <div class="info">
+
+        Les actions sensibles seront enregistrées dans
+        un futur journal Staff.
+
+        <br><br>
+
+        Les rôles et permissions seront ensuite liés
+        aux rôles Discord.
+
+    </div>
+
+</section>
+
+<section class="section">
+
+    <h2>Dernières informations</h2>
+
+    <div id="databaseInfo" class="loading">
+        Chargement...
+    </div>
+
+</section>
+
+</div>
+
+</div>
 
 </div>
 
@@ -572,38 +599,117 @@ footer{
 
 <script>
 
-function ouvrir(section){
+const SUPABASE_URL =
+    "https://xzmglqxcsrzivvkpemyt.supabase.co";
 
-    alert(
-        "La section « " + section +
-        " » sera connectée à la base de données prochainement."
+const SUPABASE_KEY =
+    "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
     );
 
+async function chargerAdministration(){
+
+    try{
+
+        /* UTILISATEURS */
+
+        const users =
+            await supabaseClient
+                .from("profiles")
+                .select("id", {
+                    count:"exact",
+                    head:true
+                });
+
+        if(!users.error){
+
+            document.getElementById(
+                "usersCount"
+            ).textContent =
+                users.count || 0;
+
+        }
+
+        /* ENTREPRISES */
+
+        const companies =
+            await supabaseClient
+                .from("entreprises")
+                .select("id", {
+                    count:"exact",
+                    head:true
+                });
+
+        if(!companies.error){
+
+            document.getElementById(
+                "companiesCount"
+            ).textContent =
+                companies.count || 0;
+
+        }
+
+        /* FINANCES */
+
+        const finances =
+            await supabaseClient
+                .from("Finances")
+                .select("id", {
+                    count:"exact",
+                    head:true
+                });
+
+        if(!finances.error){
+
+            document.getElementById(
+                "financeCount"
+            ).textContent =
+                finances.count || 0;
+
+        }
+
+        /* STOCKS */
+
+        const stocks =
+            await supabaseClient
+                .from("Stocks")
+                .select("id", {
+                    count:"exact",
+                    head:true
+                });
+
+        if(!stocks.error){
+
+            document.getElementById(
+                "stockCount"
+            ).textContent =
+                stocks.count || 0;
+
+        }
+
+        document.getElementById(
+            "databaseInfo"
+        ).innerHTML =
+            "Les données du portail sont actuellement récupérées depuis Supabase.";
+
+    }catch(error){
+
+        console.error(error);
+
+        document.getElementById(
+            "databaseInfo"
+        ).innerHTML =
+            "Une erreur est survenue lors du chargement des données.";
+
+    }
+
 }
 
-function rechercher(){
-
-    const recherche =
-        document.getElementById("search")
-        .value
-        .toLowerCase();
-
-    const entreprises =
-        document.querySelectorAll(".entreprise");
-
-    entreprises.forEach(function(entreprise){
-
-        const texte =
-            entreprise.innerText.toLowerCase();
-
-        entreprise.style.display =
-            texte.includes(recherche)
-            ? "flex"
-            : "none";
-
-    });
-
-}
+chargerAdministration();
 
 </script>
 
