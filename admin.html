@@ -17,18 +17,17 @@
 }
 
 body{
-    background:#f6faff;
-    color:#18243d;
+    background:
+        radial-gradient(circle at top right, rgba(199,139,228,.15), transparent 30%),
+        radial-gradient(circle at top left, rgba(122,202,237,.12), transparent 30%),
+        #0b1020;
+    color:#ffffff;
+    min-height:100vh;
 }
 
 header{
-    background:linear-gradient(
-        135deg,
-        #7ACAED,
-        #58A3DD,
-        #C78BE4,
-        #D1A6F1
-    );
+    background:rgba(17,24,45,.96);
+    border-bottom:1px solid #26304d;
     color:white;
     padding:18px 6%;
     display:flex;
@@ -36,11 +35,24 @@ header{
     align-items:center;
     flex-wrap:wrap;
     gap:15px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    backdrop-filter:blur(12px);
 }
 
 .logo{
     font-size:24px;
     font-weight:800;
+    background:linear-gradient(
+        90deg,
+        #7ACAED,
+        #58A3DD,
+        #C78BE4,
+        #D1A6F1
+    );
+    -webkit-background-clip:text;
+    color:transparent;
 }
 
 nav{
@@ -50,11 +62,19 @@ nav{
 }
 
 nav a{
-    color:white;
+    color:#dce9f8;
     text-decoration:none;
-    background:rgba(255,255,255,.16);
+    background:#11182d;
+    border:1px solid #26304d;
     padding:10px 14px;
     border-radius:12px;
+    transition:.2s;
+}
+
+nav a:hover{
+    border-color:#7ACAED;
+    color:#7ACAED;
+    transform:translateY(-1px);
 }
 
 .container{
@@ -64,20 +84,22 @@ nav a{
 }
 
 .welcome{
-    background:white;
+    background:linear-gradient(145deg,#11182d,#0e1426);
+    border:1px solid #26304d;
     border-radius:24px;
     padding:28px;
-    box-shadow:0 10px 35px rgba(60,100,170,.1);
+    box-shadow:0 10px 35px rgba(0,0,0,.20);
     margin-bottom:22px;
 }
 
 .welcome h1{
     font-size:30px;
     margin-bottom:8px;
+    color:#ffffff;
 }
 
 .welcome p{
-    color:#7c899f;
+    color:#9ba9bf;
 }
 
 .staff-badge{
@@ -85,8 +107,9 @@ nav a{
     margin-top:15px;
     padding:8px 13px;
     border-radius:20px;
-    background:#eef8ff;
-    color:#58A3DD;
+    background:rgba(122,202,237,.10);
+    border:1px solid rgba(122,202,237,.20);
+    color:#7ACAED;
     font-weight:bold;
     font-size:13px;
 }
@@ -99,14 +122,15 @@ nav a{
 }
 
 .stat{
-    background:white;
+    background:linear-gradient(145deg,#11182d,#0e1426);
+    border:1px solid #26304d;
     padding:20px;
     border-radius:19px;
-    box-shadow:0 8px 25px rgba(60,100,170,.08);
+    box-shadow:0 8px 25px rgba(0,0,0,.18);
 }
 
 .stat span{
-    color:#8793a8;
+    color:#8997ad;
     font-size:13px;
 }
 
@@ -114,6 +138,7 @@ nav a{
     display:block;
     font-size:27px;
     margin-top:7px;
+    color:#ffffff;
 }
 
 .layout{
@@ -123,15 +148,17 @@ nav a{
 }
 
 .section{
-    background:white;
+    background:linear-gradient(145deg,#11182d,#0e1426);
+    border:1px solid #26304d;
     border-radius:22px;
     padding:24px;
-    box-shadow:0 8px 25px rgba(60,100,170,.08);
+    box-shadow:0 8px 25px rgba(0,0,0,.18);
     margin-bottom:20px;
 }
 
 .section h2{
     margin-bottom:18px;
+    color:#ffffff;
 }
 
 .actions{
@@ -141,37 +168,41 @@ nav a{
 }
 
 .action{
-    border:1px solid #edf1f7;
-    background:#fbfdff;
+    border:1px solid #26304d;
+    background:#0b1020;
     border-radius:17px;
     padding:18px;
     text-decoration:none;
-    color:#18243d;
+    color:#ffffff;
     transition:.2s;
 }
 
 .action:hover{
     transform:translateY(-2px);
-    box-shadow:0 8px 20px rgba(80,100,180,.1);
+    border-color:rgba(122,202,237,.40);
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
 }
 
 .action .icon{
     font-size:25px;
     margin-bottom:10px;
+    color:#7ACAED;
 }
 
 .action strong{
     display:block;
     margin-bottom:5px;
+    color:#ffffff;
 }
 
 .action span{
-    color:#8995aa;
+    color:#8997ad;
     font-size:13px;
 }
 
 .item{
-    border:1px solid #edf1f7;
+    border:1px solid #26304d;
+    background:#0b1020;
     border-radius:15px;
     padding:15px;
     margin-bottom:10px;
@@ -184,10 +215,11 @@ nav a{
 .item strong{
     display:block;
     margin-bottom:5px;
+    color:#ffffff;
 }
 
 .item span{
-    color:#8995aa;
+    color:#8997ad;
     font-size:13px;
 }
 
@@ -199,40 +231,41 @@ nav a{
 }
 
 .blue{
-    background:#eef8ff;
-    color:#58A3DD;
+    background:rgba(122,202,237,.10);
+    color:#7ACAED !important;
 }
 
 .green{
-    background:#e7fff1;
-    color:#16a45a;
+    background:rgba(22,164,90,.12);
+    color:#55d99a !important;
 }
 
 .orange{
-    background:#fff4df;
-    color:#d58900;
+    background:rgba(213,137,0,.12);
+    color:#e9ad42 !important;
 }
 
 .red{
-    background:#ffe9ed;
-    color:#dc4058;
+    background:rgba(220,64,88,.12);
+    color:#f0788a !important;
 }
 
 .info{
-    color:#8995aa;
+    color:#8997ad;
     font-size:13px;
     line-height:1.6;
 }
 
 .loading{
-    color:#8995aa;
+    color:#8997ad;
     padding:10px 0;
 }
 
 .empty{
-    color:#8995aa;
-    background:#f8faff;
+    color:#8997ad;
+    background:#0b1020;
     padding:15px;
+    border:1px solid #26304d;
     border-radius:14px;
     font-size:13px;
 }
@@ -240,8 +273,10 @@ nav a{
 footer{
     text-align:center;
     padding:30px;
-    color:#8995aa;
+    color:#718099;
     font-size:13px;
+    border-top:1px solid #26304d;
+    background:#0e1426;
 }
 
 @media(max-width:1000px){
@@ -271,7 +306,6 @@ footer{
     }
 
 }
-
 </style>
 </head>
 
@@ -308,8 +342,6 @@ footer{
 
 </section>
 
-<!-- STATISTIQUES -->
-
 <div class="stats">
 
     <div class="stat">
@@ -338,8 +370,6 @@ footer{
 
 <div>
 
-<!-- GESTION RAPIDE -->
-
 <section class="section">
 
     <h2>Gestion Staff</h2>
@@ -347,170 +377,113 @@ footer{
     <div class="actions">
 
         <a class="action" href="utilisateurs.html">
-
             <div class="icon">Utilisateurs</div>
-
             <strong>Gestion des utilisateurs</strong>
-
             <span>
                 Consulter les profils et gérer les comptes.
             </span>
-
         </a>
 
         <a class="action" href="entreprises.html">
-
             <div class="icon">Entreprises</div>
-
             <strong>Gestion des entreprises</strong>
-
             <span>
                 Consulter les entreprises enregistrées.
             </span>
-
         </a>
 
         <a class="action" href="candidatures.html">
-
             <div class="icon">Candidatures</div>
-
             <strong>Gestion des candidatures</strong>
-
             <span>
                 Consulter les dossiers déposés.
             </span>
-
         </a>
 
         <a class="action" href="tickets.html">
-
             <div class="icon">Tickets</div>
-
             <strong>Tickets Staff</strong>
-
             <span>
                 Consulter et traiter les demandes.
             </span>
-
         </a>
 
         <a class="action" href="finances.html">
-
             <div class="icon">Finances</div>
-
             <strong>Ventes & finances</strong>
-
             <span>
                 Consulter les données financières.
             </span>
-
         </a>
 
         <a class="action" href="stocks.html">
-
             <div class="icon">Stocks</div>
-
             <strong>Gestion des stocks</strong>
-
             <span>
                 Consulter les produits et quantités.
             </span>
-
         </a>
 
         <a class="action" href="gestion-employes.html">
-
             <div class="icon">Employés</div>
-
             <strong>Gestion des employés</strong>
-
             <span>
                 Consulter les employés des entreprises.
             </span>
-
         </a>
 
         <a class="action" href="gestion-grades.html">
-
             <div class="icon">Grades</div>
-
             <strong>Gestion des grades</strong>
-
             <span>
                 Gérer les grades des entreprises.
             </span>
-
         </a>
 
     </div>
 
 </section>
-
-<!-- FORMULAIRES -->
 
 <section class="section">
 
     <h2>Formulaires à traiter</h2>
 
     <div class="item">
-
         <div>
-
             <strong>Candidatures</strong>
-
             <span>
                 Les demandes de recrutement pourront être validées ici.
             </span>
-
         </div>
 
-        <span class="badge blue">
-            Gestion
-        </span>
-
+        <span class="badge blue">Gestion</span>
     </div>
 
     <div class="item">
-
         <div>
-
             <strong>Reprises d'entreprises</strong>
-
             <span>
                 Les demandes de reprise seront traitées par le Staff.
             </span>
-
         </div>
 
-        <span class="badge blue">
-            Gestion
-        </span>
-
+        <span class="badge blue">Gestion</span>
     </div>
 
     <div class="item">
-
         <div>
-
             <strong>Demandes diverses</strong>
-
             <span>
                 Les futurs formulaires pourront être ajoutés ici.
             </span>
-
         </div>
 
-        <span class="badge blue">
-            Gestion
-        </span>
-
+        <span class="badge blue">Gestion</span>
     </div>
 
 </section>
 
 </div>
-
-<!-- COLONNE DROITE -->
 
 <div>
 
@@ -525,9 +498,7 @@ footer{
             <span>Connexion à la base de données</span>
         </div>
 
-        <span class="badge green">
-            Connecté
-        </span>
+        <span class="badge green">Connecté</span>
 
     </div>
 
@@ -538,9 +509,7 @@ footer{
             <span>Données utilisateurs</span>
         </div>
 
-        <span class="badge green">
-            Actif
-        </span>
+        <span class="badge green">Actif</span>
 
     </div>
 
@@ -551,9 +520,7 @@ footer{
             <span>Données entreprises</span>
         </div>
 
-        <span class="badge green">
-            Actif
-        </span>
+        <span class="badge green">Actif</span>
 
     </div>
 
@@ -615,8 +582,6 @@ async function chargerAdministration(){
 
     try{
 
-        /* UTILISATEURS */
-
         const users =
             await supabaseClient
                 .from("profiles")
@@ -634,11 +599,9 @@ async function chargerAdministration(){
 
         }
 
-        /* ENTREPRISES */
-
         const companies =
             await supabaseClient
-                .from("entreprises")
+                .from("Entreprises")
                 .select("id", {
                     count:"exact",
                     head:true
@@ -652,8 +615,6 @@ async function chargerAdministration(){
                 companies.count || 0;
 
         }
-
-        /* FINANCES */
 
         const finances =
             await supabaseClient
@@ -671,8 +632,6 @@ async function chargerAdministration(){
                 finances.count || 0;
 
         }
-
-        /* STOCKS */
 
         const stocks =
             await supabaseClient
