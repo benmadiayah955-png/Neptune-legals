@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Neptune — Gestion des employés</title>
-
-<style>
+<!DOCTYPE html><html lang="fr">
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Neptune — Gestion des employés</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
 
 * {
     box-sizing: border-box;
@@ -18,20 +11,10 @@
 
 body {
     min-height: 100vh;
-
     background:
-        radial-gradient(
-            circle at top right,
-            rgba(199,139,228,.15),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at top left,
-            rgba(122,202,237,.12),
-            transparent 30%
-        ),
+        radial-gradient(circle at top right, rgba(199,139,228,.15), transparent 30%),
+        radial-gradient(circle at top left, rgba(122,202,237,.12), transparent 30%),
         #0b1020;
-
     color: #ffffff;
 }
 
@@ -39,7 +22,6 @@ header {
     background: rgba(17,24,45,.96);
     padding: 17px 20px;
     border-bottom: 1px solid #26304d;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -48,15 +30,7 @@ header {
 .logo {
     font-size: 21px;
     font-weight: 800;
-
-    background: linear-gradient(
-        90deg,
-        #7ACAED,
-        #58A3DD,
-        #C78BE4,
-        #D1A6F1
-    );
-
+    background: linear-gradient(90deg,#7ACAED,#58A3DD,#C78BE4,#D1A6F1);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -66,11 +40,6 @@ header {
     color: #7ACAED;
     text-decoration: none;
     font-weight: bold;
-    transition: .2s;
-}
-
-.back:hover {
-    color: #D1A6F1;
 }
 
 .container {
@@ -93,47 +62,22 @@ h1 {
 .add {
     width: 100%;
     border: 1px solid rgba(122,202,237,.25);
-
     padding: 15px;
     border-radius: 14px;
     margin-bottom: 20px;
-
     color: white;
     font-weight: bold;
     font-size: 15px;
-
-    background: linear-gradient(
-        90deg,
-        #58A3DD,
-        #7ACAED,
-        #C78BE4,
-        #D1A6F1
-    );
-
+    background: linear-gradient(90deg,#58A3DD,#7ACAED,#C78BE4,#D1A6F1);
     cursor: pointer;
-    transition: .2s;
-}
-
-.add:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(88,163,221,.18);
 }
 
 .employee {
-    background: linear-gradient(
-        145deg,
-        #11182d,
-        #0e1426
-    );
-
+    background: linear-gradient(145deg,#11182d,#0e1426);
     border: 1px solid #26304d;
     border-radius: 20px;
-
     padding: 20px;
     margin-bottom: 14px;
-
-    box-shadow:
-        0 8px 25px rgba(0,0,0,.18);
 }
 
 .top {
@@ -146,23 +90,14 @@ h1 {
 .avatar {
     width: 55px;
     height: 55px;
-
     border-radius: 50%;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     font-size: 25px;
-
-    background: linear-gradient(
-        135deg,
-        #7ACAED,
-        #58A3DD,
-        #C78BE4
-    );
-
+    background: linear-gradient(135deg,#7ACAED,#58A3DD,#C78BE4);
     color: white;
+    font-weight: bold;
 }
 
 .name {
@@ -178,40 +113,26 @@ h1 {
 
 .grade {
     display: inline-block;
-
     margin-top: 6px;
-
     padding: 5px 9px;
-
     border-radius: 20px;
-
     background: rgba(122,202,237,.12);
-
     border: 1px solid rgba(122,202,237,.18);
-
     color: #7ACAED;
-
     font-size: 11px;
-
     font-weight: bold;
 }
 
 .infos {
     display: grid;
-
-    grid-template-columns:
-        repeat(auto-fit, minmax(150px, 1fr));
-
+    grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
     gap: 12px;
 }
 
 .info {
     background: #0b1020;
-
     border: 1px solid #26304d;
-
     border-radius: 12px;
-
     padding: 13px;
 }
 
@@ -236,58 +157,115 @@ h1 {
 
 .action {
     border: none;
-
     padding: 10px 14px;
-
     border-radius: 10px;
-
     cursor: pointer;
-
     font-weight: bold;
     font-size: 13px;
-
-    transition: .2s;
-}
-
-.action:hover {
-    transform: translateY(-2px);
 }
 
 .primary {
     background: rgba(88,163,221,.14);
-
     border: 1px solid rgba(88,163,221,.25);
-
     color: #7ACAED;
 }
 
 .danger {
     background: rgba(224,82,82,.10);
-
     border: 1px solid rgba(224,82,82,.20);
-
     color: #ff7777;
 }
 
 .empty {
-    background: linear-gradient(
-        145deg,
-        #11182d,
-        #0e1426
-    );
-
+    background: linear-gradient(145deg,#11182d,#0e1426);
     border: 1px dashed #26304d;
-
     border-radius: 18px;
-
     padding: 35px 20px;
-
     text-align: center;
-
     color: #9aa8c2;
 }
 
-@media (max-width: 600px) {
+.loading {
+    text-align: center;
+    color: #9aa8c2;
+    padding: 30px;
+}
+
+.error {
+    color: #ff7777;
+    text-align: center;
+    padding: 20px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.75);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 500px;
+    background: #11182d;
+    border: 1px solid #26304d;
+    border-radius: 20px;
+    padding: 24px;
+}
+
+.modal-box h2 {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    color: #9aa8c2;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #26304d;
+    background: #0b1020;
+    color: white;
+    outline: none;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.modal-actions button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.cancel {
+    background: #26304d;
+    color: white;
+}
+
+.save {
+    background: linear-gradient(90deg,#58A3DD,#C78BE4);
+    color: white;
+}
+
+@media (max-width:600px) {
 
     header {
         gap: 12px;
@@ -304,67 +282,185 @@ h1 {
     h1 {
         font-size: 25px;
     }
-
 }
 
-</style>
+</style></head><body><header><div class="logo">
+    Neptune Legal
+</div>
 
-</head>
+<a href="entreprises.html" class="back">
+    Retour aux entreprises
+</a>
 
-<body>
+</header><div class="container"><h1>Gestion des employés</h1>
 
-<header>
+<p class="subtitle">
+    Gérez les employés, leurs grades et leur évolution au sein de votre entreprise.
+</p>
 
-    <div class="logo">
-        Neptune Legal
+<button class="add" type="button" onclick="ouvrirModal()">
+    Ajouter un employé
+</button>
+
+<div id="listeEmployes">
+    <div class="loading">
+        Chargement des employés...
+    </div>
+</div>
+
+</div><div class="modal" id="modalEmploye"><div class="modal-box">
+
+    <h2>Ajouter un employé</h2>
+
+    <label for="nom">Nom</label>
+    <input id="nom" type="text" placeholder="Nom">
+
+    <label for="prenom">Prénom</label>
+    <input id="prenom" type="text" placeholder="Prénom">
+
+    <label for="grade">Grade</label>
+    <input id="grade" type="text" placeholder="Ex : Employé, Responsable...">
+
+    <label for="statut">Statut</label>
+    <select id="statut">
+        <option value="Actif">Actif</option>
+        <option value="Inactif">Inactif</option>
+        <option value="Suspendu">Suspendu</option>
+    </select>
+
+    <label for="heures">Heures de service</label>
+    <input id="heures" type="number" min="0" value="0">
+
+    <div class="modal-actions">
+
+        <button
+            type="button"
+            class="cancel"
+            onclick="fermerModal()"
+        >
+            Annuler
+        </button>
+
+        <button
+            type="button"
+            class="save"
+            onclick="ajouterEmploye()"
+        >
+            Ajouter
+        </button>
+
     </div>
 
-    <a href="entreprises.html" class="back">
-        Retour aux entreprises
-    </a>
+</div>
 
-</header>
+</div><script>
 
-<div class="container">
+const SUPABASE_URL =
+    "https://xzmglqxcsrzivvkpemyt.supabase.co";
 
-    <h1>
-        Gestion des employés
-    </h1>
+const SUPABASE_KEY =
+    "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
 
-    <p class="subtitle">
-        Gérez les employés, leurs grades et leur évolution au sein de votre entreprise.
-    </p>
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
-    <button
-        class="add"
-        type="button"
-        onclick="ajouterEmploye()"
-    >
-        Ajouter un employé
-    </button>
+const listeEmployes =
+    document.getElementById("listeEmployes");
 
-    <div id="listeEmployes">
+const modal =
+    document.getElementById("modalEmploye");
 
-        <div class="employee">
+
+async function chargerEmployes() {
+
+    listeEmployes.innerHTML =
+        '<div class="loading">Chargement des employés...</div>';
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("employes")
+        .select("*")
+        .order("created_at", {
+            ascending: false
+        });
+
+    if (error) {
+
+        console.error(error);
+
+        listeEmployes.innerHTML = `
+            <div class="error">
+                Erreur lors du chargement des employés.<br>
+                ${error.message}
+            </div>
+        `;
+
+        return;
+    }
+
+    if (!data || data.length === 0) {
+
+        listeEmployes.innerHTML = `
+            <div class="empty">
+                Aucun employé enregistré pour le moment.
+            </div>
+        `;
+
+        return;
+    }
+
+    listeEmployes.innerHTML = "";
+
+    data.forEach(employe => {
+
+        const nomComplet =
+            `${employe.prenom || ""} ${employe.nom || ""}`.trim();
+
+        const affichageNom =
+            nomComplet || "Employé sans nom";
+
+        const premiereLettre =
+            affichageNom.charAt(0).toUpperCase();
+
+        const grade =
+            employe.grade || "Aucun grade";
+
+        const statut =
+            employe.statut || "Actif";
+
+        const heures =
+            Number(employe.heures_service || 0);
+
+        const carte =
+            document.createElement("div");
+
+        carte.className = "employee";
+
+        carte.innerHTML = `
 
             <div class="top">
 
                 <div class="avatar">
-                    N
+                    ${premiereLettre}
                 </div>
 
                 <div>
 
                     <div class="name">
-                        Neptune Legal
+                        ${affichageNom}
                     </div>
 
                     <div class="discord">
-                        Aucun employé enregistré
+                        Employé Neptune Legal
                     </div>
 
                     <span class="grade">
-                        Exemple
+                        ${grade}
                     </span>
 
                 </div>
@@ -380,7 +476,7 @@ h1 {
                     </div>
 
                     <div class="info-value">
-                        Aucun
+                        ${grade}
                     </div>
 
                 </div>
@@ -392,7 +488,7 @@ h1 {
                     </div>
 
                     <div class="info-value">
-                        0 h
+                        ${heures} h
                     </div>
 
                 </div>
@@ -404,7 +500,7 @@ h1 {
                     </div>
 
                     <div class="info-value">
-                        Aucun employé
+                        ${statut}
                     </div>
 
                 </div>
@@ -416,38 +512,147 @@ h1 {
                 <button
                     class="action primary"
                     type="button"
-                    onclick="voirEmploye()"
+                    onclick="voirEmploye('${employe.id}')"
                 >
                     Voir le profil
                 </button>
 
+                <button
+                    class="action danger"
+                    type="button"
+                    onclick="supprimerEmploye('${employe.id}')"
+                >
+                    Supprimer
+                </button>
+
             </div>
 
-        </div>
+        `;
 
-    </div>
+        listeEmployes.appendChild(carte);
 
-</div>
+    });
 
-<script>
+}
 
-function ajouterEmploye() {
+
+function ouvrirModal() {
+
+    document.getElementById("nom").value = "";
+    document.getElementById("prenom").value = "";
+    document.getElementById("grade").value = "";
+    document.getElementById("statut").value = "Actif";
+    document.getElementById("heures").value = 0;
+
+    modal.style.display = "flex";
+}
+
+
+function fermerModal() {
+
+    modal.style.display = "none";
+}
+
+
+async function ajouterEmploye() {
+
+    const nom =
+        document.getElementById("nom").value.trim();
+
+    const prenom =
+        document.getElementById("prenom").value.trim();
+
+    const grade =
+        document.getElementById("grade").value.trim();
+
+    const statut =
+        document.getElementById("statut").value;
+
+    const heures =
+        Number(document.getElementById("heures").value || 0);
+
+    if (!nom) {
+
+        alert("Le nom est obligatoire.");
+        return;
+    }
+
+    const {
+        error
+    } = await supabaseClient
+        .from("employes")
+        .insert({
+            nom: nom,
+            prenom: prenom || null,
+            grade: grade || null,
+            statut: statut,
+            heures_service: heures
+        });
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Erreur lors de l'ajout de l'employé :\n" +
+            error.message
+        );
+
+        return;
+    }
+
+    fermerModal();
+
+    await chargerEmployes();
+
+}
+
+
+async function supprimerEmploye(id) {
+
+    const confirmation =
+        confirm(
+            "Voulez-vous vraiment supprimer cet employé ?"
+        );
+
+    if (!confirmation) {
+        return;
+    }
+
+    const {
+        error
+    } = await supabaseClient
+        .from("employes")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Erreur lors de la suppression :\n" +
+            error.message
+        );
+
+        return;
+    }
+
+    await chargerEmployes();
+
+}
+
+
+function voirEmploye(id) {
 
     alert(
-        "La gestion des employés sera connectée à Supabase dans la prochaine étape."
+        "Profil de l'employé sélectionné.\n\nID : " + id
     );
 
 }
 
-function voirEmploye() {
 
-    alert(
-        "Aucun employé réel n'est encore enregistré."
-    );
+chargerEmployes();
 
-}
-
-</script>
-
-</body>
+</script></body>
 </html>
