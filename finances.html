@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Finances — Neptune Legal</title>
+<title>Ventes & Finances — Neptune Legal</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 * {
@@ -20,7 +22,14 @@ body {
 }
 
 header {
-    background: linear-gradient(135deg, #20c9ff, #6875ff, #d45cff);
+    background: linear-gradient(
+        135deg,
+        #7ACAED,
+        #58A3DD,
+        #98CAF7,
+        #C78BE4,
+        #D1A6F1
+    );
     color: white;
     padding: 22px 18px;
     border-radius: 0 0 28px 28px;
@@ -87,6 +96,18 @@ header p {
     font-size: 23px;
 }
 
+.balance {
+    color: #58A3DD;
+}
+
+.income {
+    color: #58A3DD;
+}
+
+.expense {
+    color: #C78BE4;
+}
+
 .section {
     background: white;
     padding: 19px;
@@ -104,6 +125,7 @@ header p {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 15px;
     padding: 13px 0;
     border-bottom: 1px solid #edf2f7;
 }
@@ -129,33 +151,13 @@ header p {
 
 .amount {
     font-weight: bold;
+    white-space: nowrap;
 }
 
-.income {
-    color: #12a66a;
-}
-
-.expense {
-    color: #e85b70;
-}
-
-.balance {
-    color: #6674ff;
-}
-
-.progress {
-    height: 9px;
-    background: #edf3f8;
-    border-radius: 20px;
-    overflow: hidden;
-    margin-top: 8px;
-}
-
-.progress div {
-    height: 100%;
-    width: 68%;
-    background: linear-gradient(90deg,#20c9ff,#6875ff);
-    border-radius: 20px;
+.empty {
+    text-align: center;
+    color: #718096;
+    padding: 25px;
 }
 
 .actions {
@@ -174,12 +176,74 @@ button {
 
 .primary {
     color: white;
-    background: linear-gradient(135deg,#20c9ff,#6875ff);
+    background: linear-gradient(
+        135deg,
+        #58A3DD,
+        #7ACAED,
+        #98CAF7
+    );
 }
 
 .secondary {
     background: #edf5fa;
     color: #40516b;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-content {
+    background: white;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 20px;
+    padding: 25px;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+}
+
+.field {
+    margin-bottom: 15px;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    color: #40516b;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dce8f2;
+    border-radius: 10px;
+    outline: none;
+}
+
+.field input:focus,
+.field select:focus {
+    border-color: #58A3DD;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-actions button {
+    flex: 1;
 }
 
 @media (min-width:700px) {
@@ -210,7 +274,7 @@ button {
 
     </div>
 
-    <h1>Finances</h1>
+    <h1>Ventes & Finances</h1>
 
     <p>
         Suivez les revenus, dépenses et bénéfices de votre entreprise.
@@ -221,154 +285,56 @@ button {
 
 <div class="container">
 
-    <!-- STATISTIQUES -->
-
     <div class="stats">
 
         <div class="card">
             <span>Solde actuel</span>
-            <strong class="balance">12 450 €</strong>
+            <strong id="solde" class="balance">0 €</strong>
         </div>
 
         <div class="card">
-            <span>Revenus du mois</span>
-            <strong class="income">18 750 €</strong>
+            <span>Revenus</span>
+            <strong id="revenus" class="income">0 €</strong>
         </div>
 
         <div class="card">
-            <span>Dépenses du mois</span>
-            <strong class="expense">6 300 €</strong>
+            <span>Dépenses</span>
+            <strong id="depenses" class="expense">0 €</strong>
         </div>
 
         <div class="card">
             <span>Bénéfice</span>
-            <strong class="income">12 450 €</strong>
+            <strong id="benefice" class="income">0 €</strong>
         </div>
 
     </div>
 
-
-    <!-- OBJECTIF -->
-
-    <div class="section">
-
-        <h2>Objectif mensuel</h2>
-
-        <div class="row">
-
-            <div class="label">
-                <strong>Chiffre d'affaires</strong>
-                <span>18 750 € / 25 000 €</span>
-            </div>
-
-            <strong>75%</strong>
-
-        </div>
-
-        <div class="progress">
-            <div></div>
-        </div>
-
-    </div>
-
-
-    <!-- REVENUS -->
 
     <div class="section">
 
         <h2>Derniers revenus</h2>
 
-        <div class="row">
-
-            <div class="label">
-                <strong>Ventes restaurant</strong>
-                <span>30 septembre 2026</span>
+        <div id="listeRevenus">
+            <div class="empty">
+                Aucun revenu enregistré.
             </div>
-
-            <div class="amount income">
-                + 4 850 €
-            </div>
-
-        </div>
-
-        <div class="row">
-
-            <div class="label">
-                <strong>Service traiteur</strong>
-                <span>28 septembre 2026</span>
-            </div>
-
-            <div class="amount income">
-                + 1 250 €
-            </div>
-
-        </div>
-
-        <div class="row">
-
-            <div class="label">
-                <strong>Ventes boutique</strong>
-                <span>26 septembre 2026</span>
-            </div>
-
-            <div class="amount income">
-                + 890 €
-            </div>
-
         </div>
 
     </div>
 
-
-    <!-- DEPENSES -->
 
     <div class="section">
 
         <h2>Dernières dépenses</h2>
 
-        <div class="row">
-
-            <div class="label">
-                <strong>Achat de stock</strong>
-                <span>29 septembre 2026</span>
+        <div id="listeDepenses">
+            <div class="empty">
+                Aucune dépense enregistrée.
             </div>
-
-            <div class="amount expense">
-                - 1 800 €
-            </div>
-
-        </div>
-
-        <div class="row">
-
-            <div class="label">
-                <strong>Salaires employés</strong>
-                <span>28 septembre 2026</span>
-            </div>
-
-            <div class="amount expense">
-                - 2 750 €
-            </div>
-
-        </div>
-
-        <div class="row">
-
-            <div class="label">
-                <strong>Fournisseur</strong>
-                <span>25 septembre 2026</span>
-            </div>
-
-            <div class="amount expense">
-                - 950 €
-            </div>
-
         </div>
 
     </div>
 
-
-    <!-- ACTIONS -->
 
     <div class="section">
 
@@ -376,20 +342,107 @@ button {
 
         <div class="actions">
 
-            <button class="primary" onclick="ajouterRevenu()">
+            <button
+                class="primary"
+                onclick="ouvrirModal('revenu')"
+            >
                 + Ajouter un revenu
             </button>
 
-            <button class="secondary" onclick="ajouterDepense()">
+            <button
+                class="secondary"
+                onclick="ouvrirModal('depense')"
+            >
                 − Ajouter une dépense
             </button>
 
-            <button class="secondary" onclick="exporter()">
-                Exporter les finances
+            <button
+                class="secondary"
+                onclick="exporter()"
+            >
+                Exporter
             </button>
 
-            <button class="secondary" onclick="historique()">
-                Voir l'historique
+            <button
+                class="secondary"
+                onclick="chargerFinances()"
+            >
+                Actualiser
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="modal" class="modal">
+
+    <div class="modal-content">
+
+        <h2 id="modalTitre">
+            Ajouter une transaction
+        </h2>
+
+        <div class="field">
+
+            <label>Type</label>
+
+            <select id="type">
+
+                <option value="revenu">
+                    Revenu
+                </option>
+
+                <option value="depense">
+                    Dépense
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="field">
+
+            <label>Description</label>
+
+            <input
+                id="description"
+                type="text"
+                placeholder="Ex : Vente de produits"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>Montant (€)</label>
+
+            <input
+                id="montant"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="0.00"
+            >
+
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                class="primary"
+                onclick="ajouterTransaction()"
+            >
+                Ajouter
+            </button>
+
+            <button
+                class="secondary"
+                onclick="fermerModal()"
+            >
+                Annuler
             </button>
 
         </div>
@@ -401,66 +454,396 @@ button {
 
 <script>
 
-function ajouterRevenu() {
+const SUPABASE_URL =
+    "https://xzmglqxcsrzivvkpemyt.supabase.co";
 
-    const montant = prompt("Montant du revenu :");
+const SUPABASE_KEY =
+    "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
 
-    if (!montant) return;
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
-    const description =
-        prompt("Description du revenu :");
+let transactions = [];
 
-    if (!description) return;
 
-    alert(
-        "Revenu ajouté !\n\n" +
-        description +
-        "\n+" +
-        montant +
-        " €"
+async function verifierConnexion() {
+
+    const { data, error } =
+        await supabaseClient.auth.getUser();
+
+    if (error || !data.user) {
+
+        window.location.href =
+            "connexion.html";
+
+        return false;
+    }
+
+    return true;
+}
+
+
+async function chargerFinances() {
+
+    const connecte =
+        await verifierConnexion();
+
+    if (!connecte) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from("Finances")
+            .select("*")
+            .order("created_at", {
+                ascending: false
+            });
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Erreur Supabase :\n\n" +
+            error.message
+        );
+
+        return;
+    }
+
+    transactions =
+        data || [];
+
+    afficherFinances();
+}
+
+
+function afficherFinances() {
+
+    let revenus = 0;
+    let depenses = 0;
+
+    transactions.forEach(transaction => {
+
+        const montant =
+            Number(transaction.montant) || 0;
+
+        if (transaction.type === "revenu") {
+
+            revenus += montant;
+
+        } else if (transaction.type === "depense") {
+
+            depenses += montant;
+
+        }
+
+    });
+
+    const solde =
+        revenus - depenses;
+
+    document.getElementById("revenus")
+        .textContent =
+        formaterPrix(revenus);
+
+    document.getElementById("depenses")
+        .textContent =
+        formaterPrix(depenses);
+
+    document.getElementById("benefice")
+        .textContent =
+        formaterPrix(solde);
+
+    document.getElementById("solde")
+        .textContent =
+        formaterPrix(solde);
+
+    afficherListe(
+        "revenu",
+        "listeRevenus"
+    );
+
+    afficherListe(
+        "depense",
+        "listeDepenses"
     );
 }
 
 
-function ajouterDepense() {
+function afficherListe(
+    type,
+    elementId
+) {
 
-    const montant = prompt("Montant de la dépense :");
+    const element =
+        document.getElementById(elementId);
 
-    if (!montant) return;
+    const liste =
+        transactions.filter(
+            transaction =>
+                transaction.type === type
+        );
+
+    if (liste.length === 0) {
+
+        element.innerHTML = `
+            <div class="empty">
+                ${
+                    type === "revenu"
+                    ? "Aucun revenu enregistré."
+                    : "Aucune dépense enregistrée."
+                }
+            </div>
+        `;
+
+        return;
+    }
+
+    element.innerHTML =
+        liste
+        .slice(0, 10)
+        .map(transaction => {
+
+            const montant =
+                Number(transaction.montant) || 0;
+
+            const date =
+                transaction.created_at
+                ? new Date(
+                    transaction.created_at
+                ).toLocaleDateString(
+                    "fr-FR"
+                )
+                : "";
+
+            return `
+
+                <div class="row">
+
+                    <div class="label">
+
+                        <strong>
+                            ${echapper(
+                                transaction.description ||
+                                "Transaction"
+                            )}
+                        </strong>
+
+                        <span>
+                            ${date}
+                        </span>
+
+                    </div>
+
+                    <div class="amount ${
+                        type === "revenu"
+                        ? "income"
+                        : "expense"
+                    }">
+
+                        ${
+                            type === "revenu"
+                            ? "+"
+                            : "-"
+                        }
+                        ${formaterPrix(montant)}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        })
+        .join("");
+}
+
+
+function ouvrirModal(type) {
+
+    document.getElementById("type")
+        .value = type;
+
+    document.getElementById("modalTitre")
+        .textContent =
+        type === "revenu"
+        ? "Ajouter un revenu"
+        : "Ajouter une dépense";
+
+    document.getElementById("modal")
+        .style.display = "flex";
+}
+
+
+function fermerModal() {
+
+    document.getElementById("modal")
+        .style.display = "none";
+
+    document.getElementById("description")
+        .value = "";
+
+    document.getElementById("montant")
+        .value = "";
+}
+
+
+async function ajouterTransaction() {
+
+    const type =
+        document.getElementById("type")
+            .value;
 
     const description =
-        prompt("Description de la dépense :");
+        document.getElementById("description")
+            .value
+            .trim();
 
-    if (!description) return;
+    const montant =
+        Number(
+            document.getElementById("montant")
+                .value
+        );
 
-    alert(
-        "Dépense ajoutée !\n\n" +
-        description +
-        "\n-" +
-        montant +
-        " €"
-    );
+    if (!description) {
+
+        alert(
+            "Entre une description."
+        );
+
+        return;
+    }
+
+    if (!montant || montant <= 0) {
+
+        alert(
+            "Entre un montant valide."
+        );
+
+        return;
+    }
+
+    const connecte =
+        await verifierConnexion();
+
+    if (!connecte) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from("Finances")
+            .insert({
+                type: type,
+                description: description,
+                montant: montant
+            })
+            .select()
+            .single();
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Erreur Supabase :\n\n" +
+            error.message +
+            "\n\nCode : " +
+            (
+                error.code ||
+                "inconnu"
+            )
+        );
+
+        return;
+    }
+
+    transactions.unshift(data);
+
+    fermerModal();
+
+    afficherFinances();
 }
 
 
 function exporter() {
 
-    alert(
-        "L'export des finances sera disponible prochainement."
-    );
+    if (transactions.length === 0) {
 
+        alert(
+            "Aucune transaction à exporter."
+        );
+
+        return;
+    }
+
+    let csv =
+        "Type,Description,Montant,Date\n";
+
+    transactions.forEach(transaction => {
+
+        csv +=
+            `"${transaction.type}",` +
+            `"${transaction.description || ""}",` +
+            `"${transaction.montant}",` +
+            `"${transaction.created_at || ""}"\n`;
+
+    });
+
+    const blob =
+        new Blob(
+            [csv],
+            {
+                type:
+                    "text/csv;charset=utf-8;"
+            }
+        );
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const a =
+        document.createElement("a");
+
+    a.href = url;
+
+    a.download =
+        "neptune-finances.csv";
+
+    a.click();
+
+    URL.revokeObjectURL(url);
 }
 
 
-function historique() {
+function formaterPrix(montant) {
 
-    alert(
-        "L'historique financier complet sera disponible prochainement."
-    );
-
+    return Number(montant)
+        .toLocaleString(
+            "fr-FR",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        ) + " €";
 }
+
+
+function echapper(texte) {
+
+    return String(texte)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+chargerFinances();
 
 </script>
 
 </body>
-  </html>
+</html>
