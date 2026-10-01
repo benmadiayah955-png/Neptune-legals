@@ -1,6 +1,14 @@
-<!DOCTYPE html><html lang="fr">
-<head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Gestion des grades — Neptune Legal</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gestion des grades — Neptune Legal</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
 
 * {
     box-sizing: border-box;
@@ -329,173 +337,209 @@ button {
     color: white;
 }
 
-</style></head><body><header><div class="top">
+@media (max-width: 600px) {
 
-    <div class="logo">
-        NEPTUNE LEGAL
+    .details {
+        grid-template-columns: 1fr;
+    }
+
+    .grade-head {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .badge {
+        align-self: flex-start;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="top">
+
+        <div class="logo">
+            NEPTUNE LEGAL
+        </div>
+
+        <a href="entreprise-dashboard.html" class="back">
+            ← Tableau de bord
+        </a>
+
     </div>
 
-    <a href="entreprise-dashboard.html" class="back">
-        ← Tableau de bord
-    </a>
-
-</div>
-
-<h1>Gestion des grades</h1>
-
-<p>
-    Organisez la hiérarchie et les permissions de votre entreprise.
-</p>
-
-</header><div class="container"><div class="info">
-
-    <strong>
-        Hiérarchie de l'entreprise
-    </strong>
+    <h1>Gestion des grades</h1>
 
     <p>
-        Le grade placé en premier possède le niveau hiérarchique
-        le plus élevé.
+        Organisez la hiérarchie et les permissions de votre entreprise.
     </p>
 
-</div>
+</header>
 
-<button class="add" onclick="ouvrirModal()">
-    + Créer un nouveau grade
-</button>
+<div class="container">
 
-<div class="grades" id="grades">
-    <div class="loading">
-        Chargement des grades...
-    </div>
-</div>
+    <div class="info">
 
-</div><div class="modal" id="modal"><div class="modal-box">
+        <strong>
+            Hiérarchie de l'entreprise
+        </strong>
 
-    <h2 id="modalTitle">
-        Créer un grade
-    </h2>
-
-    <div class="field">
-
-        <label>Nom du grade</label>
-
-        <input
-            id="gradeNom"
-            type="text"
-            placeholder="Ex : Directeur adjoint"
-        >
+        <p>
+            Le grade placé en premier possède le niveau hiérarchique
+            le plus élevé.
+        </p>
 
     </div>
 
-    <div class="field">
+    <button class="add" onclick="ouvrirModal()">
+        + Créer un nouveau grade
+    </button>
 
-        <label>Description</label>
+    <div class="grades" id="grades">
 
-        <input
-            id="gradeDescription"
-            type="text"
-            placeholder="Description du grade"
-        >
-
-    </div>
-
-    <div class="field">
-
-        <label>Salaire</label>
-
-        <input
-            id="gradeSalaire"
-            type="number"
-            min="0"
-            placeholder="Ex : 1500"
-        >
-
-    </div>
-
-    <div class="field">
-
-        <label>Niveau</label>
-
-        <input
-            id="gradeNiveau"
-            type="number"
-            min="1"
-            value="1"
-        >
-
-    </div>
-
-    <div class="field">
-
-        <label>Type</label>
-
-        <select id="gradeType">
-
-            <option value="Direction">Direction</option>
-            <option value="Management">Management</option>
-            <option value="Personnel">Personnel</option>
-            <option value="Débutant">Débutant</option>
-
-        </select>
-
-    </div>
-
-    <div class="field">
-
-        <label>Permissions</label>
-
-        <label class="check">
-            <input type="checkbox" value="Gérer employés">
-            Gérer les employés
-        </label>
-
-        <label class="check">
-            <input type="checkbox" value="Gérer grades">
-            Gérer les grades
-        </label>
-
-        <label class="check">
-            <input type="checkbox" value="Recruter">
-            Recruter
-        </label>
-
-        <label class="check">
-            <input type="checkbox" value="Gérer stocks">
-            Gérer les stocks
-        </label>
-
-        <label class="check">
-            <input type="checkbox" value="Gérer ventes">
-            Gérer les ventes
-        </label>
-
-        <label class="check">
-            <input type="checkbox" value="Gérer finances">
-            Gérer les finances
-        </label>
-
-    </div>
-
-    <div class="modal-actions">
-
-        <button
-            class="secondary"
-            onclick="fermerModal()">
-            Annuler
-        </button>
-
-        <button
-            class="primary"
-            onclick="enregistrerGrade()">
-            Enregistrer
-        </button>
+        <div class="loading">
+            Chargement des grades...
+        </div>
 
     </div>
 
 </div>
 
-</div><script>
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <h2 id="modalTitle">
+            Créer un grade
+        </h2>
+
+        <div class="field">
+
+            <label>Nom du grade</label>
+
+            <input
+                id="gradeNom"
+                type="text"
+                placeholder="Ex : Directeur adjoint"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>Description</label>
+
+            <input
+                id="gradeDescription"
+                type="text"
+                placeholder="Description du grade"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>Salaire</label>
+
+            <input
+                id="gradeSalaire"
+                type="number"
+                min="0"
+                placeholder="Ex : 1500"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>Niveau</label>
+
+            <input
+                id="gradeNiveau"
+                type="number"
+                min="1"
+                value="1"
+            >
+
+        </div>
+
+        <div class="field">
+
+            <label>Type</label>
+
+            <select id="gradeType">
+
+                <option value="Direction">Direction</option>
+                <option value="Management">Management</option>
+                <option value="Personnel">Personnel</option>
+                <option value="Débutant">Débutant</option>
+
+            </select>
+
+        </div>
+
+        <div class="field">
+
+            <label>Permissions</label>
+
+            <label class="check">
+                <input type="checkbox" value="Gérer employés">
+                Gérer les employés
+            </label>
+
+            <label class="check">
+                <input type="checkbox" value="Gérer grades">
+                Gérer les grades
+            </label>
+
+            <label class="check">
+                <input type="checkbox" value="Recruter">
+                Recruter
+            </label>
+
+            <label class="check">
+                <input type="checkbox" value="Gérer stocks">
+                Gérer les stocks
+            </label>
+
+            <label class="check">
+                <input type="checkbox" value="Gérer ventes">
+                Gérer les ventes
+            </label>
+
+            <label class="check">
+                <input type="checkbox" value="Gérer finances">
+                Gérer les finances
+            </label>
+
+        </div>
+
+        <div class="modal-actions">
+
+            <button
+                class="secondary"
+                onclick="fermerModal()">
+                Annuler
+            </button>
+
+            <button
+                class="primary"
+                onclick="enregistrerGrade()">
+                Enregistrer
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
 
 const SUPABASE_URL =
     "https://xzmglqxcsrzivvkpemyt.supabase.co";
@@ -512,6 +556,10 @@ const supabaseClient =
 let gradeEnModification = null;
 
 
+/* ================================
+   CHARGEMENT DES GRADES
+================================ */
+
 async function chargerGrades() {
 
     const container =
@@ -520,9 +568,12 @@ async function chargerGrades() {
     container.innerHTML =
         '<div class="loading">Chargement des grades...</div>';
 
+
+    /* Récupération des grades */
+
     const {
-        data,
-        error
+        data: grades,
+        error: gradesError
     } = await supabaseClient
         .from("grades")
         .select("*")
@@ -533,21 +584,46 @@ async function chargerGrades() {
             ascending: true
         });
 
-    if (error) {
 
-        console.error(error);
+    if (gradesError) {
+
+        console.error(gradesError);
 
         container.innerHTML = `
             <div class="error">
                 Erreur lors du chargement des grades.<br><br>
-                ${escapeHtml(error.message)}
+                ${escapeHtml(gradesError.message)}
             </div>
         `;
 
         return;
     }
 
-    if (!data || data.length === 0) {
+
+    /* Récupération des employés */
+
+    const {
+        data: employees,
+        error: employeesError
+    } = await supabaseClient
+        .from("employes")
+        .select("grade_id");
+
+
+    if (employeesError) {
+
+        console.error(employeesError);
+
+    }
+
+
+    const employeeList =
+        employees || [];
+
+
+    /* Aucun grade */
+
+    if (!grades || grades.length === 0) {
 
         container.innerHTML = `
             <div class="empty">
@@ -558,38 +634,64 @@ async function chargerGrades() {
         return;
     }
 
+
     container.innerHTML = "";
 
-    data.forEach((grade, index) => {
+
+    /* Affichage des grades */
+
+    grades.forEach((grade, index) => {
 
         const permissions =
             Array.isArray(grade.permissions)
                 ? grade.permissions
                 : [];
 
+
         const niveau =
-            Number(grade.niveau || index + 1);
+            Number(
+                grade.niveau ||
+                index + 1
+            );
+
 
         const salaire =
-            Number(grade.salaire || 0);
+            Number(
+                grade.salaire ||
+                0
+            );
+
+
+        /* Nombre réel d'employés liés au grade */
+
+        const employeeCount =
+            employeeList.filter(
+                employee =>
+                    employee.grade_id === grade.id
+            ).length;
+
 
         const carte =
             document.createElement("div");
 
         carte.className = "grade";
 
+
         let permissionsHTML =
             permissions.length > 0
-                ? permissions.map(permission => `
-                    <span class="permission">
-                        ${escapeHtml(permission)}
-                    </span>
-                `).join("")
-                : `
-                    <span class="permission">
-                        Aucune permission
-                    </span>
-                `;
+
+            ? permissions.map(permission => `
+                <span class="permission">
+                    ${escapeHtml(permission)}
+                </span>
+            `).join("")
+
+            : `
+                <span class="permission">
+                    Aucune permission
+                </span>
+            `;
+
 
         carte.innerHTML = `
 
@@ -602,6 +704,7 @@ async function chargerGrades() {
                     </div>
 
                     <div>
+
                         <strong>
                             ${escapeHtml(grade.nom)}
                         </strong>
@@ -618,10 +721,14 @@ async function chargerGrades() {
                 </div>
 
                 <div class="badge">
-                    ${escapeHtml(grade.type || "Personnel")}
+                    ${escapeHtml(
+                        grade.type ||
+                        "Personnel"
+                    )}
                 </div>
 
             </div>
+
 
             <div class="details">
 
@@ -637,6 +744,7 @@ async function chargerGrades() {
 
                 </div>
 
+
                 <div class="detail">
 
                     <span>
@@ -649,6 +757,7 @@ async function chargerGrades() {
 
                 </div>
 
+
                 <div class="detail">
 
                     <span>
@@ -656,12 +765,13 @@ async function chargerGrades() {
                     </span>
 
                     <strong>
-                        Non défini
+                        ${employeeCount}
                     </strong>
 
                 </div>
 
             </div>
+
 
             <div class="permissions">
 
@@ -670,10 +780,13 @@ async function chargerGrades() {
                 </div>
 
                 <div class="permission-list">
+
                     ${permissionsHTML}
+
                 </div>
 
             </div>
+
 
             <div class="actions">
 
@@ -682,6 +795,7 @@ async function chargerGrades() {
                     onclick="modifierGrade('${grade.id}')">
                     Modifier
                 </button>
+
 
                 ${
                     index > 0
@@ -695,8 +809,9 @@ async function chargerGrades() {
                     : ""
                 }
 
+
                 ${
-                    index < data.length - 1
+                    index < grades.length - 1
                     ? `
                     <button
                         class="secondary"
@@ -707,6 +822,7 @@ async function chargerGrades() {
                     : ""
                 }
 
+
                 <button
                     class="danger"
                     onclick="supprimerGrade('${grade.id}')">
@@ -714,7 +830,9 @@ async function chargerGrades() {
                 </button>
 
             </div>
+
         `;
+
 
         container.appendChild(carte);
 
@@ -723,54 +841,91 @@ async function chargerGrades() {
 }
 
 
+/* ================================
+   OUVERTURE DU MODAL
+================================ */
+
 function ouvrirModal(grade = null) {
 
-    gradeEnModification = grade ? grade.id : null;
-
-    document.getElementById("modalTitle").textContent =
+    gradeEnModification =
         grade
-            ? "Modifier le grade"
-            : "Créer un grade";
+            ? grade.id
+            : null;
 
-    document.getElementById("gradeNom").value =
-        grade?.nom || "";
 
-    document.getElementById("gradeDescription").value =
-        grade?.description || "";
+    document.getElementById("modalTitle")
+        .textContent =
+            grade
+                ? "Modifier le grade"
+                : "Créer un grade";
 
-    document.getElementById("gradeSalaire").value =
-        grade?.salaire || 0;
 
-    document.getElementById("gradeNiveau").value =
-        grade?.niveau || 1;
+    document.getElementById("gradeNom")
+        .value =
+            grade?.nom || "";
 
-    document.getElementById("gradeType").value =
-        grade?.type || "Personnel";
+
+    document.getElementById("gradeDescription")
+        .value =
+            grade?.description || "";
+
+
+    document.getElementById("gradeSalaire")
+        .value =
+            grade?.salaire || 0;
+
+
+    document.getElementById("gradeNiveau")
+        .value =
+            grade?.niveau || 1;
+
+
+    document.getElementById("gradeType")
+        .value =
+            grade?.type || "Personnel";
+
 
     document
-        .querySelectorAll('.check input[type="checkbox"]')
+        .querySelectorAll(
+            '.check input[type="checkbox"]'
+        )
         .forEach(checkbox => {
 
             checkbox.checked =
-                Array.isArray(grade?.permissions) &&
-                grade.permissions.includes(checkbox.value);
+                Array.isArray(
+                    grade?.permissions
+                ) &&
+                grade.permissions.includes(
+                    checkbox.value
+                );
 
         });
 
+
     document.getElementById("modal")
-        .style.display = "flex";
+        .style.display =
+            "flex";
 }
 
+
+/* ================================
+   FERMETURE DU MODAL
+================================ */
 
 function fermerModal() {
 
-    gradeEnModification = null;
+    gradeEnModification =
+        null;
 
     document.getElementById("modal")
-        .style.display = "none";
-
+        .style.display =
+            "none";
 }
 
+
+/* ================================
+   ENREGISTREMENT
+================================ */
 
 async function enregistrerGrade() {
 
@@ -779,10 +934,12 @@ async function enregistrerGrade() {
             .value
             .trim();
 
+
     const description =
         document.getElementById("gradeDescription")
             .value
             .trim();
+
 
     const salaire =
         Number(
@@ -790,15 +947,18 @@ async function enregistrerGrade() {
                 .value || 0
         );
 
+
     const niveau =
         Number(
             document.getElementById("gradeNiveau")
                 .value || 1
         );
 
+
     const type =
         document.getElementById("gradeType")
             .value;
+
 
     const permissions =
         Array.from(
@@ -806,33 +966,57 @@ async function enregistrerGrade() {
                 '.check input[type="checkbox"]:checked'
             )
         ).map(
-            checkbox => checkbox.value
+            checkbox =>
+                checkbox.value
         );
+
 
     if (!nom) {
 
-        alert("Veuillez renseigner le nom du grade.");
+        alert(
+            "Veuillez renseigner le nom du grade."
+        );
 
         return;
     }
 
-    if (salaire < 0 || niveau < 1) {
 
-        alert("Les valeurs saisies sont invalides.");
+    if (
+        salaire < 0 ||
+        niveau < 1
+    ) {
+
+        alert(
+            "Les valeurs saisies sont invalides."
+        );
 
         return;
     }
+
 
     const gradeData = {
+
         nom: nom,
-        description: description || null,
+
+        description:
+            description ||
+            null,
+
         type: type,
+
         salaire: salaire,
+
         niveau: niveau,
+
         permissions: permissions
+
     };
 
+
     let error;
+
+
+    /* Modification */
 
     if (gradeEnModification) {
 
@@ -840,19 +1024,34 @@ async function enregistrerGrade() {
             await supabaseClient
                 .from("grades")
                 .update(gradeData)
-                .eq("id", gradeEnModification);
+                .eq(
+                    "id",
+                    gradeEnModification
+                );
 
-        error = result.error;
 
-    } else {
+        error =
+            result.error;
+
+    }
+
+
+    /* Création */
+
+    else {
 
         const result =
             await supabaseClient
                 .from("grades")
-                .insert(gradeData);
+                .insert(
+                    gradeData
+                );
 
-        error = result.error;
+
+        error =
+            result.error;
     }
+
 
     if (error) {
 
@@ -866,12 +1065,17 @@ async function enregistrerGrade() {
         return;
     }
 
+
     fermerModal();
 
     await chargerGrades();
 
 }
 
+
+/* ================================
+   MODIFICATION
+================================ */
 
 async function modifierGrade(id) {
 
@@ -884,6 +1088,7 @@ async function modifierGrade(id) {
         .eq("id", id)
         .single();
 
+
     if (error) {
 
         alert(
@@ -894,10 +1099,15 @@ async function modifierGrade(id) {
         return;
     }
 
+
     ouvrirModal(data);
 
 }
 
+
+/* ================================
+   SUPPRESSION
+================================ */
 
 async function supprimerGrade(id) {
 
@@ -906,16 +1116,22 @@ async function supprimerGrade(id) {
             "Voulez-vous vraiment supprimer ce grade ?"
         );
 
+
     if (!confirmation) {
         return;
     }
+
 
     const {
         error
     } = await supabaseClient
         .from("grades")
         .delete()
-        .eq("id", id);
+        .eq(
+            "id",
+            id
+        );
+
 
     if (error) {
 
@@ -929,10 +1145,15 @@ async function supprimerGrade(id) {
         return;
     }
 
+
     await chargerGrades();
 
 }
 
+
+/* ================================
+   MONTER UN GRADE
+================================ */
 
 async function monterGrade(id) {
 
@@ -946,43 +1167,78 @@ async function monterGrade(id) {
             ascending: true
         });
 
-    if (error || !data) {
 
-        alert("Impossible de modifier la hiérarchie.");
+    if (
+        error ||
+        !data
+    ) {
+
+        alert(
+            "Impossible de modifier la hiérarchie."
+        );
 
         return;
     }
 
+
     const index =
         data.findIndex(
-            grade => grade.id === id
+            grade =>
+                grade.id === id
         );
+
 
     if (index <= 0) {
         return;
     }
 
-    const actuel = data[index];
-    const precedent = data[index - 1];
+
+    const actuel =
+        data[index];
+
+
+    const precedent =
+        data[index - 1];
+
+
+    const ancienNiveau =
+        actuel.niveau;
+
+
+    const nouveauNiveau =
+        precedent.niveau;
+
 
     await supabaseClient
         .from("grades")
         .update({
-            niveau: precedent.niveau
+            niveau: nouveauNiveau
         })
-        .eq("id", actuel.id);
+        .eq(
+            "id",
+            actuel.id
+        );
+
 
     await supabaseClient
         .from("grades")
         .update({
-            niveau: actuel.niveau
+            niveau: ancienNiveau
         })
-        .eq("id", precedent.id);
+        .eq(
+            "id",
+            precedent.id
+        );
+
 
     await chargerGrades();
 
 }
 
+
+/* ================================
+   DESCENDRE UN GRADE
+================================ */
 
 async function descendreGrade(id) {
 
@@ -996,56 +1252,118 @@ async function descendreGrade(id) {
             ascending: true
         });
 
-    if (error || !data) {
 
-        alert("Impossible de modifier la hiérarchie.");
+    if (
+        error ||
+        !data
+    ) {
+
+        alert(
+            "Impossible de modifier la hiérarchie."
+        );
 
         return;
     }
+
 
     const index =
         data.findIndex(
-            grade => grade.id === id
+            grade =>
+                grade.id === id
         );
 
-    if (index === -1 || index >= data.length - 1) {
+
+    if (
+        index === -1 ||
+        index >= data.length - 1
+    ) {
+
         return;
     }
 
-    const actuel = data[index];
-    const suivant = data[index + 1];
+
+    const actuel =
+        data[index];
+
+
+    const suivant =
+        data[index + 1];
+
+
+    const ancienNiveau =
+        actuel.niveau;
+
+
+    const nouveauNiveau =
+        suivant.niveau;
+
 
     await supabaseClient
         .from("grades")
         .update({
-            niveau: suivant.niveau
+            niveau: nouveauNiveau
         })
-        .eq("id", actuel.id);
+        .eq(
+            "id",
+            actuel.id
+        );
+
 
     await supabaseClient
         .from("grades")
         .update({
-            niveau: actuel.niveau
+            niveau: ancienNiveau
         })
-        .eq("id", suivant.id);
+        .eq(
+            "id",
+            suivant.id
+        );
+
 
     await chargerGrades();
 
 }
 
 
+/* ================================
+   SÉCURITÉ HTML
+================================ */
+
 function escapeHtml(value) {
 
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
 }
 
 
+/* ================================
+   DÉMARRAGE
+================================ */
+
 chargerGrades();
 
-</script></body>
-</html>
+</script>
+
+</body>
+    </html>
