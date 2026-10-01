@@ -4,38 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Neptune Legal — Connexion</title>
+    <title>Neptune Legal - Connexion</title>
 
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
         }
 
         body {
+            margin: 0;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: Arial, Helvetica, sans-serif;
             background: #080b12;
             color: white;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 430px;
-            padding: 20px;
+            font-family: Arial, sans-serif;
         }
 
         .card {
+            width: 90%;
+            max-width: 420px;
+            padding: 40px 30px;
             background: #111722;
             border: 1px solid #252d3a;
             border-radius: 18px;
-            padding: 40px 30px;
             text-align: center;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
         }
@@ -48,27 +44,25 @@
         }
 
         h1 {
+            margin: 0 0 10px;
             font-size: 28px;
-            margin-bottom: 8px;
         }
 
-        .subtitle {
+        p {
+            margin: 0 0 30px;
             color: #9da7b7;
-            font-size: 14px;
-            margin-bottom: 30px;
         }
 
         .discord-button {
             width: 100%;
+            padding: 15px;
             border: none;
             border-radius: 10px;
-            padding: 15px;
             background: #5865F2;
             color: white;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.2s;
         }
 
         .discord-button:hover {
@@ -77,61 +71,68 @@
 
         .discord-button:disabled {
             opacity: 0.6;
-            cursor: not-allowed;
+            cursor: wait;
         }
 
         #errorMessage {
             display: none;
-            margin-top: 18px;
+            margin-top: 20px;
             padding: 12px;
             border-radius: 8px;
-            background: rgba(255, 70, 70, 0.12);
-            border: 1px solid rgba(255, 70, 70, 0.3);
-            color: #ff8585;
-            font-size: 13px;
+            background: #32191c;
+            color: #ff8b8b;
+            font-size: 14px;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
-        <div class="card">
+    <div class="card">
 
-            <img
-                src="logo.png"
-                alt="Neptune Legal"
-                class="logo"
-            >
+        <img
+            src="logo.png"
+            alt="Neptune Legal"
+            class="logo"
+        >
 
-            <h1>Neptune Legal</h1>
+        <h1>Neptune Legal</h1>
 
-            <p class="subtitle">
-                Connecte-toi avec ton compte Discord
-            </p>
+        <p>
+            Connecte-toi avec ton compte Discord
+        </p>
 
-            <button
-                id="discordButton"
-                class="discord-button"
-                type="button"
-                onclick="connexionDiscord()"
-            >
-                <span id="buttonText">
-                    Continuer avec Discord
-                </span>
-            </button>
+        <button
+            id="discordButton"
+            class="discord-button"
+            type="button"
+        >
+            <span id="buttonText">
+                Continuer avec Discord
+            </span>
+        </button>
 
-            <div id="errorMessage"></div>
+        <div id="errorMessage"></div>
 
-        </div>
     </div>
 
+
     <script>
+
+        /* ==============================
+           CONFIGURATION SUPABASE
+        ============================== */
+
         const SUPABASE_URL =
             "https://xzmglqxcsrzivvkpemyt.supabase.co";
 
         const SUPABASE_PUBLISHABLE_KEY =
             "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
+
+
+        /* ==============================
+           INITIALISATION SUPABASE
+        ============================== */
 
         const supabaseClient =
             window.supabase.createClient(
@@ -139,75 +140,100 @@
                 SUPABASE_PUBLISHABLE_KEY
             );
 
+
+        /* ==============================
+           ELEMENTS
+        ============================== */
+
+        const discordButton =
+            document.getElementById("discordButton");
+
+        const buttonText =
+            document.getElementById("buttonText");
+
+        const errorMessage =
+            document.getElementById("errorMessage");
+
+
+        /* ==============================
+           AFFICHER UNE ERREUR
+        ============================== */
+
         function afficherErreur(message) {
-            const errorMessage =
-                document.getElementById("errorMessage");
 
             errorMessage.textContent = message;
+
             errorMessage.style.display = "block";
+
+            discordButton.disabled = false;
+
+            buttonText.textContent =
+                "Continuer avec Discord";
         }
 
-        async function connexionDiscord() {
 
-            const button =
-                document.getElementById("discordButton");
+        /* ==============================
+           CONNEXION DISCORD
+        ============================== */
 
-            const buttonText =
-                document.getElementById("buttonText");
+        discordButton.addEventListener(
+            "click",
+            async function () {
 
-            button.disabled = true;
-            buttonText.textContent =
-                "Connexion en cours...";
+                errorMessage.style.display = "none";
 
-            try {
+                discordButton.disabled = true;
 
-                const { data, error } =
-                    await supabaseClient.auth.signInWithOAuth({
+                buttonText.textContent =
+                    "Connexion en cours...";
 
-                        provider: "discord",
+                try {
 
-                        options: {
-                            redirectTo:
-                                window.location.origin +
-                                "/Neptune-legals/dashboard.html"
-                        }
+                    const { data, error } =
+                        await supabaseClient.auth.signInWithOAuth({
 
-                    });
+                            provider: "discord",
 
-                if (error) {
+                            options: {
+
+                                redirectTo:
+                                    "https://benmadiayah955-png.github.io/Neptune-legals/dashboard.html"
+
+                            }
+
+                        });
+
+
+                    if (error) {
+
+                        console.error(
+                            "Erreur Supabase :",
+                            error
+                        );
+
+                        afficherErreur(
+                            error.message
+                        );
+
+                        return;
+                    }
+
+                } catch (error) {
 
                     console.error(
-                        "Erreur Supabase :",
+                        "Erreur :",
                         error
                     );
 
                     afficherErreur(
-                        "Impossible de lancer la connexion Discord. Vérifie la configuration Supabase."
+                        "Impossible de lancer la connexion Discord."
                     );
-
-                    button.disabled = false;
-
-                    buttonText.textContent =
-                        "Continuer avec Discord";
-
-                    return;
                 }
 
-            } catch (error) {
-
-                console.error(error);
-
-                afficherErreur(
-                    "Une erreur est survenue pendant la connexion."
-                );
-
-                button.disabled = false;
-
-                buttonText.textContent =
-                    "Continuer avec Discord";
             }
-        }
+        );
+
     </script>
 
 </body>
-</html>
+</html>https://xzmglqxcsrzivvkpemyt.supabase.co/auth/v1/callback
