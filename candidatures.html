@@ -3,25 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Neptune Legal — Candidatures</title>
+    <title>Candidatures — Neptune Legal</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
-        :root {
-            --bleu: #7ACAED;
-            --bleu-fonce: #58A3DD;
-            --bleu-clair: #98CAF7;
-            --violet: #C78BE4;
-            --violet-clair: #D1A6F1;
-
-            --fond: #f7fbff;
-            --texte: #172033;
-            --secondaire: #788296;
-            --bordure: #e2e8f2;
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
@@ -30,158 +16,131 @@
         }
 
         body {
-            background: var(--fond);
-            color: var(--texte);
             min-height: 100vh;
-        }
-
-        header {
-            background: white;
-            padding: 18px 25px;
-            border-bottom: 1px solid var(--bordure);
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo {
-            font-size: 22px;
-            font-weight: bold;
-
             background:
-                linear-gradient(
-                    90deg,
-                    var(--bleu),
-                    var(--bleu-fonce),
-                    var(--violet),
-                    var(--violet-clair)
-                );
-
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .back {
-            color: var(--bleu-fonce);
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .back:hover {
-            color: var(--violet);
+                radial-gradient(circle at top right, rgba(199, 139, 228, 0.25), transparent 35%),
+                radial-gradient(circle at bottom left, rgba(122, 202, 237, 0.20), transparent 35%),
+                #0b1020;
+            color: white;
+            padding: 30px;
         }
 
         .container {
-            width: 100%;
-            max-width: 850px;
+            max-width: 900px;
             margin: auto;
-            padding: 35px 20px 60px;
         }
 
-        h1 {
-            font-size: 32px;
-            margin-bottom: 8px;
-        }
-
-        .subtitle {
-            color: var(--secondaire);
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-
-        .form {
-            background: white;
-            border: 1px solid var(--bordure);
+        .header {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 20px;
-            padding: 28px;
-
-            box-shadow:
-                0 10px 35px rgba(50, 70, 100, 0.07);
+            padding: 25px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(15px);
         }
 
-        .field {
-            margin-bottom: 20px;
+        .header h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+            background: linear-gradient(
+                90deg,
+                #7ACAED,
+                #58A3DD,
+                #98CAF7,
+                #C78BE4,
+                #D1A6F1
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            color: #b9c0d0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(15px);
+        }
+
+        .form-group {
+            margin-bottom: 22px;
         }
 
         label {
             display: block;
-            font-weight: bold;
-            font-size: 14px;
             margin-bottom: 8px;
+            font-weight: bold;
+            color: #e8ecf5;
         }
 
         input,
         select,
         textarea {
             width: 100%;
-            padding: 14px;
-
-            border: 1px solid #dce3ee;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.25);
+            color: white;
             border-radius: 12px;
-
+            padding: 14px;
+            font-size: 15px;
             outline: none;
-            font-size: 14px;
-
-            background: #fbfcff;
-            color: var(--texte);
         }
 
         input:focus,
         select:focus,
         textarea:focus {
-            border-color: var(--bleu-fonce);
+            border-color: #7ACAED;
+            box-shadow: 0 0 0 3px rgba(122, 202, 237, 0.12);
+        }
 
-            box-shadow:
-                0 0 0 3px rgba(88, 163, 221, 0.12);
+        select option {
+            background: #151a2d;
+            color: white;
         }
 
         textarea {
-            min-height: 150px;
+            min-height: 180px;
             resize: vertical;
         }
 
-        .file {
-            background: #f7faff;
+        input[type="file"] {
+            padding: 11px;
         }
 
         .help {
-            color: var(--secondaire);
-            font-size: 12px;
-            margin-top: 6px;
+            margin-top: 7px;
+            color: #9299aa;
+            font-size: 13px;
         }
 
-        .submit {
+        .button {
             width: 100%;
             border: none;
-
+            border-radius: 12px;
             padding: 15px;
-            border-radius: 13px;
-
-            color: white;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    var(--bleu-fonce),
-                    var(--violet)
-                );
-
-            font-size: 15px;
+            font-size: 16px;
             font-weight: bold;
-
             cursor: pointer;
+            color: white;
+            background: linear-gradient(
+                90deg,
+                #58A3DD,
+                #7ACAED,
+                #C78BE4
+            );
             transition: 0.2s;
         }
 
-        .submit:hover {
-            transform: translateY(-1px);
-            opacity: 0.92;
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(122, 202, 237, 0.25);
         }
 
-        .submit:disabled {
+        .button:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
@@ -189,327 +148,204 @@
 
         .message {
             display: none;
-
-            margin-top: 18px;
+            margin-top: 20px;
             padding: 15px;
-
             border-radius: 12px;
+            font-weight: bold;
+        }
 
+        .success {
+            display: block;
+            background: rgba(60, 200, 120, 0.15);
+            border: 1px solid rgba(60, 200, 120, 0.35);
+            color: #8df0b5;
+        }
+
+        .error {
+            display: block;
+            background: rgba(255, 80, 100, 0.15);
+            border: 1px solid rgba(255, 80, 100, 0.35);
+            color: #ff9aa8;
+        }
+
+        .loading {
             text-align: center;
-            line-height: 1.5;
-
-            word-break: break-word;
+            color: #b9c0d0;
+            padding: 15px;
         }
 
-        .message.success {
-            display: block;
-            background: #eafaf0;
-            color: #16733c;
-            border: 1px solid #bce8ca;
-        }
-
-        .message.error {
-            display: block;
-            background: #fff0f2;
-            color: #a52c40;
-            border: 1px solid #f0bcc5;
-        }
-
-        .message.info {
-            display: block;
-            background: #eef7ff;
-            color: #24618c;
-            border: 1px solid #c9e5f8;
-        }
-
-        .account {
+        .back {
+            display: inline-block;
             margin-bottom: 20px;
-            padding: 13px 15px;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    rgba(122, 202, 237, 0.10),
-                    rgba(199, 139, 228, 0.10)
-                );
-
-            border: 1px solid var(--bordure);
-            border-radius: 12px;
-
-            color: var(--secondaire);
-            font-size: 13px;
+            color: #98CAF7;
+            text-decoration: none;
         }
 
-        .account strong {
-            color: var(--texte);
-        }
-
-        @media (max-width: 650px) {
-
-            header {
-                padding: 16px;
-            }
-
-            .container {
-                padding: 25px 15px 45px;
-            }
-
-            .form {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 27px;
-            }
+        .back:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
 
-<header>
-
-    <div class="logo">
-        Neptune Legal
-    </div>
-
-    <a
-        href="entreprises.html"
-        class="back"
-    >
-        Retour aux entreprises
-    </a>
-
-</header>
-
-
 <div class="container">
 
-    <h1>
-        Déposer une candidature
-    </h1>
+    <a href="dashboard.html" class="back">
+        ← Retour au dashboard
+    </a>
 
-    <p class="subtitle">
-        Remplissez ce formulaire pour déposer votre candidature
-        auprès d'une entreprise.
-    </p>
+    <div class="header">
+        <h1>Déposer une candidature</h1>
+        <p>
+            Remplissez le formulaire afin de rejoindre une entreprise sur Neptune Legal.
+        </p>
+    </div>
 
+    <div class="card">
 
-    <div class="form">
+        <form id="candidatureForm">
 
-        <div
-            class="account"
-            id="accountInfo"
-        >
-            Vérification de votre compte...
-        </div>
+            <div class="form-group">
+                <label for="entreprise">
+                    Entreprise
+                </label>
 
-
-        <div class="field">
-
-            <label for="entreprise">
-                Entreprise
-            </label>
-
-            <select id="entreprise">
-
-                <option value="">
-                    Chargement des entreprises...
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div class="field">
-
-            <label for="nom">
-                Nom
-            </label>
-
-            <input
-                type="text"
-                id="nom"
-                placeholder="Votre nom"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label for="motivation">
-                Motivation
-            </label>
-
-            <textarea
-                id="motivation"
-                placeholder="Expliquez votre motivation..."
-            ></textarea>
-
-        </div>
-
-
-        <div class="field">
-
-            <label for="document">
-                Document complémentaire
-            </label>
-
-            <input
-                class="file"
-                type="file"
-                id="document"
-            >
-
-            <div class="help">
-                La gestion des pièces jointes sera ajoutée
-                prochainement.
+                <select id="entreprise" required>
+                    <option value="">
+                        Chargement des entreprises...
+                    </option>
+                </select>
             </div>
 
-        </div>
+            <div class="form-group">
+                <label for="nom">
+                    Nom / Prénom
+                </label>
 
+                <input
+                    type="text"
+                    id="nom"
+                    placeholder="Votre nom et prénom"
+                    required
+                >
+            </div>
 
-        <button
-            class="submit"
-            type="button"
-            id="submitBtn"
-        >
-            Déposer ma candidature
-        </button>
+            <div class="form-group">
+                <label for="motivation">
+                    Motivation
+                </label>
 
+                <textarea
+                    id="motivation"
+                    placeholder="Expliquez votre motivation..."
+                    required
+                ></textarea>
+            </div>
 
-        <div
-            class="message"
-            id="message"
-        ></div>
+            <div class="form-group">
+                <label for="document">
+                    Document
+                </label>
+
+                <input
+                    type="file"
+                    id="document"
+                >
+
+                <div class="help">
+                    Les pièces jointes seront ajoutées ultérieurement.
+                </div>
+            </div>
+
+            <button
+                type="submit"
+                class="button"
+                id="submitButton"
+            >
+                Envoyer ma candidature
+            </button>
+
+            <div id="message" class="message"></div>
+
+        </form>
 
     </div>
 
 </div>
 
-
 <script>
+    const SUPABASE_URL = "https://xzmglqxcsrzivvkpemyt.supabase.co";
 
-const SUPABASE_URL =
-    "https://xzmglqxcsrzivvkpemyt.supabase.co";
+    const SUPABASE_KEY =
+        "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
 
-const SUPABASE_KEY =
-    "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
 
+    const form =
+        document.getElementById("candidatureForm");
 
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+    const entrepriseSelect =
+        document.getElementById("entreprise");
 
+    const nomInput =
+        document.getElementById("nom");
 
-let utilisateurActuel = null;
+    const motivationInput =
+        document.getElementById("motivation");
 
-
-/* ================================
-   MESSAGE
-================================ */
-
-function afficherMessage(texte, type) {
+    const submitButton =
+        document.getElementById("submitButton");
 
     const message =
         document.getElementById("message");
 
-    message.textContent = texte;
 
-    message.className =
-        "message " + type;
-}
+    function afficherMessage(texte, type) {
 
+        message.textContent = texte;
 
-/* ================================
-   PROTECTION HTML
-================================ */
-
-function escapeHTML(value) {
-
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-
-/* ================================
-   UTILISATEUR
-================================ */
-
-async function chargerUtilisateur() {
-
-    const {
-        data: {
-            user
-        },
-        error
-    } =
-        await supabaseClient.auth.getUser();
-
-
-    if (error || !user) {
-
-        window.location.href =
-            "connexion.html";
-
-        return false;
+        message.className =
+            "message " + type;
     }
 
 
-    utilisateurActuel = user;
+    async function verifierConnexion() {
+
+        const {
+            data,
+            error
+        } = await supabaseClient.auth.getUser();
+
+        if (error || !data.user) {
+
+            afficherMessage(
+                "Vous devez être connecté pour déposer une candidature.",
+                "error"
+            );
+
+            submitButton.disabled = true;
+
+            return false;
+        }
+
+        return true;
+    }
 
 
-    const nomDiscord =
-        user.user_metadata?.full_name ||
-        user.user_metadata?.name ||
-        user.user_metadata?.preferred_username ||
-        "";
+    async function chargerEntreprises() {
 
+        entrepriseSelect.innerHTML =
+            '<option value="">Chargement des entreprises...</option>';
 
-    document.getElementById("nom").value =
-        nomDiscord;
-
-
-    document.getElementById("accountInfo").innerHTML =
-        `
-            Connecté en tant que
-            <strong>
-                ${escapeHTML(
-                    nomDiscord ||
-                    user.email ||
-                    "Utilisateur"
-                )}
-            </strong>
-        `;
-
-
-    return true;
-}
-
-
-/* ================================
-   CHARGEMENT DES ENTREPRISES
-================================ */
-
-async function chargerEntreprises() {
-
-    const select =
-        document.getElementById("entreprise");
-
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
+        const {
+            data,
+            error
+        } = await supabaseClient
             .from("Entreprises")
             .select("id, Nom")
             .order("Nom", {
@@ -517,276 +353,213 @@ async function chargerEntreprises() {
             });
 
 
-    if (error) {
+        if (error) {
 
-        console.error(
-            "Erreur Entreprises :",
-            error
-        );
+            console.error(
+                "Erreur entreprises :",
+                error
+            );
 
+            entrepriseSelect.innerHTML =
+                '<option value="">Erreur de chargement</option>';
 
-        select.innerHTML =
-            `
-                <option value="">
-                    Erreur de chargement
-                </option>
-            `;
+            afficherMessage(
+                "Impossible de charger les entreprises : " +
+                error.message,
+                "error"
+            );
 
-
-        afficherMessage(
-            "Impossible de charger les entreprises : " +
-            error.message,
-            "error"
-        );
+            return;
+        }
 
 
-        return;
-    }
+        entrepriseSelect.innerHTML =
+            '<option value="">Sélectionnez une entreprise</option>';
 
 
-    if (!data || data.length === 0) {
+        if (!data || data.length === 0) {
 
-        select.innerHTML =
-            `
-                <option value="">
-                    Aucune entreprise disponible
-                </option>
-            `;
+            entrepriseSelect.innerHTML =
+                '<option value="">Aucune entreprise disponible</option>';
 
-
-        afficherMessage(
-            "Aucune entreprise n'est disponible.",
-            "info"
-        );
+            return;
+        }
 
 
-        return;
-    }
-
-
-    select.innerHTML =
-        `
-            <option value="">
-                Sélectionner une entreprise
-            </option>
-        `;
-
-
-    data.forEach(
-        function(entreprise) {
+        data.forEach(entreprise => {
 
             const option =
                 document.createElement("option");
 
-
             option.value =
                 entreprise.id;
-
 
             option.textContent =
                 entreprise.Nom;
 
+            entrepriseSelect.appendChild(option);
 
-            select.appendChild(option);
+        });
+    }
+
+
+    form.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+            message.className = "message";
+            message.textContent = "";
+
+            const entrepriseId =
+                entrepriseSelect.value;
+
+            const nom =
+                nomInput.value.trim();
+
+            const motivation =
+                motivationInput.value.trim();
+
+
+            if (!entrepriseId) {
+
+                afficherMessage(
+                    "Veuillez sélectionner une entreprise.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (!nom) {
+
+                afficherMessage(
+                    "Veuillez renseigner votre nom.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (!motivation) {
+
+                afficherMessage(
+                    "Veuillez renseigner votre motivation.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            submitButton.disabled = true;
+
+            submitButton.textContent =
+                "Envoi en cours...";
+
+
+            const connected =
+                await verifierConnexion();
+
+
+            if (!connected) {
+
+                submitButton.disabled = false;
+
+                submitButton.textContent =
+                    "Envoyer ma candidature";
+
+                return;
+            }
+
+
+            /*
+             * IMPORTANT :
+             * La colonne "document" n'existe pas
+             * actuellement dans la table candidatures.
+             *
+             * Elle n'est donc PAS envoyée à Supabase.
+             */
+
+            const {
+                error
+            } = await supabaseClient
+                .from("candidatures")
+                .insert({
+
+                    entreprise_id:
+                        entrepriseId,
+
+                    nom:
+                        nom,
+
+                    motivation:
+                        motivation,
+
+                    statut:
+                        "en_attente"
+                });
+
+
+            if (error) {
+
+                console.error(
+                    "Erreur candidature :",
+                    error
+                );
+
+                afficherMessage(
+                    "Impossible d'envoyer la candidature : " +
+                    error.message,
+                    "error"
+                );
+
+                submitButton.disabled = false;
+
+                submitButton.textContent =
+                    "Envoyer ma candidature";
+
+                return;
+            }
+
+
+            afficherMessage(
+                "Votre candidature a été envoyée avec succès.",
+                "success"
+            );
+
+
+            form.reset();
+
+            await chargerEntreprises();
+
+
+            submitButton.disabled = false;
+
+            submitButton.textContent =
+                "Envoyer ma candidature";
+
         }
     );
-}
 
 
-/* ================================
-   ENVOI DE LA CANDIDATURE
-================================ */
+    async function initialiser() {
 
-async function envoyerCandidature() {
+        const connected =
+            await verifierConnexion();
 
-    const bouton =
-        document.getElementById("submitBtn");
+        if (!connected) {
+            return;
+        }
 
-
-    const entrepriseId =
-        document.getElementById(
-            "entreprise"
-        ).value;
-
-
-    const nom =
-        document.getElementById(
-            "nom"
-        ).value.trim();
-
-
-    const motivation =
-        document.getElementById(
-            "motivation"
-        ).value.trim();
-
-
-    if (!utilisateurActuel) {
-
-        afficherMessage(
-            "Votre session a expiré. Reconnectez-vous.",
-            "error"
-        );
-
-        return;
+        await chargerEntreprises();
     }
 
 
-    if (!entrepriseId) {
-
-        afficherMessage(
-            "Sélectionnez une entreprise.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    if (!nom) {
-
-        afficherMessage(
-            "Indiquez votre nom.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    if (!motivation) {
-
-        afficherMessage(
-            "Indiquez votre motivation.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    bouton.disabled = true;
-
-    bouton.textContent =
-        "Envoi en cours...";
-
-
-    afficherMessage(
-        "Enregistrement de votre candidature...",
-        "info"
-    );
-
-
-    /*
-       IMPORTANT :
-
-       On n'envoie PAS de colonne "document"
-       car cette colonne n'existe pas encore
-       dans la table candidatures.
-    */
-
-    const {
-        error
-    } =
-        await supabaseClient
-            .from("candidatures")
-            .insert({
-
-                entreprise_id:
-                    entrepriseId,
-
-                nom:
-                    nom,
-
-                motivation:
-                    motivation,
-
-                statut:
-                    "en_attente"
-            });
-
-
-    if (error) {
-
-        console.error(
-            "Erreur candidature :",
-            error
-        );
-
-
-        afficherMessage(
-            "Impossible d'envoyer la candidature : " +
-            error.message,
-            "error"
-        );
-
-
-        bouton.disabled = false;
-
-        bouton.textContent =
-            "Déposer ma candidature";
-
-        return;
-    }
-
-
-    afficherMessage(
-        "Votre candidature a bien été envoyée. Elle est maintenant en attente de traitement par le Staff.",
-        "success"
-    );
-
-
-    document.getElementById(
-        "entreprise"
-    ).value = "";
-
-
-    document.getElementById(
-        "motivation"
-    ).value = "";
-
-
-    document.getElementById(
-        "document"
-    ).value = "";
-
-
-    bouton.disabled = false;
-
-    bouton.textContent =
-        "Déposer ma candidature";
-}
-
-
-/* ================================
-   INITIALISATION
-================================ */
-
-async function initialiser() {
-
-    const connecte =
-        await chargerUtilisateur();
-
-
-    if (!connecte) {
-        return;
-    }
-
-
-    await chargerEntreprises();
-
-
-    document
-        .getElementById("submitBtn")
-        .addEventListener(
-            "click",
-            envoyerCandidature
-        );
-}
-
-
-initialiser();
-
+    initialiser();
 </script>
 
 </body>
