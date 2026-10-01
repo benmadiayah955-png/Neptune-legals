@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Neptune — Candidature</title>
+<title>Neptune — Candidatures</title>
 
 <style>
 * {
@@ -39,6 +39,7 @@ header {
         #ec4899
     );
     -webkit-background-clip: text;
+    background-clip: text;
     color: transparent;
 }
 
@@ -49,7 +50,7 @@ header {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 900px;
     margin: auto;
     padding: 30px 20px 50px;
 }
@@ -114,4 +115,415 @@ textarea {
     border: none;
     padding: 15px;
     border-radius: 13px;
-    color:
+    color: white;
+    background: linear-gradient(
+        90deg,
+        #5865f2,
+        #8b5cf6
+    );
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.submit:hover {
+    opacity: 0.9;
+}
+
+.message {
+    display: none;
+    margin-top: 18px;
+    padding: 14px;
+    border-radius: 12px;
+    background: #eef2ff;
+    color: #3949ab;
+    text-align: center;
+}
+
+.candidatures {
+    margin-top: 30px;
+}
+
+.candidatures h2 {
+    margin-bottom: 15px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #e6eaf4;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 20px rgba(50,70,100,.05);
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.card-info {
+    color: #788296;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.status {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #eef2ff;
+    color: #5865f2;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.empty {
+    background: white;
+    border: 1px dashed #dfe4ef;
+    border-radius: 18px;
+    padding: 30px;
+    text-align: center;
+    color: #788296;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">Neptune Legal</div>
+
+    <a href="entreprises.html" class="back">
+        Retour aux entreprises
+    </a>
+</header>
+
+<div class="container">
+
+    <h1>Mes candidatures</h1>
+
+    <p class="subtitle">
+        Consultez vos candidatures et déposez une nouvelle demande
+        pour rejoindre une entreprise.
+    </p>
+
+    <div class="form">
+
+        <label for="entreprise">Entreprise</label>
+
+        <select id="entreprise">
+            <option value="">Sélectionner une entreprise</option>
+        </select>
+
+        <label for="nom">Nom</label>
+
+        <input
+            type="text"
+            id="nom"
+            placeholder="Votre nom"
+        >
+
+        <label for="motivation">Motivation</label>
+
+        <textarea
+            id="motivation"
+            placeholder="Expliquez votre motivation..."
+        ></textarea>
+
+        <label for="document">Document complémentaire</label>
+
+        <input
+            class="file"
+            type="file"
+            id="document"
+        >
+
+        <button
+            class="submit"
+            id="submitBtn"
+            type="button"
+        >
+            Déposer ma candidature
+        </button>
+
+        <div class="message" id="message"></div>
+
+    </div>
+
+    <div class="candidatures">
+
+        <h2>Mes candidatures</h2>
+
+        <div id="listeCandidatures">
+            <div class="empty">
+                Chargement des candidatures...
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+const SUPABASE_URL = "https://xzmglqxcsrzivvkpemyt.supabase.co";
+const SUPABASE_KEY = "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
+
+let supabaseClient = null;
+
+function afficherMessage(texte) {
+    const message = document.getElementById("message");
+
+    message.textContent = texte;
+    message.style.display = "block";
+}
+
+async function chargerPage() {
+
+    try {
+
+        const { createClient } = supabase;
+
+        supabaseClient = createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+        const {
+            data: { user },
+            error: userError
+        } = await supabaseClient.auth.getUser();
+
+        if (userError || !user) {
+            window.location.href = "connexion.html";
+            return;
+        }
+
+        document.getElementById("nom").value =
+            user.user_metadata?.full_name ||
+            user.user_metadata?.name ||
+            "";
+
+        await chargerEntreprises();
+
+        await chargerCandidatures(user.id);
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById("listeCandidatures").innerHTML = `
+            <div class="empty">
+                Impossible de charger la page.
+            </div>
+        `;
+    }
+}
+
+
+async function chargerEntreprises() {
+
+    const select = document.getElementById("entreprise");
+
+    const { data, error } = await supabaseClient
+        .from("entreprises")
+        .select("id, nom")
+        .order("nom", { ascending: true });
+
+    if (error) {
+
+        console.error(error);
+
+        select.innerHTML = `
+            <option value="">
+                Impossible de charger les entreprises
+            </option>
+        `;
+
+        return;
+    }
+
+    if (!data || data.length === 0) {
+
+        select.innerHTML = `
+            <option value="">
+                Aucune entreprise disponible
+            </option>
+        `;
+
+        return;
+    }
+
+    select.innerHTML = `
+        <option value="">
+            Sélectionner une entreprise
+        </option>
+    `;
+
+    data.forEach(entreprise => {
+
+        const option = document.createElement("option");
+
+        option.value = entreprise.id;
+        option.textContent = entreprise.nom;
+
+        select.appendChild(option);
+    });
+}
+
+
+async function chargerCandidatures(userId) {
+
+    const liste = document.getElementById("listeCandidatures");
+
+    const { data, error } = await supabaseClient
+        .from("candidatures")
+        .select("*")
+        .eq("candidat_id", userId)
+        .order("created_at", { ascending: false });
+
+    if (error) {
+
+        console.log(
+            "Table candidatures non disponible pour le moment :",
+            error
+        );
+
+        liste.innerHTML = `
+            <div class="empty">
+                Vous n'avez encore aucune candidature.
+            </div>
+        `;
+
+        return;
+    }
+
+    if (!data || data.length === 0) {
+
+        liste.innerHTML = `
+            <div class="empty">
+                Vous n'avez encore aucune candidature.
+            </div>
+        `;
+
+        return;
+    }
+
+    liste.innerHTML = "";
+
+    data.forEach(candidature => {
+
+        const card = document.createElement("div");
+
+        card.className = "card";
+
+        card.innerHTML = `
+            <div class="card-title">
+                ${candidature.entreprise_nom || "Entreprise"}
+            </div>
+
+            <div class="card-info">
+                ${candidature.motivation || "Aucune motivation renseignée."}
+            </div>
+
+            <div class="status">
+                ${candidature.statut || "En attente"}
+            </div>
+        `;
+
+        liste.appendChild(card);
+    });
+}
+
+
+document.getElementById("submitBtn").addEventListener(
+    "click",
+    async function() {
+
+        const entrepriseId =
+            document.getElementById("entreprise").value;
+
+        const nom =
+            document.getElementById("nom").value.trim();
+
+        const motivation =
+            document.getElementById("motivation").value.trim();
+
+        if (!entrepriseId) {
+            afficherMessage(
+                "Veuillez sélectionner une entreprise."
+            );
+            return;
+        }
+
+        if (!nom) {
+            afficherMessage(
+                "Veuillez renseigner votre nom."
+            );
+            return;
+        }
+
+        if (!motivation) {
+            afficherMessage(
+                "Veuillez renseigner votre motivation."
+            );
+            return;
+        }
+
+        const {
+            data: { user }
+        } = await supabaseClient.auth.getUser();
+
+        if (!user) {
+            window.location.href = "connexion.html";
+            return;
+        }
+
+        const { data: entreprise } =
+            await supabaseClient
+                .from("entreprises")
+                .select("nom")
+                .eq("id", entrepriseId)
+                .single();
+
+        const { error } =
+            await supabaseClient
+                .from("candidatures")
+                .insert({
+                    candidat_id: user.id,
+                    entreprise_id: entrepriseId,
+                    entreprise_nom: entreprise?.nom || "",
+                    nom: nom,
+                    motivation: motivation,
+                    statut: "En attente"
+                });
+
+        if (error) {
+
+            console.error(error);
+
+            afficherMessage(
+                "La candidature ne peut pas encore être enregistrée. La table candidatures doit être configurée dans Supabase."
+            );
+
+            return;
+        }
+
+        afficherMessage(
+            "Votre candidature a bien été déposée."
+        );
+
+        document.getElementById("motivation").value = "";
+
+        await chargerCandidatures(user.id);
+    }
+);
+
+
+chargerPage();
+</script>
+
+</body>
+</html>
