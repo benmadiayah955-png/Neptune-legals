@@ -44,9 +44,7 @@ body {
 
 header {
     background: rgba(17,24,45,.96);
-
     padding: 17px 20px;
-
     border-bottom: 1px solid #26304d;
 
     display: flex;
@@ -69,37 +67,29 @@ header {
 
     -webkit-background-clip: text;
     background-clip: text;
-
     color: transparent;
 }
 
 .back {
     color: #7ACAED;
-
     text-decoration: none;
-
     font-weight: bold;
 }
 
 .container {
     max-width: 1050px;
-
     margin: auto;
-
     padding: 28px 18px 50px;
 }
 
 h1 {
     font-size: 29px;
-
     margin-bottom: 7px;
 }
 
 .subtitle {
     color: #9aa8c2;
-
     margin-bottom: 25px;
-
     line-height: 1.5;
 }
 
@@ -109,15 +99,12 @@ h1 {
     border: 1px solid rgba(122,202,237,.25);
 
     padding: 15px;
-
     border-radius: 14px;
 
     margin-bottom: 20px;
 
     color: white;
-
     font-weight: bold;
-
     font-size: 15px;
 
     background:
@@ -151,11 +138,8 @@ h1 {
 
 .top {
     display: flex;
-
     align-items: center;
-
     gap: 14px;
-
     margin-bottom: 18px;
 }
 
@@ -166,7 +150,6 @@ h1 {
     border-radius: 50%;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -181,21 +164,17 @@ h1 {
         );
 
     color: white;
-
     font-weight: bold;
 }
 
 .name {
     font-weight: bold;
-
     font-size: 17px;
 }
 
 .discord {
     color: #7f8da8;
-
     font-size: 12px;
-
     margin-top: 4px;
 }
 
@@ -217,7 +196,6 @@ h1 {
     color: #7ACAED;
 
     font-size: 11px;
-
     font-weight: bold;
 }
 
@@ -408,7 +386,6 @@ select {
 
 select option {
     background: #11182d;
-
     color: white;
 }
 
@@ -436,7 +413,6 @@ select option {
 
 .cancel {
     background: #26304d;
-
     color: white;
 }
 
@@ -507,7 +483,7 @@ select option {
     <button
         class="add"
         type="button"
-        onclick="ouvrirModal()"
+        onclick="ouvrirModalAjout()"
     >
         Ajouter un employé
     </button>
@@ -524,6 +500,8 @@ select option {
 </div>
 
 
+<!-- MODAL EMPLOYÉ -->
+
 <div
     class="modal"
     id="modalEmploye"
@@ -531,7 +509,7 @@ select option {
 
     <div class="modal-box">
 
-        <h2>
+        <h2 id="titreModal">
             Ajouter un employé
         </h2>
 
@@ -618,7 +596,8 @@ select option {
             <button
                 type="button"
                 class="save"
-                onclick="ajouterEmploye()"
+                id="boutonSauvegarder"
+                onclick="sauvegarderEmploye()"
             >
                 Ajouter
             </button>
@@ -665,11 +644,35 @@ const selectGrade =
     );
 
 
+const titreModal =
+    document.getElementById(
+        "titreModal"
+    );
+
+
+const boutonSauvegarder =
+    document.getElementById(
+        "boutonSauvegarder"
+    );
+
+
+/*
+    ID de l'employé actuellement modifié.
+
+    null = ajout
+    UUID = modification
+*/
+
+let employeEnModification = null;
+
+
 /* =========================================
    CHARGER LES GRADES
 ========================================= */
 
-async function chargerGrades() {
+async function chargerGrades(
+    gradeSelectionne = ""
+) {
 
     selectGrade.innerHTML = `
         <option value="">
@@ -754,6 +757,17 @@ async function chargerGrades() {
                 grade.nom;
 
 
+            if (
+                grade.id ===
+                gradeSelectionne
+            ) {
+
+                option.selected =
+                    true;
+
+            }
+
+
             selectGrade.appendChild(
                 option
             );
@@ -833,12 +847,6 @@ async function chargerEmployes() {
     }
 
 
-    /*
-        On récupère les grades séparément.
-        Cela permet d'afficher le vrai nom
-        correspondant au grade_id.
-    */
-
     const {
         data: grades,
         error: gradesError
@@ -897,10 +905,6 @@ async function chargerEmployes() {
                     .toUpperCase();
 
 
-            /*
-                Recherche du grade par grade_id
-            */
-
             const gradeAssocie =
                 gradesList.find(
                     grade =>
@@ -908,12 +912,6 @@ async function chargerEmployes() {
                         employe.grade_id
                 );
 
-
-            /*
-                Pour les anciens employés
-                qui n'ont pas encore de grade_id,
-                on garde l'ancien champ texte.
-            */
 
             const grade =
                 gradeAssocie?.nom ||
@@ -1028,9 +1026,9 @@ async function chargerEmployes() {
                     <button
                         class="action primary"
                         type="button"
-                        onclick="voirEmploye('${employe.id}')"
+                        onclick="modifierEmploye('${employe.id}')"
                     >
-                        Voir le profil
+                        Modifier
                     </button>
 
 
@@ -1058,10 +1056,22 @@ async function chargerEmployes() {
 
 
 /* =========================================
-   OUVRIR LE MODAL
+   AJOUTER
 ========================================= */
 
-async function ouvrirModal() {
+async function ouvrirModalAjout() {
+
+    employeEnModification =
+        null;
+
+
+    titreModal.textContent =
+        "Ajouter un employé";
+
+
+    boutonSauvegarder.textContent =
+        "Ajouter";
+
 
     document.getElementById(
         "nom"
@@ -1093,22 +1103,141 @@ async function ouvrirModal() {
 
 
 /* =========================================
-   FERMER LE MODAL
+   MODIFIER
 ========================================= */
 
-function fermerModal() {
+async function modifierEmploye(
+    id
+) {
+
+    const {
+        data: employe,
+        error
+    } = await supabaseClient
+
+        .from("employes")
+
+        .select(
+            "id,nom,prenom,grade,grade_id,statut,heures_service"
+        )
+
+        .eq(
+            "id",
+            id
+        )
+
+        .single();
+
+
+    if (error) {
+
+        console.error(
+            error
+        );
+
+
+        alert(
+            "Impossible de récupérer l'employé :\n\n" +
+            error.message
+        );
+
+        return;
+    }
+
+
+    employeEnModification =
+        id;
+
+
+    titreModal.textContent =
+        "Modifier l'employé";
+
+
+    boutonSauvegarder.textContent =
+        "Enregistrer";
+
+
+    document.getElementById(
+        "nom"
+    ).value =
+        employe.nom || "";
+
+
+    document.getElementById(
+        "prenom"
+    ).value =
+        employe.prenom || "";
+
+
+    document.getElementById(
+        "statut"
+    ).value =
+        employe.statut || "Actif";
+
+
+    document.getElementById(
+        "heures"
+    ).value =
+        Number(
+            employe.heures_service || 0
+        );
+
 
     modal.style.display =
-        "none";
+        "flex";
+
+
+    await chargerGrades(
+        employe.grade_id || ""
+    );
+
+
+    /*
+        Si l'ancien employé possède
+        seulement un grade texte et aucun
+        grade_id, on essaie de retrouver
+        automatiquement son grade.
+    */
+
+    if (
+        !employe.grade_id &&
+        employe.grade
+    ) {
+
+        const {
+            data: ancienGrade
+        } = await supabaseClient
+
+            .from("grades")
+
+            .select(
+                "id,nom"
+            )
+
+            .eq(
+                "nom",
+                employe.grade
+            )
+            .maybeSingle();
+
+
+        if (ancienGrade) {
+
+            selectGrade.value =
+                ancienGrade.id;
+
+        }
+
+    }
 
 }
 
 
 /* =========================================
-   AJOUTER UN EMPLOYÉ
+   SAUVEGARDER
 ========================================= */
 
-async function ajouterEmploye() {
+async function sauvegarderEmploye() {
 
     const nom =
         document.getElementById(
@@ -1173,9 +1302,7 @@ async function ajouterEmploye() {
 
 
     /*
-        On récupère le nom du grade
-        pour conserver également le champ
-        texte grade existant.
+        Récupération du grade sélectionné.
     */
 
     const {
@@ -1213,6 +1340,79 @@ async function ajouterEmploye() {
     }
 
 
+    /*
+        MODIFICATION
+    */
+
+    if (
+        employeEnModification
+    ) {
+
+        const {
+            error
+        } = await supabaseClient
+
+            .from("employes")
+
+            .update({
+
+                nom:
+                    nom,
+
+                prenom:
+                    prenom ||
+                    null,
+
+                grade:
+                    grade.nom,
+
+                grade_id:
+                    grade.id,
+
+                statut:
+                    statut,
+
+                heures_service:
+                    heures
+
+            })
+
+            .eq(
+                "id",
+                employeEnModification
+            );
+
+
+        if (error) {
+
+            console.error(
+                error
+            );
+
+
+            alert(
+                "Erreur lors de la modification :\n\n" +
+                error.message
+            );
+
+            return;
+        }
+
+
+        fermerModal();
+
+
+        await chargerEmployes();
+
+
+        return;
+    }
+
+
+    /*
+        AJOUT
+    */
+
     const {
         error
     } = await supabaseClient
@@ -1228,18 +1428,8 @@ async function ajouterEmploye() {
                 prenom ||
                 null,
 
-            /*
-                Ancien champ conservé
-                pour compatibilité.
-            */
-
             grade:
                 grade.nom,
-
-            /*
-                Nouveau lien réel
-                vers grades.id.
-            */
 
             grade_id:
                 grade.id,
@@ -1278,7 +1468,23 @@ async function ajouterEmploye() {
 
 
 /* =========================================
-   SUPPRIMER UN EMPLOYÉ
+   FERMER LE MODAL
+========================================= */
+
+function fermerModal() {
+
+    modal.style.display =
+        "none";
+
+
+    employeEnModification =
+        null;
+
+}
+
+
+/* =========================================
+   SUPPRIMER
 ========================================= */
 
 async function supprimerEmploye(
@@ -1327,22 +1533,6 @@ async function supprimerEmploye(
 
 
     await chargerEmployes();
-
-}
-
-
-/* =========================================
-   VOIR LE PROFIL
-========================================= */
-
-function voirEmploye(
-    id
-) {
-
-    alert(
-        "Profil de l'employé sélectionné.\n\nID : " +
-        id
-    );
 
 }
 
@@ -1397,4 +1587,4 @@ chargerEmployes();
 
 </body>
 
-    </html>
+</html>
