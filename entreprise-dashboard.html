@@ -22,14 +22,10 @@ body {
     color: #172033;
 }
 
-
-/* HEADER */
-
 header {
     background: white;
     border-bottom: 1px solid #e5e9f5;
     padding: 16px 20px;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -38,7 +34,6 @@ header {
 .logo {
     font-size: 21px;
     font-weight: 800;
-
     background: linear-gradient(
         90deg,
         #00cfff,
@@ -46,7 +41,6 @@ header {
         #a855f7,
         #ec4899
     );
-
     -webkit-background-clip: text;
     color: transparent;
 }
@@ -57,47 +51,33 @@ header {
     font-weight: bold;
 }
 
-
-/* CONTAINER */
-
 .container {
     max-width: 1100px;
     margin: auto;
     padding: 25px 18px 50px;
 }
 
-
-/* ENTREPRISE */
-
 .company {
     background: white;
     border: 1px solid #e6eaf4;
     border-radius: 22px;
     padding: 22px;
-
     display: flex;
     align-items: center;
     gap: 16px;
-
     box-shadow: 0 8px 30px rgba(50,70,100,.06);
-
     margin-bottom: 20px;
 }
 
 .company-logo {
     width: 65px;
     height: 65px;
-
     border-radius: 18px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     font-size: 30px;
-
     color: white;
-
     background: linear-gradient(
         135deg,
         #00cfff,
@@ -116,119 +96,75 @@ header {
     font-size: 14px;
 }
 
-
-/* STATISTIQUES */
-
 .stats {
-
     display: grid;
-
     grid-template-columns: repeat(2, 1fr);
-
     gap: 12px;
-
     margin-bottom: 22px;
 }
 
 .stat {
-
     background: white;
-
     border: 1px solid #e6eaf4;
-
     border-radius: 18px;
-
     padding: 20px;
-
     box-shadow: 0 7px 25px rgba(50,70,100,.04);
 }
 
 .stat strong {
-
     display: block;
-
     font-size: 26px;
-
     margin-bottom: 6px;
-
     background: linear-gradient(
         90deg,
         #00cfff,
         #5865f2,
         #ec4899
     );
-
     -webkit-background-clip: text;
-
     color: transparent;
 }
 
 .stat span {
-
     font-size: 13px;
-
     color: #788296;
 }
 
-
-/* MENU */
-
 .menu-title {
-
     font-size: 21px;
-
     margin-bottom: 15px;
 }
 
 .menu {
-
     display: grid;
-
     grid-template-columns: 1fr;
-
     gap: 13px;
 }
 
 .menu-card {
-
     background: white;
-
     border: 1px solid #e6eaf4;
-
     border-radius: 18px;
-
     padding: 20px;
-
     text-decoration: none;
-
     color: #172033;
-
     box-shadow: 0 7px 25px rgba(50,70,100,.04);
-
     transition: .2s;
 }
 
 .menu-card:hover {
-
     transform: translateY(-3px);
-
     box-shadow: 0 12px 30px rgba(88,101,242,.12);
 }
 
 .icon {
-
     width: 48px;
     height: 48px;
-
     border-radius: 14px;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     font-size: 23px;
-
     margin-bottom: 13px;
 }
 
@@ -257,54 +193,34 @@ header {
 }
 
 .menu-card h2 {
-
     font-size: 17px;
-
     margin-bottom: 7px;
 }
 
 .menu-card p {
-
     color: #788296;
-
     font-size: 13px;
-
     line-height: 1.5;
 }
 
-
-/* ACTIVITÉ */
-
 .activity {
-
     margin-top: 25px;
-
     background: white;
-
     border: 1px solid #e6eaf4;
-
     border-radius: 20px;
-
     padding: 22px;
 }
 
 .activity h2 {
-
     font-size: 19px;
-
     margin-bottom: 15px;
 }
 
 .activity-row {
-
     display: flex;
-
     justify-content: space-between;
-
     padding: 13px 0;
-
     border-bottom: 1px solid #edf0f6;
-
     font-size: 14px;
 }
 
@@ -315,9 +231,6 @@ header {
 .activity-row span {
     color: #788296;
 }
-
-
-/* DESKTOP */
 
 @media (min-width: 700px) {
 
@@ -335,9 +248,7 @@ header {
 
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -354,11 +265,7 @@ header {
 
 </header>
 
-
 <div class="container">
-
-
-<!-- ENTREPRISE -->
 
 <div class="company">
 
@@ -380,77 +287,38 @@ header {
 
 </div>
 
-
-<!-- STATISTIQUES -->
-
 <div class="stats">
 
     <div class="stat">
-
-        <strong>
-            0
-        </strong>
-
-        <span>
-            Employés
-        </span>
-
+        <strong>0</strong>
+        <span>Employés</span>
     </div>
 
-
     <div class="stat">
-
-        <strong>
-            0h
-        </strong>
-
-        <span>
-            Heures de service
-        </span>
-
+        <strong>0h</strong>
+        <span>Heures de service</span>
     </div>
 
-
     <div class="stat">
-
-        <strong>
-            0 $
-        </strong>
-
-        <span>
-            Ventes
-        </span>
-
+        <strong>0 $</strong>
+        <span>Ventes</span>
     </div>
 
-
     <div class="stat">
-
-        <strong>
-            0 $
-        </strong>
-
-        <span>
-            Impôts
-        </span>
-
+        <strong>0 $</strong>
+        <span>Impôts</span>
     </div>
 
 </div>
-
-
-<!-- MENU -->
 
 <h2 class="menu-title">
     Gestion de l'entreprise
 </h2>
 
-
 <div class="menu">
 
-
 <a
-href="#"
+href="gestion-employes.html"
 class="menu-card"
 >
 
@@ -469,9 +337,8 @@ class="menu-card"
 
 </a>
 
-
 <a
-href="#"
+href="gestion-grades.html"
 class="menu-card"
 >
 
@@ -490,9 +357,8 @@ class="menu-card"
 
 </a>
 
-
 <a
-href="#"
+href="candidatures.html"
 class="menu-card"
 >
 
@@ -511,9 +377,8 @@ class="menu-card"
 
 </a>
 
-
 <a
-href="#"
+href="heures-service.html"
 class="menu-card"
 >
 
@@ -532,9 +397,8 @@ class="menu-card"
 
 </a>
 
-
 <a
-href="#"
+href="stocks.html"
 class="menu-card"
 >
 
@@ -553,9 +417,8 @@ class="menu-card"
 
 </a>
 
-
 <a
-href="#"
+href="finances.html"
 class="menu-card"
 >
 
@@ -576,15 +439,11 @@ class="menu-card"
 
 </div>
 
-
-<!-- ACTIVITÉ -->
-
 <div class="activity">
 
     <h2>
         📈 Activité récente
     </h2>
-
 
     <div class="activity-row">
 
@@ -598,7 +457,6 @@ class="menu-card"
 
     </div>
 
-
     <div class="activity-row">
 
         <span>
@@ -610,7 +468,6 @@ class="menu-card"
         </strong>
 
     </div>
-
 
     <div class="activity-row">
 
@@ -626,10 +483,8 @@ class="menu-card"
 
 </div>
 
-
 </div>
-
 
 </body>
 
-  </html>
+</html>
