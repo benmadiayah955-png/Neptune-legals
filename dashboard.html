@@ -88,6 +88,17 @@
             border-radius: 22px;
             padding: 25px;
             box-shadow: 0 12px 35px rgba(70,100,170,.08);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(70,100,170,.14);
+            border-color: #dce3ff;
         }
 
         .card h2 {
@@ -99,6 +110,14 @@
             color: #7b8799;
             font-size: 14px;
             line-height: 1.5;
+        }
+
+        .open {
+            display: inline-block;
+            margin-top: 18px;
+            color: #5268c8;
+            font-size: 13px;
+            font-weight: bold;
         }
 
         .logout {
@@ -129,7 +148,7 @@
 <header>
 
     <div class="logo">
-        🌊 Neptune Legal
+        Neptune Legal
     </div>
 
     <div class="user">
@@ -160,9 +179,15 @@
 
     </section>
 
+
     <section class="grid">
 
-        <div class="card">
+        <!-- PROFIL -->
+
+        <a
+            class="card"
+            href="profil.html"
+        >
 
             <h2>
                 Mon profil
@@ -173,9 +198,19 @@
                 à votre compte Discord.
             </p>
 
-        </div>
+            <span class="open">
+                Ouvrir →
+            </span>
 
-        <div class="card">
+        </a>
+
+
+        <!-- ENTREPRISES -->
+
+        <a
+            class="card"
+            href="entreprises.html"
+        >
 
             <h2>
                 Mes entreprises
@@ -186,9 +221,19 @@
                 leurs informations.
             </p>
 
-        </div>
+            <span class="open">
+                Ouvrir →
+            </span>
 
-        <div class="card">
+        </a>
+
+
+        <!-- CANDIDATURES -->
+
+        <a
+            class="card"
+            href="candidatures.html"
+        >
 
             <h2>
                 Mes candidatures
@@ -198,11 +243,19 @@
                 Consultez vos candidatures et leur statut.
             </p>
 
-        </div>
+            <span class="open">
+                Ouvrir →
+            </span>
+
+        </a>
 
     </section>
 
-    <button class="logout" onclick="deconnexion()">
+
+    <button
+        class="logout"
+        onclick="deconnexion()"
+    >
         Se déconnecter
     </button>
 
@@ -234,6 +287,7 @@ async function chargerUtilisateur() {
         }
     } = await supabaseClient.auth.getSession();
 
+
     if (!session) {
 
         window.location.href =
@@ -242,19 +296,26 @@ async function chargerUtilisateur() {
         return;
     }
 
-    const user = session.user;
+
+    const user =
+        session.user;
+
 
     const username =
         user.user_metadata?.full_name ||
         user.user_metadata?.name ||
+        user.user_metadata?.global_name ||
         user.email ||
         "Utilisateur";
+
 
     document.getElementById("username").textContent =
         username;
 
+
     document.getElementById("avatar").textContent =
         username.charAt(0).toUpperCase();
+
 }
 
 
@@ -264,6 +325,7 @@ async function deconnexion() {
 
     window.location.href =
         "connexion.html";
+
 }
 
 
