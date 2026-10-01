@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Gestion des grades — Neptune Legal</title>
 
 <style>
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -15,14 +17,32 @@
 }
 
 body {
-    background: #f5fbff;
-    color: #17233c;
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(199,139,228,.15),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at top left,
+            rgba(122,202,237,.12),
+            transparent 30%
+        ),
+        #0b1020;
+
+    color: #ffffff;
 }
 
 header {
-    background: linear-gradient(135deg, #20c9ff, #6875ff, #d45cff);
+    background: rgba(17,24,45,.96);
+
     color: white;
+
     padding: 22px 18px 30px;
+
+    border-bottom: 1px solid #26304d;
     border-radius: 0 0 30px 30px;
 }
 
@@ -35,15 +55,41 @@ header {
 .logo {
     font-size: 21px;
     font-weight: bold;
+
+    background: linear-gradient(
+        90deg,
+        #7ACAED,
+        #58A3DD,
+        #C78BE4,
+        #D1A6F1
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .back {
-    color: white;
+    color: #7ACAED;
+
     text-decoration: none;
-    background: rgba(255,255,255,.2);
+
+    background: rgba(122,202,237,.10);
+
+    border: 1px solid rgba(122,202,237,.20);
+
     padding: 9px 13px;
+
     border-radius: 12px;
+
     font-size: 13px;
+
+    transition: .2s;
+}
+
+.back:hover {
+    background: rgba(122,202,237,.18);
+    color: #D1A6F1;
 }
 
 header h1 {
@@ -53,7 +99,7 @@ header h1 {
 
 header p {
     margin-top: 7px;
-    opacity: .9;
+    color: #9aa8c2;
 }
 
 .container {
@@ -63,11 +109,22 @@ header p {
 }
 
 .info {
-    background: white;
+    background: linear-gradient(
+        145deg,
+        #11182d,
+        #0e1426
+    );
+
+    border: 1px solid #26304d;
+
     padding: 18px;
+
     border-radius: 18px;
+
     margin-bottom: 18px;
-    box-shadow: 0 8px 25px rgba(53,110,160,.08);
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.18);
 }
 
 .info strong {
@@ -76,20 +133,44 @@ header p {
 
 .info p {
     margin-top: 6px;
-    color: #718096;
+
+    color: #9aa8c2;
+
     font-size: 12px;
 }
 
 .add {
     width: 100%;
+
     margin-bottom: 18px;
-    border: none;
+
+    border: 1px solid rgba(122,202,237,.20);
+
     padding: 14px;
+
     border-radius: 13px;
-    background: linear-gradient(135deg,#20c9ff,#6875ff);
+
+    background: linear-gradient(
+        135deg,
+        #58A3DD,
+        #7ACAED,
+        #C78BE4
+    );
+
     color: white;
+
     font-weight: bold;
+
     cursor: pointer;
+
+    transition: .2s;
+}
+
+.add:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(88,163,221,.18);
 }
 
 .grades {
@@ -98,34 +179,67 @@ header p {
 }
 
 .grade {
-    background: white;
+    background: linear-gradient(
+        145deg,
+        #11182d,
+        #0e1426
+    );
+
+    border: 1px solid #26304d;
+
     padding: 19px;
+
     border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(53,110,160,.08);
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.18);
+
+    transition: .2s;
+}
+
+.grade:hover {
+    border-color: rgba(122,202,237,.35);
 }
 
 .grade-head {
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
+
     gap: 10px;
 }
 
 .grade-title {
     display: flex;
+
     align-items: center;
+
     gap: 11px;
 }
 
 .number {
     width: 35px;
     height: 35px;
+
     border-radius: 12px;
-    background: linear-gradient(135deg,#20c9ff,#6875ff);
+
+    background: linear-gradient(
+        135deg,
+        #7ACAED,
+        #58A3DD,
+        #C78BE4
+    );
+
     color: white;
+
     display: flex;
+
     justify-content: center;
+
     align-items: center;
+
     font-weight: bold;
 }
 
@@ -135,42 +249,65 @@ header p {
 
 .grade-title span {
     display: block;
+
     margin-top: 3px;
-    color: #718096;
+
+    color: #7f8da8;
+
     font-size: 11px;
 }
 
 .badge {
     padding: 6px 10px;
+
     border-radius: 20px;
-    background: #e7f8ff;
-    color: #168eb8;
+
+    background: rgba(122,202,237,.10);
+
+    border: 1px solid rgba(122,202,237,.18);
+
+    color: #7ACAED;
+
     font-size: 10px;
+
     font-weight: bold;
 }
 
 .details {
     display: grid;
+
     grid-template-columns: 1fr 1fr;
+
     gap: 10px;
+
     margin-top: 15px;
 }
 
 .detail {
-    background: #f7fbfe;
+    background: #0b1020;
+
+    border: 1px solid #26304d;
+
     padding: 11px;
+
     border-radius: 11px;
 }
 
 .detail span {
     display: block;
-    color: #718096;
+
+    color: #7f8da8;
+
     font-size: 10px;
 }
 
 .detail strong {
     display: block;
+
     margin-top: 4px;
+
+    color: #ffffff;
+
     font-size: 13px;
 }
 
@@ -180,67 +317,123 @@ header p {
 
 .permissions-title {
     font-size: 12px;
+
     font-weight: bold;
+
     margin-bottom: 8px;
 }
 
 .permission-list {
     display: flex;
+
     flex-wrap: wrap;
+
     gap: 7px;
 }
 
 .permission {
-    background: #f0edff;
-    color: #765bc4;
+    background: rgba(199,139,228,.10);
+
+    border: 1px solid rgba(199,139,228,.16);
+
+    color: #D1A6F1;
+
     padding: 6px 9px;
+
     border-radius: 20px;
+
     font-size: 10px;
 }
 
 .actions {
     display: flex;
+
     gap: 8px;
+
     margin-top: 15px;
+
+    flex-wrap: wrap;
 }
 
 button {
     border: none;
+
     padding: 10px 13px;
+
     border-radius: 11px;
+
     cursor: pointer;
+
     font-weight: bold;
+
+    transition: .2s;
+}
+
+button:hover {
+    transform: translateY(-1px);
 }
 
 .secondary {
-    background: #edf5fa;
-    color: #40516b;
+    background: rgba(88,163,221,.10);
+
+    border: 1px solid rgba(88,163,221,.20);
+
+    color: #7ACAED;
 }
 
 .danger {
-    background: #ffe8ec;
-    color: #d94c63;
+    background: rgba(224,82,82,.10);
+
+    border: 1px solid rgba(224,82,82,.20);
+
+    color: #ff7777;
 }
 
 .modal {
     display: none;
+
     position: fixed;
+
     inset: 0;
-    background: rgba(20,40,70,.35);
+
+    background: rgba(3,7,18,.78);
+
+    backdrop-filter: blur(5px);
+
     padding: 20px;
+
     align-items: center;
+
     justify-content: center;
+
     z-index: 10;
 }
 
 .modal-box {
-    background: white;
+    background: linear-gradient(
+        145deg,
+        #11182d,
+        #0e1426
+    );
+
+    border: 1px solid #26304d;
+
+    color: white;
+
     width: 100%;
+
     max-width: 500px;
+
     max-height: 90vh;
+
     overflow-y: auto;
+
     border-radius: 22px;
+
     padding: 22px;
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.45);
 }
 
 .modal-box h2 {
@@ -253,31 +446,63 @@ button {
 
 .field label {
     display: block;
+
     margin-bottom: 6px;
+
     font-size: 12px;
+
     font-weight: bold;
 }
 
 .field input,
 .field select {
     width: 100%;
+
     padding: 12px;
-    border: 1px solid #dce8f0;
+
+    background: #0b1020;
+
+    color: #ffffff;
+
+    border: 1px solid #26304d;
+
     border-radius: 11px;
+
     outline: none;
 }
 
+.field input:focus,
+.field select:focus {
+    border-color: #7ACAED;
+}
+
+.field input::placeholder {
+    color: #68758d;
+}
+
 .check {
-    display: flex;
+    display: flex !important;
+
     align-items: center;
+
     gap: 8px;
+
     margin: 9px 0;
-    font-size: 12px;
+
+    color: #cbd5e6;
+
+    font-size: 12px !important;
+}
+
+.check input {
+    width: auto;
 }
 
 .modal-actions {
     display: flex;
+
     gap: 9px;
+
     margin-top: 18px;
 }
 
@@ -286,11 +511,18 @@ button {
 }
 
 .primary {
-    background: linear-gradient(135deg,#20c9ff,#6875ff);
+    background: linear-gradient(
+        135deg,
+        #58A3DD,
+        #7ACAED,
+        #C78BE4
+    );
+
     color: white;
 }
 
 @media (min-width:700px) {
+
     .grades {
         grid-template-columns: 1fr 1fr;
     }
@@ -298,7 +530,29 @@ button {
     .details {
         grid-template-columns: repeat(3,1fr);
     }
+
 }
+
+@media (max-width:600px) {
+
+    .top {
+        gap: 10px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .back {
+        font-size: 12px;
+    }
+
+    header h1 {
+        font-size: 24px;
+    }
+
+}
+
 </style>
 </head>
 
@@ -350,8 +604,6 @@ button {
 
     <div class="grades" id="grades">
 
-
-        <!-- GÉRANT -->
 
         <div class="grade" data-name="Gérant">
 
@@ -449,8 +701,6 @@ button {
         </div>
 
 
-        <!-- RESPONSABLE -->
-
         <div class="grade" data-name="Responsable">
 
             <div class="grade-head">
@@ -544,8 +794,6 @@ button {
 
         </div>
 
-
-        <!-- EMPLOYÉ -->
 
         <div class="grade" data-name="Employé">
 
@@ -641,8 +889,6 @@ button {
         </div>
 
 
-        <!-- STAGIAIRE -->
-
         <div class="grade" data-name="Stagiaire">
 
             <div class="grade-head">
@@ -736,8 +982,6 @@ button {
 
 </div>
 
-
-<!-- MODAL -->
 
 <div class="modal" id="modal">
 
@@ -941,4 +1185,4 @@ function supprimer(nom) {
 </script>
 
 </body>
-              </html>
+</html>
