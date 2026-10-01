@@ -133,6 +133,7 @@
         select:focus,
         textarea:focus {
             border-color: var(--bleu-fonce);
+
             box-shadow:
                 0 0 0 3px rgba(88, 163, 221, 0.12);
         }
@@ -196,6 +197,8 @@
 
             text-align: center;
             line-height: 1.5;
+
+            word-break: break-word;
         }
 
         .message.success {
@@ -242,6 +245,7 @@
         }
 
         @media (max-width: 650px) {
+
             header {
                 padding: 16px;
             }
@@ -409,10 +413,7 @@ let utilisateurActuel = null;
    MESSAGE
 ================================ */
 
-function afficherMessage(
-    texte,
-    type
-) {
+function afficherMessage(texte, type) {
 
     const message =
         document.getElementById("message");
@@ -425,7 +426,22 @@ function afficherMessage(
 
 
 /* ================================
-   CHARGEMENT DE L'UTILISATEUR
+   PROTECTION HTML
+================================ */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* ================================
+   UTILISATEUR
 ================================ */
 
 async function chargerUtilisateur() {
@@ -480,7 +496,7 @@ async function chargerUtilisateur() {
 
 
 /* ================================
-   CHARGEMENT DES ENTREPRISES
+   ENTREPRISES
 ================================ */
 
 async function chargerEntreprises() {
@@ -489,28 +505,59 @@ async function chargerEntreprises() {
         document.getElementById("entreprise");
 
 
+    /*
+       IMPORTANT :
+
+       La table Supabase s'appelle
+       "Entreprises" avec un E majuscule.
+    */
+
     const {
         data,
         error
     } =
         await supabaseClient
-            .from("entreprises")
+            .from("Entreprises")
             .select("id, nom")
             .order("nom", {
                 ascending: true
             });
 
 
+    console.log(
+        "Résultat Entreprises :",
+        data
+    );
+
+    console.log(
+        "Erreur Entreprises :",
+        error
+    );
+
+
     if (error) {
 
-        console.error(error);
+        console.error(
+            "Erreur complète :",
+            error
+        );
+
 
         select.innerHTML =
             `
                 <option value="">
-                    Impossible de charger les entreprises
+                    Erreur de chargement
                 </option>
             `;
+
+
+        afficherMessage(
+            "Impossible de charger les entreprises. " +
+            "Erreur Supabase : " +
+            error.message,
+            "error"
+        );
+
 
         return;
     }
@@ -524,6 +571,13 @@ async function chargerEntreprises() {
                     Aucune entreprise disponible
                 </option>
             `;
+
+
+        afficherMessage(
+            "Aucune entreprise n'est disponible.",
+            "info"
+        );
+
 
         return;
     }
@@ -553,14 +607,19 @@ async function chargerEntreprises() {
 
 
             select.appendChild(option);
-
         }
+    );
+
+
+    console.log(
+        data.length +
+        " entreprise(s) chargée(s)."
     );
 }
 
 
 /* ================================
-   ENVOI DE LA CANDIDATURE
+   ENVOI CANDIDATURE
 ================================ */
 
 async function envoyerCandidature() {
@@ -649,15 +708,6 @@ async function envoyerCandidature() {
     );
 
 
-    /*
-       Pour le moment, on enregistre
-       le nom du fichier.
-
-       Le vrai stockage de fichier dans
-       Supabase Storage pourra être ajouté
-       ensuite.
-    */
-
     const documentNom =
         fichier
             ? fichier.name
@@ -685,7 +735,6 @@ async function envoyerCandidature() {
 
                 statut:
                     "en_attente"
-
             });
 
 
@@ -738,36 +787,6 @@ async function envoyerCandidature() {
 
     bouton.textContent =
         "Déposer ma candidature";
-}
-
-
-/* ================================
-   PROTECTION HTML
-================================ */
-
-function escapeHTML(value) {
-
-    return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
 }
 
 
