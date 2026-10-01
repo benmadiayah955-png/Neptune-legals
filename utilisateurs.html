@@ -1,293 +1,339 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!DOCTYPE html><html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Utilisateurs — Neptune Legal</title>
 
-    <title>Utilisateurs — Neptune Legal</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+        min-height: 100vh;
+        font-family: Arial, sans-serif;
+        background:
+            radial-gradient(circle at top right, rgba(199,139,228,.15), transparent 30%),
+            radial-gradient(circle at top left, rgba(122,202,237,.12), transparent 30%),
+            #0b1020;
+        color: #ffffff;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f7fb;
-            color: #172033;
-        }
+    header {
+        background: rgba(17, 24, 45, .96);
+        border-bottom: 1px solid #26304d;
+        padding: 20px 35px;
+    }
 
-        header {
-            background: #ffffff;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 20px 35px;
-        }
+    header h1 {
+        font-size: 24px;
+        color: #ffffff;
+    }
 
-        header h1 {
-            font-size: 24px;
-        }
+    header p {
+        color: #98a6bd;
+        margin-top: 5px;
+    }
 
-        header p {
-            color: #737b8c;
-            margin-top: 5px;
-        }
+    main {
+        max-width: 1250px;
+        margin: 35px auto;
+        padding: 0 20px;
+    }
 
-        main {
-            max-width: 1250px;
-            margin: 35px auto;
-            padding: 0 20px;
-        }
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 25px;
+    }
 
+    .stat {
+        background: linear-gradient(145deg, #11182d, #0e1426);
+        border: 1px solid #26304d;
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
+    }
+
+    .stat span {
+        display: block;
+        color: #98a6bd;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .stat strong {
+        font-size: 28px;
+        color: #ffffff;
+    }
+
+    .toolbar {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    input,
+    select {
+        background: #0b1020;
+        color: #d8e4f5;
+        border: 1px solid #26304d;
+        border-radius: 10px;
+        padding: 13px 15px;
+        font-size: 14px;
+        outline: none;
+    }
+
+    input {
+        flex: 1;
+    }
+
+    input::placeholder {
+        color: #68758d;
+    }
+
+    input:focus,
+    select:focus {
+        border-color: #7acaed;
+        box-shadow: 0 0 0 3px rgba(122, 202, 237, .08);
+    }
+
+    select option {
+        background: #11182d;
+        color: #ffffff;
+    }
+
+    .liste {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .user {
+        background: linear-gradient(145deg, #11182d, #0e1426);
+        border: 1px solid #26304d;
+        border-radius: 14px;
+        padding: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+    }
+
+    .user-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+    }
+
+    .avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: linear-gradient(
+            135deg,
+            rgba(122, 202, 237, .20),
+            rgba(199, 139, 228, .20)
+        );
+        border: 1px solid rgba(122, 202, 237, .25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #7acaed;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+    .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .user-info {
+        min-width: 0;
+    }
+
+    .user-info strong {
+        display: block;
+        font-size: 16px;
+        margin-bottom: 5px;
+        color: #ffffff;
+    }
+
+    .user-info span {
+        display: block;
+        color: #8f9db4;
+        font-size: 13px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .user-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .badge {
+        padding: 7px 11px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .badge.actif {
+        background: rgba(22, 131, 77, .18);
+        color: #55d98b;
+        border: 1px solid rgba(85, 217, 139, .25);
+    }
+
+    .badge.suspendu {
+        background: rgba(198, 40, 40, .18);
+        color: #ff7373;
+        border: 1px solid rgba(255, 115, 115, .25);
+    }
+
+    .badge.attente {
+        background: rgba(165, 107, 0, .18);
+        color: #f2c45f;
+        border: 1px solid rgba(242, 196, 95, .25);
+    }
+
+    button {
+        border: 1px solid rgba(122, 202, 237, .25);
+        background: linear-gradient(
+            135deg,
+            #58a3dd,
+            #7acaed
+        );
+        color: #08101f;
+        font-weight: bold;
+        padding: 9px 13px;
+        border-radius: 9px;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+    button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(122, 202, 237, .18);
+    }
+
+    .message {
+        background: linear-gradient(145deg, #11182d, #0e1426);
+        border: 1px solid #26304d;
+        border-radius: 14px;
+        padding: 30px;
+        text-align: center;
+        color: #8f9db4;
+    }
+
+    @media (max-width: 800px) {
         .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-            margin-bottom: 25px;
-        }
-
-        .stat {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 14px;
-            padding: 22px;
-        }
-
-        .stat span {
-            display: block;
-            color: #737b8c;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .stat strong {
-            font-size: 28px;
+            grid-template-columns: repeat(2, 1fr);
         }
 
         .toolbar {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        input,
-        select {
-            background: white;
-            border: 1px solid #dfe3ea;
-            border-radius: 10px;
-            padding: 13px 15px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        input {
-            flex: 1;
-        }
-
-        input:focus,
-        select:focus {
-            border-color: #5967ff;
-        }
-
-        .liste {
-            display: flex;
             flex-direction: column;
-            gap: 12px;
         }
 
         .user {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 14px;
-            padding: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .user-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            min-width: 0;
-        }
-
-        .avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: #eef0ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #5967ff;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .user-info {
-            min-width: 0;
-        }
-
-        .user-info strong {
-            display: block;
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        .user-info span {
-            display: block;
-            color: #737b8c;
-            font-size: 13px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            align-items: flex-start;
+            flex-direction: column;
         }
 
         .user-right {
-            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
+
+    @media (max-width: 500px) {
+        header {
+            padding: 18px 20px;
+        }
+
+        header h1 {
+            font-size: 21px;
+        }
+
+        main {
+            margin: 25px auto;
+            padding: 0 15px;
+        }
+
+        .stats {
+            grid-template-columns: 1fr;
+        }
+
+        .user-right {
             align-items: center;
-            gap: 12px;
         }
+    }
+</style>
 
-        .badge {
-            padding: 7px 11px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .badge.actif {
-            background: #e8f8ef;
-            color: #16834d;
-        }
-
-        .badge.suspendu {
-            background: #fdeaea;
-            color: #c62828;
-        }
-
-        .badge.attente {
-            background: #fff5dc;
-            color: #a56b00;
-        }
-
-        button {
-            border: none;
-            background: #172033;
-            color: white;
-            padding: 9px 13px;
-            border-radius: 9px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            opacity: 0.9;
-        }
-
-        .message {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 14px;
-            padding: 30px;
-            text-align: center;
-            color: #737b8c;
-        }
-
-        @media (max-width: 800px) {
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .toolbar {
-                flex-direction: column;
-            }
-
-            .user {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
-            .user-right {
-                width: 100%;
-                justify-content: space-between;
-            }
-        }
-    </style>
-</head>
-
-<body>
-
-<header>
+</head><body><header>
     <h1>Gestion des utilisateurs</h1>
     <p>Gérez les comptes, accès, entreprises et statuts des utilisateurs de Neptune Legal.</p>
-</header>
+</header><main><section class="stats">
 
-<main>
+    <div class="stat">
+        <span>Total utilisateurs</span>
+        <strong id="total">0</strong>
+    </div>
 
-    <section class="stats">
+    <div class="stat">
+        <span>Actifs</span>
+        <strong id="actifs">0</strong>
+    </div>
 
-        <div class="stat">
-            <span>Total utilisateurs</span>
-            <strong id="total">0</strong>
-        </div>
+    <div class="stat">
+        <span>Sans entreprise</span>
+        <strong id="sansEntreprise">0</strong>
+    </div>
 
-        <div class="stat">
-            <span>Actifs</span>
-            <strong id="actifs">0</strong>
-        </div>
+    <div class="stat">
+        <span>Suspendus</span>
+        <strong id="suspendus">0</strong>
+    </div>
 
-        <div class="stat">
-            <span>Sans entreprise</span>
-            <strong id="sansEntreprise">0</strong>
-        </div>
+</section>
 
-        <div class="stat">
-            <span>Suspendus</span>
-            <strong id="suspendus">0</strong>
-        </div>
+<section class="toolbar">
 
-    </section>
+    <input
+        type="text"
+        id="search"
+        placeholder="Rechercher un utilisateur..."
+    >
 
-    <section class="toolbar">
+    <select id="statut">
+        <option value="tous">Tous les statuts</option>
+        <option value="actif">Actif</option>
+        <option value="suspendu">Suspendu</option>
+        <option value="attente">En attente</option>
+    </select>
 
-        <input
-            type="text"
-            id="search"
-            placeholder="Rechercher un utilisateur..."
-        >
+</section>
 
-        <select id="statut">
-            <option value="tous">Tous les statuts</option>
-            <option value="actif">Actif</option>
-            <option value="suspendu">Suspendu</option>
-            <option value="attente">En attente</option>
-        </select>
+<section id="liste" class="liste">
 
-    </section>
+    <div class="message">
+        Chargement des utilisateurs...
+    </div>
 
-    <section id="liste" class="liste">
+</section>
 
-        <div class="message">
-            Chargement des utilisateurs...
-        </div>
-
-    </section>
-
-</main>
-
-<script>
+</main><script>
 
     const SUPABASE_URL =
         "https://xzmglqxcsrzivvkpemyt.supabase.co";
@@ -703,7 +749,5 @@
 
     chargerUtilisateurs();
 
-</script>
-
-</body>
+</script></body>
 </html>
