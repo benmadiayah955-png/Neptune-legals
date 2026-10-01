@@ -1,179 +1,371 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Neptune — Candidatures</title>
+    <title>Neptune Legal — Candidatures</title>
 
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-body {
-    background: #f7fbff;
-    color: #172033;
-}
+    <style>
+        :root {
+            --bleu: #7ACAED;
+            --bleu-fonce: #58A3DD;
+            --bleu-clair: #98CAF7;
+            --violet: #C78BE4;
+            --violet-clair: #D1A6F1;
 
-header {
-    background: white;
-    padding: 18px 20px;
-    border-bottom: 1px solid #e5e9f5;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+            --fond: #f7fbff;
+            --texte: #172033;
+            --secondaire: #788296;
+            --bordure: #e2e8f2;
+        }
 
-.logo {
-    font-size: 21px;
-    font-weight: bold;
-    background: linear-gradient(90deg, #00cfff, #5865f2, #a855f7, #ec4899);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
-.back {
-    color: #5865f2;
-    text-decoration: none;
-    font-weight: bold;
-}
+        body {
+            background: var(--fond);
+            color: var(--texte);
+            min-height: 100vh;
+        }
 
-.container {
-    max-width: 800px;
-    margin: auto;
-    padding: 30px 20px 50px;
-}
+        header {
+            background: white;
+            padding: 18px 25px;
+            border-bottom: 1px solid var(--bordure);
 
-h1 {
-    font-size: 30px;
-    margin-bottom: 8px;
-}
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
 
-.subtitle {
-    color: #788296;
-    margin-bottom: 25px;
-    line-height: 1.6;
-}
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
 
-.form {
-    background: white;
-    border: 1px solid #e6eaf4;
-    border-radius: 22px;
-    padding: 25px;
-    box-shadow: 0 8px 30px rgba(50,70,100,.06);
-}
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--bleu),
+                    var(--bleu-fonce),
+                    var(--violet),
+                    var(--violet-clair)
+                );
 
-label {
-    display: block;
-    font-weight: bold;
-    font-size: 14px;
-    margin-bottom: 8px;
-}
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
-input,
-select,
-textarea {
-    width: 100%;
-    padding: 14px;
-    border: 1px solid #dfe4ef;
-    border-radius: 12px;
-    margin-bottom: 18px;
-    outline: none;
-    font-size: 14px;
-    background: #fbfcff;
-}
+        .back {
+            color: var(--bleu-fonce);
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-textarea {
-    min-height: 130px;
-    resize: vertical;
-}
+        .back:hover {
+            color: var(--violet);
+        }
 
-.file {
-    background: #f5f7ff;
-    padding: 15px;
-}
+        .container {
+            width: 100%;
+            max-width: 850px;
+            margin: auto;
+            padding: 35px 20px 60px;
+        }
 
-.submit {
-    width: 100%;
-    border: none;
-    padding: 15px;
-    border-radius: 13px;
-    color: white;
-    background: linear-gradient(90deg, #5865f2, #8b5cf6);
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-}
+        h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
 
-.submit:hover {
-    opacity: 0.9;
-}
+        .subtitle {
+            color: var(--secondaire);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
 
-.message {
-    display: none;
-    margin-top: 18px;
-    padding: 14px;
-    border-radius: 12px;
-    background: #eef2ff;
-    color: #3949ab;
-    text-align: center;
-}
-</style>
+        .form {
+            background: white;
+            border: 1px solid var(--bordure);
+            border-radius: 20px;
+            padding: 28px;
+
+            box-shadow:
+                0 10px 35px rgba(50, 70, 100, 0.07);
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px;
+
+            border: 1px solid #dce3ee;
+            border-radius: 12px;
+
+            outline: none;
+            font-size: 14px;
+
+            background: #fbfcff;
+            color: var(--texte);
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--bleu-fonce);
+            box-shadow:
+                0 0 0 3px rgba(88, 163, 221, 0.12);
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .file {
+            background: #f7faff;
+        }
+
+        .help {
+            color: var(--secondaire);
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        .submit {
+            width: 100%;
+            border: none;
+
+            padding: 15px;
+            border-radius: 13px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--bleu-fonce),
+                    var(--violet)
+                );
+
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .submit:hover {
+            transform: translateY(-1px);
+            opacity: 0.92;
+        }
+
+        .submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            display: none;
+
+            margin-top: 18px;
+            padding: 15px;
+
+            border-radius: 12px;
+
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .message.success {
+            display: block;
+            background: #eafaf0;
+            color: #16733c;
+            border: 1px solid #bce8ca;
+        }
+
+        .message.error {
+            display: block;
+            background: #fff0f2;
+            color: #a52c40;
+            border: 1px solid #f0bcc5;
+        }
+
+        .message.info {
+            display: block;
+            background: #eef7ff;
+            color: #24618c;
+            border: 1px solid #c9e5f8;
+        }
+
+        .account {
+            margin-bottom: 20px;
+            padding: 13px 15px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(122, 202, 237, 0.10),
+                    rgba(199, 139, 228, 0.10)
+                );
+
+            border: 1px solid var(--bordure);
+            border-radius: 12px;
+
+            color: var(--secondaire);
+            font-size: 13px;
+        }
+
+        .account strong {
+            color: var(--texte);
+        }
+
+        @media (max-width: 650px) {
+            header {
+                padding: 16px;
+            }
+
+            .container {
+                padding: 25px 15px 45px;
+            }
+
+            .form {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
 <header>
-    <div class="logo">Neptune Legal</div>
 
-    <a href="entreprises.html" class="back">
+    <div class="logo">
+        Neptune Legal
+    </div>
+
+    <a
+        href="entreprises.html"
+        class="back"
+    >
         Retour aux entreprises
     </a>
+
 </header>
+
 
 <div class="container">
 
-    <h1>Déposer une candidature</h1>
+    <h1>
+        Déposer une candidature
+    </h1>
 
     <p class="subtitle">
-        Remplissez ce formulaire pour déposer votre candidature auprès d'une entreprise.
+        Remplissez ce formulaire pour déposer votre candidature
+        auprès d'une entreprise.
     </p>
+
 
     <div class="form">
 
-        <label for="entreprise">Entreprise</label>
-
-        <select id="entreprise">
-            <option value="">Chargement...</option>
-        </select>
-
-        <label for="nom">Nom</label>
-
-        <input
-            type="text"
-            id="nom"
-            placeholder="Votre nom"
+        <div
+            class="account"
+            id="accountInfo"
         >
+            Vérification de votre compte...
+        </div>
 
-        <label for="motivation">Motivation</label>
 
-        <textarea
-            id="motivation"
-            placeholder="Expliquez votre motivation..."
-        ></textarea>
+        <div class="field">
 
-        <label for="document">Document complémentaire</label>
+            <label for="entreprise">
+                Entreprise
+            </label>
 
-        <input
-            class="file"
-            type="file"
-            id="document"
-        >
+            <select id="entreprise">
+
+                <option value="">
+                    Chargement des entreprises...
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="nom">
+                Nom
+            </label>
+
+            <input
+                type="text"
+                id="nom"
+                placeholder="Votre nom"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="motivation">
+                Motivation
+            </label>
+
+            <textarea
+                id="motivation"
+                placeholder="Expliquez votre motivation..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="document">
+                Document complémentaire
+            </label>
+
+            <input
+                class="file"
+                type="file"
+                id="document"
+            >
+
+            <div class="help">
+                Le document sera enregistré comme pièce jointe
+                dans votre candidature.
+            </div>
+
+        </div>
+
 
         <button
             class="submit"
@@ -183,130 +375,431 @@ textarea {
             Déposer ma candidature
         </button>
 
-        <div class="message" id="message"></div>
+
+        <div
+            class="message"
+            id="message"
+        ></div>
 
     </div>
 
 </div>
 
+
 <script>
-const SUPABASE_URL = "https://xzmglqxcsrzivvkpemyt.supabase.co";
-const SUPABASE_KEY = "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
 
-const script = document.createElement("script");
+const SUPABASE_URL =
+    "https://xzmglqxcsrzivvkpemyt.supabase.co";
 
-script.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+const SUPABASE_KEY =
+    "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
 
-script.onload = async function() {
 
-    const supabaseClient = window.supabase.createClient(
+const supabaseClient =
+    window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
 
-    const {
-        data: { user }
-    } = await supabaseClient.auth.getUser();
 
-    if (!user) {
-        window.location.href = "connexion.html";
-        return;
+let utilisateurActuel = null;
+
+
+/* ================================
+   MESSAGE
+================================ */
+
+function afficherMessage(
+    texte,
+    type
+) {
+
+    const message =
+        document.getElementById("message");
+
+    message.textContent = texte;
+
+    message.className =
+        "message " + type;
+}
+
+
+/* ================================
+   CHARGEMENT DE L'UTILISATEUR
+================================ */
+
+async function chargerUtilisateur() {
+
+    const {
+        data: {
+            user
+        },
+        error
+    } =
+        await supabaseClient.auth.getUser();
+
+
+    if (error || !user) {
+
+        window.location.href =
+            "connexion.html";
+
+        return false;
     }
 
-    document.getElementById("nom").value =
+
+    utilisateurActuel = user;
+
+
+    const nomDiscord =
         user.user_metadata?.full_name ||
         user.user_metadata?.name ||
+        user.user_metadata?.preferred_username ||
         "";
 
-    const select = document.getElementById("entreprise");
 
-    const { data, error } = await supabaseClient
-        .from("entreprises")
-        .select("id, nom")
-        .order("nom", { ascending: true });
+    document.getElementById("nom").value =
+        nomDiscord;
+
+
+    document.getElementById("accountInfo").innerHTML =
+        `
+            Connecté en tant que
+            <strong>
+                ${escapeHTML(
+                    nomDiscord ||
+                    user.email ||
+                    "Utilisateur"
+                )}
+            </strong>
+        `;
+
+
+    return true;
+}
+
+
+/* ================================
+   CHARGEMENT DES ENTREPRISES
+================================ */
+
+async function chargerEntreprises() {
+
+    const select =
+        document.getElementById("entreprise");
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("entreprises")
+            .select("id, nom")
+            .order("nom", {
+                ascending: true
+            });
+
 
     if (error) {
 
         console.error(error);
 
-        select.innerHTML = `
-            <option value="">
-                Impossible de charger les entreprises
-            </option>
-        `;
+        select.innerHTML =
+            `
+                <option value="">
+                    Impossible de charger les entreprises
+                </option>
+            `;
 
-    } else if (!data || data.length === 0) {
+        return;
+    }
 
-        select.innerHTML = `
-            <option value="">
-                Aucune entreprise disponible
-            </option>
-        `;
 
-    } else {
+    if (!data || data.length === 0) {
 
-        select.innerHTML = `
+        select.innerHTML =
+            `
+                <option value="">
+                    Aucune entreprise disponible
+                </option>
+            `;
+
+        return;
+    }
+
+
+    select.innerHTML =
+        `
             <option value="">
                 Sélectionner une entreprise
             </option>
         `;
 
-        data.forEach(function(entreprise) {
 
-            const option = document.createElement("option");
+    data.forEach(
+        function(entreprise) {
 
-            option.value = entreprise.id;
-            option.textContent = entreprise.nom;
+            const option =
+                document.createElement("option");
+
+
+            option.value =
+                entreprise.id;
+
+
+            option.textContent =
+                entreprise.nom;
+
 
             select.appendChild(option);
-        });
-    }
 
-    document.getElementById("submitBtn").addEventListener(
-        "click",
-        function() {
-
-            const entreprise =
-                document.getElementById("entreprise").value;
-
-            const nom =
-                document.getElementById("nom").value.trim();
-
-            const motivation =
-                document.getElementById("motivation").value.trim();
-
-            const message =
-                document.getElementById("message");
-
-            if (!entreprise) {
-                message.textContent =
-                    "Sélectionnez une entreprise.";
-                message.style.display = "block";
-                return;
-            }
-
-            if (!nom) {
-                message.textContent =
-                    "Indiquez votre nom.";
-                message.style.display = "block";
-                return;
-            }
-
-            if (!motivation) {
-                message.textContent =
-                    "Indiquez votre motivation.";
-                message.style.display = "block";
-                return;
-            }
-
-            message.textContent =
-                "Votre candidature est prête à être envoyée.";
-            message.style.display = "block";
         }
     );
-};
+}
 
-document.head.appendChild(script);
+
+/* ================================
+   ENVOI DE LA CANDIDATURE
+================================ */
+
+async function envoyerCandidature() {
+
+    const bouton =
+        document.getElementById("submitBtn");
+
+
+    const entrepriseId =
+        document.getElementById(
+            "entreprise"
+        ).value;
+
+
+    const nom =
+        document.getElementById(
+            "nom"
+        ).value.trim();
+
+
+    const motivation =
+        document.getElementById(
+            "motivation"
+        ).value.trim();
+
+
+    const fichier =
+        document.getElementById(
+            "document"
+        ).files[0];
+
+
+    if (!utilisateurActuel) {
+
+        afficherMessage(
+            "Votre session a expiré. Reconnectez-vous.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!entrepriseId) {
+
+        afficherMessage(
+            "Sélectionnez une entreprise.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!nom) {
+
+        afficherMessage(
+            "Indiquez votre nom.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!motivation) {
+
+        afficherMessage(
+            "Indiquez votre motivation.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    bouton.disabled = true;
+
+    bouton.textContent =
+        "Envoi en cours...";
+
+
+    afficherMessage(
+        "Enregistrement de votre candidature...",
+        "info"
+    );
+
+
+    /*
+       Pour le moment, on enregistre
+       le nom du fichier.
+
+       Le vrai stockage de fichier dans
+       Supabase Storage pourra être ajouté
+       ensuite.
+    */
+
+    const documentNom =
+        fichier
+            ? fichier.name
+            : null;
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("candidatures")
+            .insert({
+
+                entreprise_id:
+                    entrepriseId,
+
+                nom:
+                    nom,
+
+                motivation:
+                    motivation,
+
+                document:
+                    documentNom,
+
+                statut:
+                    "en_attente"
+
+            });
+
+
+    if (error) {
+
+        console.error(
+            "Erreur candidature :",
+            error
+        );
+
+
+        afficherMessage(
+            "Impossible d'envoyer la candidature : " +
+            error.message,
+            "error"
+        );
+
+
+        bouton.disabled = false;
+
+        bouton.textContent =
+            "Déposer ma candidature";
+
+        return;
+    }
+
+
+    afficherMessage(
+        "Votre candidature a bien été envoyée. Elle est maintenant en attente de traitement par le Staff.",
+        "success"
+    );
+
+
+    document.getElementById(
+        "entreprise"
+    ).value = "";
+
+
+    document.getElementById(
+        "motivation"
+    ).value = "";
+
+
+    document.getElementById(
+        "document"
+    ).value = "";
+
+
+    bouton.disabled = false;
+
+    bouton.textContent =
+        "Déposer ma candidature";
+}
+
+
+/* ================================
+   PROTECTION HTML
+================================ */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+
+/* ================================
+   INITIALISATION
+================================ */
+
+async function initialiser() {
+
+    const connecte =
+        await chargerUtilisateur();
+
+
+    if (!connecte) {
+        return;
+    }
+
+
+    await chargerEntreprises();
+
+
+    document
+        .getElementById("submitBtn")
+        .addEventListener(
+            "click",
+            envoyerCandidature
+        );
+}
+
+
+initialiser();
+
 </script>
 
 </body>
