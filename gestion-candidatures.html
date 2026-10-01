@@ -1,1 +1,571 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Gestion des candidatures — Neptune Legal</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        :root {
+            --bleu: #7ACAED;
+            --bleu-fonce: #58A3DD;
+            --bleu-clair: #98CAF7;
+            --violet: #C78BE4;
+            --violet-clair: #D1A6F1;
+
+            --fond: #080b12;
+            --fond-card: #101621;
+            --bordure: rgba(152, 202, 247, 0.15);
+            --texte: #f5f7fb;
+            --secondaire: #9da8b8;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: var(--fond);
+            color: var(--texte);
+        }
+
+        header {
+            padding: 22px 30px;
+            border-bottom: 1px solid var(--bordure);
+            background: #0c111b;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        header p {
+            margin: 7px 0 0;
+            color: var(--secondaire);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: auto;
+            padding: 30px 20px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button,
+        select {
+            border: 1px solid var(--bordure);
+            border-radius: 10px;
+            padding: 11px 15px;
+            background: #121a27;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            border-color: var(--bleu);
+        }
+
+        .btn-refresh {
+            background: linear-gradient(
+                135deg,
+                var(--bleu-fonce),
+                var(--violet)
+            );
+            border: none;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat {
+            background: var(--fond-card);
+            border: 1px solid var(--bordure);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .stat span {
+            display: block;
+            color: var(--secondaire);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .stat strong {
+            font-size: 28px;
+        }
+
+        #candidatures {
+            display: grid;
+            gap: 15px;
+        }
+
+        .candidature {
+            background: var(--fond-card);
+            border: 1px solid var(--bordure);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .candidature-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .candidature h2 {
+            margin: 0 0 6px;
+            font-size: 19px;
+        }
+
+        .company {
+            color: var(--bleu);
+            font-size: 14px;
+        }
+
+        .date {
+            color: var(--secondaire);
+            font-size: 13px;
+        }
+
+        .motivation {
+            margin: 18px 0;
+            padding: 15px;
+            border-radius: 10px;
+            background: #0b111b;
+            color: #d9e0ea;
+            line-height: 1.5;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .status-attente {
+            background: rgba(152, 202, 247, 0.15);
+            color: var(--bleu-clair);
+        }
+
+        .status-acceptee {
+            background: rgba(100, 220, 150, 0.15);
+            color: #8ee7ad;
+        }
+
+        .status-refusee {
+            background: rgba(240, 100, 120, 0.15);
+            color: #ff9baa;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .accept {
+            border-color: rgba(100, 220, 150, 0.4);
+        }
+
+        .refuse {
+            border-color: rgba(240, 100, 120, 0.4);
+        }
+
+        .pending {
+            border-color: rgba(152, 202, 247, 0.4);
+        }
+
+        .empty,
+        .error {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--secondaire);
+            background: var(--fond-card);
+            border-radius: 15px;
+            border: 1px solid var(--bordure);
+        }
+
+        .error {
+            color: #ff9baa;
+        }
+
+        @media (max-width: 700px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            main {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Gestion des candidatures</h1>
+    <p>Espace Staff — Neptune Legal</p>
+</header>
+
+<main>
+
+    <div class="topbar">
+
+        <div class="filters">
+            <select id="filtreStatut">
+                <option value="tous">Toutes les candidatures</option>
+                <option value="en_attente">En attente</option>
+                <option value="acceptee">Acceptées</option>
+                <option value="refusee">Refusées</option>
+            </select>
+        </div>
+
+        <button class="btn-refresh" onclick="chargerCandidatures()">
+            Actualiser
+        </button>
+
+    </div>
+
+    <div class="stats">
+
+        <div class="stat">
+            <span>Total</span>
+            <strong id="total">0</strong>
+        </div>
+
+        <div class="stat">
+            <span>En attente</span>
+            <strong id="attente">0</strong>
+        </div>
+
+        <div class="stat">
+            <span>Traitées</span>
+            <strong id="traitees">0</strong>
+        </div>
+
+    </div>
+
+    <div id="candidatures">
+        <div class="empty">
+            Chargement des candidatures...
+        </div>
+    </div>
+
+</main>
+
+<script>
+
+const SUPABASE_URL =
+    "https://xzmglqxcsrzivvkpemyt.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+let toutesLesCandidatures = [];
+
+
+async function chargerCandidatures() {
+
+    const container =
+        document.getElementById("candidatures");
+
+    container.innerHTML =
+        '<div class="empty">Chargement...</div>';
+
+    const { data, error } =
+        await supabaseClient
+            .from("candidatures")
+            .select("*")
+            .order("created_at", {
+                ascending: false
+            });
+
+    if (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="error">
+                Impossible de charger les candidatures.<br><br>
+                ${error.message}
+            </div>
+        `;
+
+        return;
+    }
+
+    toutesLesCandidatures = data || [];
+
+    afficherStatistiques();
+
+    afficherCandidatures();
+
+}
+
+
+function afficherStatistiques() {
+
+    const total =
+        toutesLesCandidatures.length;
+
+    const attente =
+        toutesLesCandidatures.filter(
+            c => c.statut === "en_attente"
+        ).length;
+
+    const traitees =
+        toutesLesCandidatures.filter(
+            c =>
+                c.statut === "acceptee" ||
+                c.statut === "refusee"
+        ).length;
+
+    document.getElementById("total").textContent =
+        total;
+
+    document.getElementById("attente").textContent =
+        attente;
+
+    document.getElementById("traitees").textContent =
+        traitees;
+}
+
+
+function afficherCandidatures() {
+
+    const container =
+        document.getElementById("candidatures");
+
+    const filtre =
+        document.getElementById("filtreStatut").value;
+
+    let candidatures =
+        toutesLesCandidatures;
+
+    if (filtre !== "tous") {
+
+        candidatures =
+            toutesLesCandidatures.filter(
+                c => c.statut === filtre
+            );
+    }
+
+    if (candidatures.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty">
+                Aucune candidature trouvée.
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        candidatures.map(c => {
+
+            const statut =
+                c.statut || "en_attente";
+
+            let texteStatut =
+                "En attente";
+
+            let classeStatut =
+                "status-attente";
+
+            if (statut === "acceptee") {
+                texteStatut = "Acceptée";
+                classeStatut = "status-acceptee";
+            }
+
+            if (statut === "refusee") {
+                texteStatut = "Refusée";
+                classeStatut = "status-refusee";
+            }
+
+            const date =
+                c.created_at
+                    ? new Date(c.created_at)
+                        .toLocaleString("fr-FR")
+                    : "Date inconnue";
+
+            return `
+
+                <div class="candidature">
+
+                    <div class="candidature-header">
+
+                        <div>
+
+                            <h2>
+                                ${escapeHTML(
+                                    c.nom || "Candidat inconnu"
+                                )}
+                            </h2>
+
+                            <div class="company">
+                                Entreprise :
+                                ${escapeHTML(
+                                    c.entreprise_id || "Non renseignée"
+                                )}
+                            </div>
+
+                        </div>
+
+                        <div class="date">
+                            ${date}
+                        </div>
+
+                    </div>
+
+                    <div class="status ${classeStatut}">
+                        ${texteStatut}
+                    </div>
+
+                    <div class="motivation">
+
+                        <strong>Motivation</strong>
+
+                        <br><br>
+
+                        ${escapeHTML(
+                            c.motivation ||
+                            "Aucune motivation renseignée."
+                        )}
+
+                    </div>
+
+                    ${
+                        c.document
+                            ? `
+                                <div class="date">
+                                    Document :
+                                    ${escapeHTML(c.document)}
+                                </div>
+                              `
+                            : ""
+                    }
+
+                    <div class="actions">
+
+                        <button
+                            class="accept"
+                            onclick="modifierStatut(
+                                '${c.id}',
+                                'acceptee'
+                            )">
+                            Accepter
+                        </button>
+
+                        <button
+                            class="pending"
+                            onclick="modifierStatut(
+                                '${c.id}',
+                                'en_attente'
+                            )">
+                            Mettre en attente
+                        </button>
+
+                        <button
+                            class="refuse"
+                            onclick="modifierStatut(
+                                '${c.id}',
+                                'refusee'
+                            )">
+                            Refuser
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+        }).join("");
+}
+
+
+async function modifierStatut(id, nouveauStatut) {
+
+    const { error } =
+        await supabaseClient
+            .from("candidatures")
+            .update({
+                statut: nouveauStatut
+            })
+            .eq("id", id);
+
+    if (error) {
+
+        alert(
+            "Erreur : " + error.message
+        );
+
+        return;
+    }
+
+    await chargerCandidatures();
+}
+
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+document
+    .getElementById("filtreStatut")
+    .addEventListener(
+        "change",
+        afficherCandidatures
+    );
+
+
+chargerCandidatures();
+
+</script>
+
+</body>
+</html>
