@@ -84,6 +84,16 @@
             color: #7b8799;
         }
 
+        .error {
+            background: #fff1f1;
+            border: 1px solid #ffd5d5;
+            color: #c0392b;
+            padding: 15px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            display: none;
+        }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -143,22 +153,6 @@
             background: #e2e6ff;
         }
 
-        .loading {
-            text-align: center;
-            color: #7b8799;
-            padding: 30px;
-        }
-
-        .error {
-            background: #fff1f1;
-            border: 1px solid #ffd5d5;
-            color: #c0392b;
-            padding: 15px;
-            border-radius: 14px;
-            margin-bottom: 25px;
-            display: none;
-        }
-
         @media (max-width: 800px) {
             .grid {
                 grid-template-columns: 1fr;
@@ -195,7 +189,6 @@
 
 </header>
 
-
 <main>
 
     <section class="welcome">
@@ -210,91 +203,35 @@
 
     </section>
 
-
     <div class="error" id="errorMessage"></div>
-
 
     <section class="grid">
 
-        <!-- MON PROFIL -->
-
-        <a
-            class="card"
-            href="profil-utilisateur.html"
-        >
-
-            <h2>
-                Mon profil
-            </h2>
-
-            <p>
-                Retrouvez ici les informations liées
-                à votre compte Discord.
-            </p>
-
-            <span class="open">
-                Ouvrir →
-            </span>
-
+        <a class="card" href="profil-utilisateur.html">
+            <h2>Mon profil</h2>
+            <p>Retrouvez ici les informations liées à votre compte Discord.</p>
+            <span class="open">Ouvrir →</span>
         </a>
 
-
-        <!-- MES ENTREPRISES -->
-
-        <a
-            class="card"
-            href="entreprises.html"
-        >
-
-            <h2>
-                Mes entreprises
-            </h2>
-
-            <p>
-                Gérez vos entreprises et consultez
-                leurs informations.
-            </p>
-
-            <span class="open">
-                Ouvrir →
-            </span>
-
+        <a class="card" href="entreprises.html">
+            <h2>Mes entreprises</h2>
+            <p>Gérez vos entreprises et consultez leurs informations.</p>
+            <span class="open">Ouvrir →</span>
         </a>
 
-
-        <!-- MES CANDIDATURES -->
-
-        <a
-            class="card"
-            href="candidatures.html"
-        >
-
-            <h2>
-                Mes candidatures
-            </h2>
-
-            <p>
-                Consultez vos candidatures et leur statut.
-            </p>
-
-            <span class="open">
-                Ouvrir →
-            </span>
-
+        <a class="card" href="candidatures.html">
+            <h2>Mes candidatures</h2>
+            <p>Consultez vos candidatures et leur statut.</p>
+            <span class="open">Ouvrir →</span>
         </a>
 
     </section>
 
-
-    <button
-        class="logout"
-        onclick="deconnexion()"
-    >
+    <button class="logout" onclick="deconnexion()">
         Se déconnecter
     </button>
 
 </main>
-
 
 <script>
 
@@ -306,7 +243,6 @@ const SUPABASE_PUBLISHABLE_KEY =
 
 const DISCORD_ROLES_FUNCTION =
     `${SUPABASE_URL}/functions/v1/discord-roles`;
-
 
 const supabaseClient =
     window.supabase.createClient(
@@ -356,16 +292,39 @@ async function chargerUtilisateur() {
 
 
         /*
-         * Récupération de l'ID Discord
+         * Récupération de l'identifiant Discord
          */
 
-        const discordUserId =
-            user.user_metadata?.provider_id ||
-            user.user_metadata?.sub ||
+        const discordIdentity =
             user.identities?.find(
                 identity =>
                     identity.provider === "discord"
-            )?.identity_data?.sub;
+            );
+
+
+        const discordUserId =
+            discordIdentity?.identity_data?.provider_id ||
+            discordIdentity?.identity_data?.sub ||
+            user.user_metadata?.provider_id ||
+            user.user_metadata?.sub;
+
+
+        console.log(
+            "Utilisateur Supabase :",
+            user
+        );
+
+
+        console.log(
+            "Identité Discord :",
+            discordIdentity
+        );
+
+
+        console.log(
+            "Discord User ID :",
+            discordUserId
+        );
 
 
         if (!discordUserId) {
@@ -382,7 +341,7 @@ async function chargerUtilisateur() {
 
 
         /*
-         * Appel de l'Edge Function
+         * Appel de la fonction Supabase
          */
 
         const response =
@@ -407,27 +366,25 @@ async function chargerUtilisateur() {
             await response.json();
 
 
-        if (!response.ok) {
+        console.log(
+            "Réponse Discord :",
+            result
+        );
 
-            console.error(
-                "Erreur Discord :",
-                result
-            );
+
+        if (!response.ok) {
 
             document.getElementById("role").textContent =
                 "Erreur de vérification";
 
             afficherErreur(
+                result.error ||
                 "Impossible de vérifier votre rôle Discord."
             );
 
             return;
         }
 
-
-        /*
-         * Utilisateur absent du serveur
-         */
 
         if (!result.member) {
 
@@ -451,8 +408,7 @@ async function chargerUtilisateur() {
 
 
         /*
-         * Stockage temporaire du rôle
-         * pour les autres pages
+         * Sauvegarde pour les autres pages
          */
 
         sessionStorage.setItem(
@@ -460,10 +416,12 @@ async function chargerUtilisateur() {
             result.role
         );
 
+
         sessionStorage.setItem(
             "neptune_full_access",
-            result.full_access
+            String(result.full_access)
         );
+
 
         sessionStorage.setItem(
             "neptune_discord_user_id",
@@ -472,15 +430,15 @@ async function chargerUtilisateur() {
 
 
         console.log(
-            "Rôle Discord :",
+            "Rôle Neptune :",
             result.role
         );
+
 
         console.log(
             "Accès complet :",
             result.full_access
         );
-
 
     } catch (error) {
 
@@ -521,7 +479,6 @@ async function deconnexion() {
 
     window.location.href =
         "connexion.html";
-
 }
 
 
