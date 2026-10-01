@@ -17,14 +17,28 @@
 }
 
 body {
-    background: #f7fbff;
-    color: #172033;
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(199,139,228,.15),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at top left,
+            rgba(122,202,237,.12),
+            transparent 30%
+        ),
+        #0b1020;
+
+    color: #ffffff;
 }
 
 header {
-    background: white;
+    background: rgba(17,24,45,.96);
     padding: 17px 20px;
-    border-bottom: 1px solid #e5e9f5;
+    border-bottom: 1px solid #26304d;
 
     display: flex;
     justify-content: space-between;
@@ -37,10 +51,10 @@ header {
 
     background: linear-gradient(
         90deg,
-        #00cfff,
-        #5865f2,
-        #a855f7,
-        #ec4899
+        #7ACAED,
+        #58A3DD,
+        #C78BE4,
+        #D1A6F1
     );
 
     -webkit-background-clip: text;
@@ -49,9 +63,14 @@ header {
 }
 
 .back {
-    color: #5865f2;
+    color: #7ACAED;
     text-decoration: none;
     font-weight: bold;
+    transition: .2s;
+}
+
+.back:hover {
+    color: #D1A6F1;
 }
 
 .container {
@@ -66,14 +85,15 @@ h1 {
 }
 
 .subtitle {
-    color: #788296;
+    color: #9aa8c2;
     margin-bottom: 25px;
     line-height: 1.5;
 }
 
 .add {
     width: 100%;
-    border: none;
+    border: 1px solid rgba(122,202,237,.25);
+
     padding: 15px;
     border-radius: 14px;
     margin-bottom: 20px;
@@ -84,24 +104,36 @@ h1 {
 
     background: linear-gradient(
         90deg,
-        #00cfff,
-        #5865f2,
-        #a855f7,
-        #ec4899
+        #58A3DD,
+        #7ACAED,
+        #C78BE4,
+        #D1A6F1
     );
 
     cursor: pointer;
+    transition: .2s;
+}
+
+.add:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(88,163,221,.18);
 }
 
 .employee {
-    background: white;
-    border: 1px solid #e6eaf4;
+    background: linear-gradient(
+        145deg,
+        #11182d,
+        #0e1426
+    );
+
+    border: 1px solid #26304d;
     border-radius: 20px;
+
     padding: 20px;
     margin-bottom: 14px;
 
     box-shadow:
-        0 8px 25px rgba(50,70,100,.05);
+        0 8px 25px rgba(0,0,0,.18);
 }
 
 .top {
@@ -125,9 +157,9 @@ h1 {
 
     background: linear-gradient(
         135deg,
-        #00cfff,
-        #5865f2,
-        #a855f7
+        #7ACAED,
+        #58A3DD,
+        #C78BE4
     );
 
     color: white;
@@ -139,7 +171,7 @@ h1 {
 }
 
 .discord {
-    color: #8a93a3;
+    color: #7f8da8;
     font-size: 12px;
     margin-top: 4px;
 }
@@ -153,9 +185,11 @@ h1 {
 
     border-radius: 20px;
 
-    background: #eef0ff;
+    background: rgba(122,202,237,.12);
 
-    color: #5865f2;
+    border: 1px solid rgba(122,202,237,.18);
+
+    color: #7ACAED;
 
     font-size: 11px;
 
@@ -172,18 +206,23 @@ h1 {
 }
 
 .info {
-    background: #f8f9fd;
+    background: #0b1020;
+
+    border: 1px solid #26304d;
+
     border-radius: 12px;
+
     padding: 13px;
 }
 
 .info-label {
-    color: #8a93a3;
+    color: #7f8da8;
     font-size: 11px;
     margin-bottom: 5px;
 }
 
 .info-value {
+    color: #ffffff;
     font-weight: bold;
     font-size: 14px;
 }
@@ -197,30 +236,75 @@ h1 {
 
 .action {
     border: none;
+
     padding: 10px 14px;
+
     border-radius: 10px;
+
     cursor: pointer;
+
     font-weight: bold;
     font-size: 13px;
+
+    transition: .2s;
+}
+
+.action:hover {
+    transform: translateY(-2px);
 }
 
 .primary {
-    background: #eef0ff;
-    color: #5865f2;
+    background: rgba(88,163,221,.14);
+
+    border: 1px solid rgba(88,163,221,.25);
+
+    color: #7ACAED;
 }
 
 .danger {
-    background: #fff0f0;
-    color: #e05252;
+    background: rgba(224,82,82,.10);
+
+    border: 1px solid rgba(224,82,82,.20);
+
+    color: #ff7777;
 }
 
 .empty {
-    background: white;
-    border: 1px dashed #dfe4ef;
+    background: linear-gradient(
+        145deg,
+        #11182d,
+        #0e1426
+    );
+
+    border: 1px dashed #26304d;
+
     border-radius: 18px;
+
     padding: 35px 20px;
+
     text-align: center;
-    color: #788296;
+
+    color: #9aa8c2;
+}
+
+@media (max-width: 600px) {
+
+    header {
+        gap: 12px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .back {
+        font-size: 13px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
 }
 
 </style>
