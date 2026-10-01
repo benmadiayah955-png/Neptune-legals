@@ -69,6 +69,8 @@
 
         main {
             padding: 45px 6%;
+            max-width: 1200px;
+            margin: auto;
         }
 
         .welcome {
@@ -88,10 +90,34 @@
             background: #fff1f1;
             border: 1px solid #ffd5d5;
             color: #c0392b;
-            padding: 15px;
+            padding: 18px;
             border-radius: 14px;
             margin-bottom: 25px;
             display: none;
+        }
+
+        .diagnostic {
+            background: #111827;
+            color: #e5e7eb;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: none;
+            overflow-x: auto;
+        }
+
+        .diagnostic h2 {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .diagnostic pre {
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-family: monospace;
+            font-size: 13px;
+            line-height: 1.6;
         }
 
         .grid {
@@ -157,6 +183,14 @@
             .grid {
                 grid-template-columns: 1fr;
             }
+
+            header {
+                padding: 0 4%;
+            }
+
+            main {
+                padding: 30px 4%;
+            }
         }
     </style>
 </head>
@@ -181,13 +215,14 @@
             </div>
 
             <div class="role" id="role">
-                Vérification du rôle...
+                Vérification...
             </div>
         </div>
 
     </div>
 
 </header>
+
 
 <main>
 
@@ -203,29 +238,57 @@
 
     </section>
 
+
     <div class="error" id="errorMessage"></div>
+
+
+    <div class="diagnostic" id="diagnostic">
+
+        <h2>
+            Diagnostic Neptune Legal
+        </h2>
+
+        <pre id="diagnosticText"></pre>
+
+    </div>
+
 
     <section class="grid">
 
         <a class="card" href="profil-utilisateur.html">
             <h2>Mon profil</h2>
-            <p>Retrouvez ici les informations liées à votre compte Discord.</p>
-            <span class="open">Ouvrir →</span>
+            <p>
+                Retrouvez ici les informations liées à votre compte Discord.
+            </p>
+            <span class="open">
+                Ouvrir →
+            </span>
         </a>
+
 
         <a class="card" href="entreprises.html">
             <h2>Mes entreprises</h2>
-            <p>Gérez vos entreprises et consultez leurs informations.</p>
-            <span class="open">Ouvrir →</span>
+            <p>
+                Gérez vos entreprises et consultez leurs informations.
+            </p>
+            <span class="open">
+                Ouvrir →
+            </span>
         </a>
+
 
         <a class="card" href="candidatures.html">
             <h2>Mes candidatures</h2>
-            <p>Consultez vos candidatures et leur statut.</p>
-            <span class="open">Ouvrir →</span>
+            <p>
+                Consultez vos candidatures et leur statut.
+            </p>
+            <span class="open">
+                Ouvrir →
+            </span>
         </a>
 
     </section>
+
 
     <button class="logout" onclick="deconnexion()">
         Se déconnecter
@@ -233,16 +296,20 @@
 
 </main>
 
+
 <script>
 
 const SUPABASE_URL =
     "https://xzmglqxcsrzivvkpemyt.supabase.co";
 
+
 const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
 
+
 const DISCORD_ROLES_FUNCTION =
     `${SUPABASE_URL}/functions/v1/discord-roles`;
+
 
 const supabaseClient =
     window.supabase.createClient(
@@ -251,24 +318,148 @@ const supabaseClient =
     );
 
 
+function diagnostic(message, data = null) {
+
+    const box =
+        document.getElementById("diagnostic");
+
+    const text =
+        document.getElementById("diagnosticText");
+
+
+    box.style.display = "block";
+
+
+    let contenu =
+        message;
+
+
+    if (data !== null) {
+
+        try {
+
+            contenu +=
+                "\n\n" +
+                JSON.stringify(
+                    data,
+                    null,
+                    2
+                );
+
+        } catch {
+
+            contenu +=
+                "\n\n" +
+                String(data);
+
+        }
+
+    }
+
+
+    text.textContent =
+        contenu;
+}
+
+
+function afficherErreur(message) {
+
+    const element =
+        document.getElementById("errorMessage");
+
+
+    element.textContent =
+        message;
+
+
+    element.style.display =
+        "block";
+}
+
+
 async function chargerUtilisateur() {
+
+    diagnostic(
+        "Étape 1 : démarrage du dashboard..."
+    );
+
 
     try {
 
+        /*
+         * ÉTAPE 2
+         * Vérification Supabase
+         */
+
+        diagnostic(
+            "Étape 2 : récupération de la session Supabase..."
+        );
+
+
         const {
-            data: {
-                session
-            }
-        } = await supabaseClient.auth.getSession();
+            data,
+            error
+        } =
+            await supabaseClient.auth.getSession();
+
+
+        if (error) {
+
+            diagnostic(
+                "ERREUR ÉTAPE 2 : Supabase a refusé la récupération de session.",
+                {
+                    message: error.message,
+                    name: error.name,
+                    code: error.code
+                }
+            );
+
+
+            afficherErreur(
+                "Erreur Supabase lors de la récupération de la session."
+            );
+
+
+            return;
+        }
+
+
+        const session =
+            data.session;
 
 
         if (!session) {
 
-            window.location.href =
-                "connexion.html";
+            diagnostic(
+                "ERREUR ÉTAPE 2 : aucune session Supabase trouvée."
+            );
+
+
+            afficherErreur(
+                "Vous n'êtes pas connecté."
+            );
+
+
+            setTimeout(() => {
+
+                window.location.href =
+                    "connexion.html";
+
+            }, 1500);
+
 
             return;
         }
+
+
+        /*
+         * ÉTAPE 3
+         * Utilisateur Supabase
+         */
+
+        diagnostic(
+            "Étape 3 : session trouvée. Lecture du compte..."
+        );
 
 
         const user =
@@ -288,12 +479,20 @@ async function chargerUtilisateur() {
 
 
         document.getElementById("avatar").textContent =
-            username.charAt(0).toUpperCase();
+            username
+                .charAt(0)
+                .toUpperCase();
 
 
         /*
-         * Récupération de l'identifiant Discord
+         * ÉTAPE 4
+         * Recherche identité Discord
          */
+
+        diagnostic(
+            "Étape 4 : recherche de l'identité Discord..."
+        );
+
 
         const discordIdentity =
             user.identities?.find(
@@ -309,21 +508,17 @@ async function chargerUtilisateur() {
             user.user_metadata?.sub;
 
 
-        console.log(
-            "Utilisateur Supabase :",
-            user
-        );
+        diagnostic(
+            "Étape 4 : résultat de l'identification Discord.",
+            {
+                discordUserId: discordUserId || null,
 
+                provider:
+                    discordIdentity?.provider || null,
 
-        console.log(
-            "Identité Discord :",
-            discordIdentity
-        );
-
-
-        console.log(
-            "Discord User ID :",
-            discordUserId
+                identityData:
+                    discordIdentity?.identity_data || null
+            }
         );
 
 
@@ -332,84 +527,203 @@ async function chargerUtilisateur() {
             document.getElementById("role").textContent =
                 "Discord non identifié";
 
+
             afficherErreur(
                 "Impossible de récupérer votre identifiant Discord."
             );
+
+
+            diagnostic(
+                "ERREUR ÉTAPE 4 : aucun identifiant Discord trouvé.",
+                {
+                    user_id: user.id,
+                    user_metadata: user.user_metadata,
+                    identities: user.identities
+                }
+            );
+
 
             return;
         }
 
 
         /*
-         * Appel de la fonction Supabase
+         * ÉTAPE 5
+         * Appel de la fonction Edge Supabase
          */
 
-        const response =
-            await fetch(
-                DISCORD_ROLES_FUNCTION,
+        document.getElementById("role").textContent =
+            "Vérification du rôle...";
+
+
+        diagnostic(
+            "Étape 5 : appel de la fonction discord-roles...",
+            {
+                function: DISCORD_ROLES_FUNCTION,
+                discord_user_id: discordUserId
+            }
+        );
+
+
+        let response;
+
+
+        try {
+
+            response =
+                await fetch(
+                    DISCORD_ROLES_FUNCTION,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            discord_user_id:
+                                discordUserId
+                        })
+                    }
+                );
+
+        } catch (fetchError) {
+
+            diagnostic(
+                "ERREUR ÉTAPE 5 : impossible de contacter la fonction Supabase.",
                 {
-                    method: "POST",
+                    message:
+                        fetchError?.message ||
+                        String(fetchError),
 
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        discord_user_id:
-                            discordUserId
-                    })
+                    name:
+                        fetchError?.name ||
+                        null
                 }
             );
 
 
-        const result =
-            await response.json();
+            afficherErreur(
+                "Impossible de contacter le serveur Neptune Legal."
+            );
 
 
-        console.log(
-            "Réponse Discord :",
-            result
+            document.getElementById("role").textContent =
+                "Erreur réseau";
+
+
+            return;
+        }
+
+
+        /*
+         * ÉTAPE 6
+         * Lecture réponse
+         */
+
+        const responseText =
+            await response.text();
+
+
+        let result;
+
+
+        try {
+
+            result =
+                JSON.parse(
+                    responseText
+                );
+
+        } catch {
+
+            result =
+                {
+                    raw_response:
+                        responseText
+                };
+
+        }
+
+
+        diagnostic(
+            "Étape 6 : réponse reçue de discord-roles.",
+            {
+                http_status:
+                    response.status,
+
+                http_ok:
+                    response.ok,
+
+                response:
+                    result
+            }
         );
 
+
+        /*
+         * ÉTAPE 7
+         * Vérification HTTP
+         */
 
         if (!response.ok) {
 
             document.getElementById("role").textContent =
                 "Erreur de vérification";
 
+
             afficherErreur(
-                result.error ||
-                "Impossible de vérifier votre rôle Discord."
+                "La fonction Discord a retourné une erreur."
             );
+
+
+            diagnostic(
+                "ERREUR ÉTAPE 7 : la fonction discord-roles a retourné HTTP " +
+                response.status +
+                ".",
+                result
+            );
+
 
             return;
         }
 
+
+        /*
+         * ÉTAPE 8
+         * Vérification membre
+         */
 
         if (!result.member) {
 
             document.getElementById("role").textContent =
                 "Aucun accès";
 
+
             afficherErreur(
-                "Votre compte Discord n'est pas reconnu comme membre du serveur Neptune."
+                "Votre compte Discord n'est pas reconnu comme membre du serveur."
             );
+
+
+            diagnostic(
+                "ÉTAPE 8 : Discord répond que l'utilisateur n'est pas membre du serveur.",
+                result
+            );
+
 
             return;
         }
 
 
         /*
-         * Affichage du rôle
+         * ÉTAPE 9
+         * Tout fonctionne
          */
 
         document.getElementById("role").textContent =
             result.role;
 
-
-        /*
-         * Sauvegarde pour les autres pages
-         */
 
         sessionStorage.setItem(
             "neptune_role",
@@ -429,16 +743,23 @@ async function chargerUtilisateur() {
         );
 
 
-        console.log(
-            "Rôle Neptune :",
-            result.role
+        diagnostic(
+            "SUCCÈS : Neptune Legal a correctement récupéré votre rôle Discord.",
+            {
+                role:
+                    result.role,
+
+                full_access:
+                    result.full_access,
+
+                discord_user_id:
+                    result.discord_user_id,
+
+                roles:
+                    result.roles
+            }
         );
 
-
-        console.log(
-            "Accès complet :",
-            result.full_access
-        );
 
     } catch (error) {
 
@@ -447,27 +768,35 @@ async function chargerUtilisateur() {
             error
         );
 
+
         document.getElementById("role").textContent =
             "Erreur";
+
 
         afficherErreur(
             "Une erreur est survenue lors de la connexion à Neptune Legal."
         );
+
+
+        diagnostic(
+            "ERREUR INATTENDUE : le JavaScript du dashboard a rencontré une erreur.",
+            {
+                message:
+                    error?.message ||
+                    String(error),
+
+                name:
+                    error?.name ||
+                    null,
+
+                stack:
+                    error?.stack ||
+                    null
+            }
+        );
+
     }
 
-}
-
-
-function afficherErreur(message) {
-
-    const element =
-        document.getElementById("errorMessage");
-
-    element.textContent =
-        message;
-
-    element.style.display =
-        "block";
 }
 
 
