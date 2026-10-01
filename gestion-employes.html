@@ -1,6 +1,20 @@
-<!DOCTYPE html><html lang="fr">
-<head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Neptune — Gestion des employés</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><style>
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Neptune — Gestion des employés</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
 
 * {
     box-sizing: border-box;
@@ -11,17 +25,30 @@
 
 body {
     min-height: 100vh;
+
     background:
-        radial-gradient(circle at top right, rgba(199,139,228,.15), transparent 30%),
-        radial-gradient(circle at top left, rgba(122,202,237,.12), transparent 30%),
+        radial-gradient(
+            circle at top right,
+            rgba(199,139,228,.15),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at top left,
+            rgba(122,202,237,.12),
+            transparent 30%
+        ),
         #0b1020;
+
     color: #ffffff;
 }
 
 header {
     background: rgba(17,24,45,.96);
+
     padding: 17px 20px;
+
     border-bottom: 1px solid #26304d;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,190 +57,318 @@ header {
 .logo {
     font-size: 21px;
     font-weight: 800;
-    background: linear-gradient(90deg,#7ACAED,#58A3DD,#C78BE4,#D1A6F1);
+
+    background:
+        linear-gradient(
+            90deg,
+            #7ACAED,
+            #58A3DD,
+            #C78BE4,
+            #D1A6F1
+        );
+
     -webkit-background-clip: text;
     background-clip: text;
+
     color: transparent;
 }
 
 .back {
     color: #7ACAED;
+
     text-decoration: none;
+
     font-weight: bold;
 }
 
 .container {
     max-width: 1050px;
+
     margin: auto;
+
     padding: 28px 18px 50px;
 }
 
 h1 {
     font-size: 29px;
+
     margin-bottom: 7px;
 }
 
 .subtitle {
     color: #9aa8c2;
+
     margin-bottom: 25px;
+
     line-height: 1.5;
 }
 
 .add {
     width: 100%;
+
     border: 1px solid rgba(122,202,237,.25);
+
     padding: 15px;
+
     border-radius: 14px;
+
     margin-bottom: 20px;
+
     color: white;
+
     font-weight: bold;
+
     font-size: 15px;
-    background: linear-gradient(90deg,#58A3DD,#7ACAED,#C78BE4,#D1A6F1);
+
+    background:
+        linear-gradient(
+            90deg,
+            #58A3DD,
+            #7ACAED,
+            #C78BE4,
+            #D1A6F1
+        );
+
     cursor: pointer;
 }
 
 .employee {
-    background: linear-gradient(145deg,#11182d,#0e1426);
+    background:
+        linear-gradient(
+            145deg,
+            #11182d,
+            #0e1426
+        );
+
     border: 1px solid #26304d;
+
     border-radius: 20px;
+
     padding: 20px;
+
     margin-bottom: 14px;
 }
 
 .top {
     display: flex;
+
     align-items: center;
+
     gap: 14px;
+
     margin-bottom: 18px;
 }
 
 .avatar {
     width: 55px;
     height: 55px;
+
     border-radius: 50%;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
+
     font-size: 25px;
-    background: linear-gradient(135deg,#7ACAED,#58A3DD,#C78BE4);
+
+    background:
+        linear-gradient(
+            135deg,
+            #7ACAED,
+            #58A3DD,
+            #C78BE4
+        );
+
     color: white;
+
     font-weight: bold;
 }
 
 .name {
     font-weight: bold;
+
     font-size: 17px;
 }
 
 .discord {
     color: #7f8da8;
+
     font-size: 12px;
+
     margin-top: 4px;
 }
 
 .grade {
     display: inline-block;
+
     margin-top: 6px;
+
     padding: 5px 9px;
+
     border-radius: 20px;
-    background: rgba(122,202,237,.12);
-    border: 1px solid rgba(122,202,237,.18);
+
+    background:
+        rgba(122,202,237,.12);
+
+    border:
+        1px solid rgba(122,202,237,.18);
+
     color: #7ACAED;
+
     font-size: 11px;
+
     font-weight: bold;
 }
 
 .infos {
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(150px,1fr)
+        );
+
     gap: 12px;
 }
 
 .info {
     background: #0b1020;
+
     border: 1px solid #26304d;
+
     border-radius: 12px;
+
     padding: 13px;
 }
 
 .info-label {
     color: #7f8da8;
+
     font-size: 11px;
+
     margin-bottom: 5px;
 }
 
 .info-value {
     color: #ffffff;
+
     font-weight: bold;
+
     font-size: 14px;
 }
 
 .actions {
     display: flex;
+
     gap: 10px;
+
     margin-top: 17px;
+
     flex-wrap: wrap;
 }
 
 .action {
     border: none;
+
     padding: 10px 14px;
+
     border-radius: 10px;
+
     cursor: pointer;
+
     font-weight: bold;
+
     font-size: 13px;
 }
 
 .primary {
-    background: rgba(88,163,221,.14);
-    border: 1px solid rgba(88,163,221,.25);
+    background:
+        rgba(88,163,221,.14);
+
+    border:
+        1px solid rgba(88,163,221,.25);
+
     color: #7ACAED;
 }
 
 .danger {
-    background: rgba(224,82,82,.10);
-    border: 1px solid rgba(224,82,82,.20);
+    background:
+        rgba(224,82,82,.10);
+
+    border:
+        1px solid rgba(224,82,82,.20);
+
     color: #ff7777;
 }
 
 .empty {
-    background: linear-gradient(145deg,#11182d,#0e1426);
-    border: 1px dashed #26304d;
+    background:
+        linear-gradient(
+            145deg,
+            #11182d,
+            #0e1426
+        );
+
+    border:
+        1px dashed #26304d;
+
     border-radius: 18px;
+
     padding: 35px 20px;
+
     text-align: center;
+
     color: #9aa8c2;
 }
 
 .loading {
     text-align: center;
+
     color: #9aa8c2;
+
     padding: 30px;
 }
 
 .error {
     color: #ff7777;
+
     text-align: center;
+
     padding: 20px;
 }
 
 .modal {
     display: none;
+
     position: fixed;
+
     inset: 0;
-    background: rgba(0,0,0,.75);
+
+    background:
+        rgba(0,0,0,.75);
+
     align-items: center;
+
     justify-content: center;
+
     padding: 20px;
+
     z-index: 1000;
 }
 
 .modal-box {
     width: 100%;
+
     max-width: 500px;
+
     background: #11182d;
+
     border: 1px solid #26304d;
+
     border-radius: 20px;
+
     padding: 24px;
 }
 
@@ -223,45 +378,76 @@ h1 {
 
 label {
     display: block;
+
     color: #9aa8c2;
+
     font-size: 13px;
+
     margin-bottom: 6px;
 }
 
 input,
 select {
     width: 100%;
+
     padding: 12px;
+
     margin-bottom: 15px;
+
     border-radius: 10px;
-    border: 1px solid #26304d;
+
+    border:
+        1px solid #26304d;
+
     background: #0b1020;
+
     color: white;
+
     outline: none;
+}
+
+select option {
+    background: #11182d;
+
+    color: white;
 }
 
 .modal-actions {
     display: flex;
+
     gap: 10px;
+
     margin-top: 5px;
 }
 
 .modal-actions button {
     flex: 1;
+
     padding: 12px;
+
     border-radius: 10px;
+
     border: none;
+
     cursor: pointer;
+
     font-weight: bold;
 }
 
 .cancel {
     background: #26304d;
+
     color: white;
 }
 
 .save {
-    background: linear-gradient(90deg,#58A3DD,#C78BE4);
+    background:
+        linear-gradient(
+            90deg,
+            #58A3DD,
+            #C78BE4
+        );
+
     color: white;
 }
 
@@ -282,84 +468,177 @@ select {
     h1 {
         font-size: 25px;
     }
+
 }
 
-</style></head><body><header><div class="logo">
-    Neptune Legal
-</div>
+</style>
 
-<a href="entreprises.html" class="back">
-    Retour aux entreprises
-</a>
+</head>
 
-</header><div class="container"><h1>Gestion des employés</h1>
+<body>
 
-<p class="subtitle">
-    Gérez les employés, leurs grades et leur évolution au sein de votre entreprise.
-</p>
+<header>
 
-<button class="add" type="button" onclick="ouvrirModal()">
-    Ajouter un employé
-</button>
-
-<div id="listeEmployes">
-    <div class="loading">
-        Chargement des employés...
+    <div class="logo">
+        Neptune Legal
     </div>
-</div>
 
-</div><div class="modal" id="modalEmploye"><div class="modal-box">
+    <a
+        href="entreprises.html"
+        class="back"
+    >
+        Retour aux entreprises
+    </a>
 
-    <h2>Ajouter un employé</h2>
+</header>
 
-    <label for="nom">Nom</label>
-    <input id="nom" type="text" placeholder="Nom">
 
-    <label for="prenom">Prénom</label>
-    <input id="prenom" type="text" placeholder="Prénom">
+<div class="container">
 
-    <label for="grade">Grade</label>
-    <input id="grade" type="text" placeholder="Ex : Employé, Responsable...">
+    <h1>
+        Gestion des employés
+    </h1>
 
-    <label for="statut">Statut</label>
-    <select id="statut">
-        <option value="Actif">Actif</option>
-        <option value="Inactif">Inactif</option>
-        <option value="Suspendu">Suspendu</option>
-    </select>
+    <p class="subtitle">
+        Gérez les employés, leurs grades et leur évolution au sein de votre entreprise.
+    </p>
 
-    <label for="heures">Heures de service</label>
-    <input id="heures" type="number" min="0" value="0">
 
-    <div class="modal-actions">
+    <button
+        class="add"
+        type="button"
+        onclick="ouvrirModal()"
+    >
+        Ajouter un employé
+    </button>
 
-        <button
-            type="button"
-            class="cancel"
-            onclick="fermerModal()"
-        >
-            Annuler
-        </button>
 
-        <button
-            type="button"
-            class="save"
-            onclick="ajouterEmploye()"
-        >
-            Ajouter
-        </button>
+    <div id="listeEmployes">
+
+        <div class="loading">
+            Chargement des employés...
+        </div>
 
     </div>
 
 </div>
 
-</div><script>
+
+<div
+    class="modal"
+    id="modalEmploye"
+>
+
+    <div class="modal-box">
+
+        <h2>
+            Ajouter un employé
+        </h2>
+
+
+        <label for="nom">
+            Nom
+        </label>
+
+        <input
+            id="nom"
+            type="text"
+            placeholder="Nom"
+        >
+
+
+        <label for="prenom">
+            Prénom
+        </label>
+
+        <input
+            id="prenom"
+            type="text"
+            placeholder="Prénom"
+        >
+
+
+        <label for="grade">
+            Grade
+        </label>
+
+        <select id="grade">
+
+            <option value="">
+                Chargement des grades...
+            </option>
+
+        </select>
+
+
+        <label for="statut">
+            Statut
+        </label>
+
+        <select id="statut">
+
+            <option value="Actif">
+                Actif
+            </option>
+
+            <option value="Inactif">
+                Inactif
+            </option>
+
+            <option value="Suspendu">
+                Suspendu
+            </option>
+
+        </select>
+
+
+        <label for="heures">
+            Heures de service
+        </label>
+
+        <input
+            id="heures"
+            type="number"
+            min="0"
+            value="0"
+        >
+
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                class="cancel"
+                onclick="fermerModal()"
+            >
+                Annuler
+            </button>
+
+
+            <button
+                type="button"
+                class="save"
+                onclick="ajouterEmploye()"
+            >
+                Ajouter
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
 
 const SUPABASE_URL =
     "https://xzmglqxcsrzivvkpemyt.supabase.co";
 
+
 const SUPABASE_KEY =
     "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
+
 
 const supabaseClient =
     window.supabase.createClient(
@@ -367,43 +646,182 @@ const supabaseClient =
         SUPABASE_KEY
     );
 
+
 const listeEmployes =
-    document.getElementById("listeEmployes");
+    document.getElementById(
+        "listeEmployes"
+    );
+
 
 const modal =
-    document.getElementById("modalEmploye");
+    document.getElementById(
+        "modalEmploye"
+    );
 
+
+const selectGrade =
+    document.getElementById(
+        "grade"
+    );
+
+
+/* =========================================
+   CHARGER LES GRADES
+========================================= */
+
+async function chargerGrades() {
+
+    selectGrade.innerHTML = `
+        <option value="">
+            Chargement des grades...
+        </option>
+    `;
+
+
+    const {
+        data: grades,
+        error
+    } = await supabaseClient
+
+        .from("grades")
+
+        .select(
+            "id,nom,niveau"
+        )
+
+        .order(
+            "niveau",
+            {
+                ascending: true
+            }
+        );
+
+
+    if (error) {
+
+        console.error(
+            "Erreur grades :",
+            error
+        );
+
+
+        selectGrade.innerHTML = `
+            <option value="">
+                Impossible de charger les grades
+            </option>
+        `;
+
+        return;
+    }
+
+
+    if (
+        !grades ||
+        grades.length === 0
+    ) {
+
+        selectGrade.innerHTML = `
+            <option value="">
+                Aucun grade disponible
+            </option>
+        `;
+
+        return;
+    }
+
+
+    selectGrade.innerHTML = `
+        <option value="">
+            Sélectionner un grade
+        </option>
+    `;
+
+
+    grades.forEach(
+        grade => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                grade.id;
+
+
+            option.textContent =
+                grade.nom;
+
+
+            selectGrade.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   CHARGER LES EMPLOYÉS
+========================================= */
 
 async function chargerEmployes() {
 
     listeEmployes.innerHTML =
-        '<div class="loading">Chargement des employés...</div>';
+        `
+        <div class="loading">
+            Chargement des employés...
+        </div>
+        `;
+
 
     const {
-        data,
+        data: employees,
         error
     } = await supabaseClient
+
         .from("employes")
-        .select("*")
-        .order("created_at", {
-            ascending: false
-        });
+
+        .select(
+            "id,nom,prenom,grade,grade_id,statut,heures_service,created_at"
+        )
+
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        );
+
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            "Erreur employés :",
+            error
+        );
+
 
         listeEmployes.innerHTML = `
             <div class="error">
-                Erreur lors du chargement des employés.<br>
-                ${error.message}
+                Erreur lors du chargement des employés.<br><br>
+                ${escapeHtml(
+                    error.message
+                )}
             </div>
         `;
 
         return;
     }
 
-    if (!data || data.length === 0) {
+
+    if (
+        !employees ||
+        employees.length === 0
+    ) {
 
         listeEmployes.innerHTML = `
             <div class="empty">
@@ -414,245 +832,569 @@ async function chargerEmployes() {
         return;
     }
 
-    listeEmployes.innerHTML = "";
 
-    data.forEach(employe => {
+    /*
+        On récupère les grades séparément.
+        Cela permet d'afficher le vrai nom
+        correspondant au grade_id.
+    */
 
-        const nomComplet =
-            `${employe.prenom || ""} ${employe.nom || ""}`.trim();
+    const {
+        data: grades,
+        error: gradesError
+    } = await supabaseClient
 
-        const affichageNom =
-            nomComplet || "Employé sans nom";
+        .from("grades")
 
-        const premiereLettre =
-            affichageNom.charAt(0).toUpperCase();
+        .select(
+            "id,nom,niveau"
+        )
 
-        const grade =
-            employe.grade || "Aucun grade";
+        .order(
+            "niveau",
+            {
+                ascending: true
+            }
+        );
 
-        const statut =
-            employe.statut || "Actif";
 
-        const heures =
-            Number(employe.heures_service || 0);
+    if (gradesError) {
 
-        const carte =
-            document.createElement("div");
+        console.error(
+            "Erreur grades :",
+            gradesError
+        );
 
-        carte.className = "employee";
+    }
 
-        carte.innerHTML = `
 
-            <div class="top">
+    const gradesList =
+        grades || [];
 
-                <div class="avatar">
-                    ${premiereLettre}
+
+    listeEmployes.innerHTML =
+        "";
+
+
+    employees.forEach(
+        employe => {
+
+            const nomComplet =
+                `
+                ${employe.prenom || ""}
+                ${employe.nom || ""}
+                `.trim();
+
+
+            const affichageNom =
+                nomComplet ||
+                "Employé sans nom";
+
+
+            const premiereLettre =
+                affichageNom
+                    .charAt(0)
+                    .toUpperCase();
+
+
+            /*
+                Recherche du grade par grade_id
+            */
+
+            const gradeAssocie =
+                gradesList.find(
+                    grade =>
+                        grade.id ===
+                        employe.grade_id
+                );
+
+
+            /*
+                Pour les anciens employés
+                qui n'ont pas encore de grade_id,
+                on garde l'ancien champ texte.
+            */
+
+            const grade =
+                gradeAssocie?.nom ||
+                employe.grade ||
+                "Aucun grade";
+
+
+            const statut =
+                employe.statut ||
+                "Actif";
+
+
+            const heures =
+                Number(
+                    employe.heures_service ||
+                    0
+                );
+
+
+            const carte =
+                document.createElement(
+                    "div"
+                );
+
+
+            carte.className =
+                "employee";
+
+
+            carte.innerHTML = `
+
+                <div class="top">
+
+                    <div class="avatar">
+                        ${escapeHtml(
+                            premiereLettre
+                        )}
+                    </div>
+
+                    <div>
+
+                        <div class="name">
+                            ${escapeHtml(
+                                affichageNom
+                            )}
+                        </div>
+
+                        <div class="discord">
+                            Employé Neptune Legal
+                        </div>
+
+                        <span class="grade">
+                            ${escapeHtml(
+                                grade
+                            )}
+                        </span>
+
+                    </div>
+
                 </div>
 
-                <div>
 
-                    <div class="name">
-                        ${affichageNom}
+                <div class="infos">
+
+                    <div class="info">
+
+                        <div class="info-label">
+                            Grade
+                        </div>
+
+                        <div class="info-value">
+                            ${escapeHtml(
+                                grade
+                            )}
+                        </div>
+
                     </div>
 
-                    <div class="discord">
-                        Employé Neptune Legal
+
+                    <div class="info">
+
+                        <div class="info-label">
+                            Heures
+                        </div>
+
+                        <div class="info-value">
+                            ${heures} h
+                        </div>
+
                     </div>
 
-                    <span class="grade">
-                        ${grade}
-                    </span>
 
-                </div>
+                    <div class="info">
 
-            </div>
+                        <div class="info-label">
+                            Statut
+                        </div>
 
-            <div class="infos">
+                        <div class="info-value">
+                            ${escapeHtml(
+                                statut
+                            )}
+                        </div>
 
-                <div class="info">
-
-                    <div class="info-label">
-                        Grade
-                    </div>
-
-                    <div class="info-value">
-                        ${grade}
-                    </div>
-
-                </div>
-
-                <div class="info">
-
-                    <div class="info-label">
-                        Heures
-                    </div>
-
-                    <div class="info-value">
-                        ${heures} h
-                    </div>
-
-                </div>
-
-                <div class="info">
-
-                    <div class="info-label">
-                        Statut
-                    </div>
-
-                    <div class="info-value">
-                        ${statut}
                     </div>
 
                 </div>
 
-            </div>
 
-            <div class="actions">
+                <div class="actions">
 
-                <button
-                    class="action primary"
-                    type="button"
-                    onclick="voirEmploye('${employe.id}')"
-                >
-                    Voir le profil
-                </button>
+                    <button
+                        class="action primary"
+                        type="button"
+                        onclick="voirEmploye('${employe.id}')"
+                    >
+                        Voir le profil
+                    </button>
 
-                <button
-                    class="action danger"
-                    type="button"
-                    onclick="supprimerEmploye('${employe.id}')"
-                >
-                    Supprimer
-                </button>
 
-            </div>
+                    <button
+                        class="action danger"
+                        type="button"
+                        onclick="supprimerEmploye('${employe.id}')"
+                    >
+                        Supprimer
+                    </button>
 
-        `;
+                </div>
 
-        listeEmployes.appendChild(carte);
+            `;
 
-    });
+
+            listeEmployes.appendChild(
+                carte
+            );
+
+        }
+    );
 
 }
 
 
-function ouvrirModal() {
+/* =========================================
+   OUVRIR LE MODAL
+========================================= */
 
-    document.getElementById("nom").value = "";
-    document.getElementById("prenom").value = "";
-    document.getElementById("grade").value = "";
-    document.getElementById("statut").value = "Actif";
-    document.getElementById("heures").value = 0;
+async function ouvrirModal() {
 
-    modal.style.display = "flex";
+    document.getElementById(
+        "nom"
+    ).value = "";
+
+
+    document.getElementById(
+        "prenom"
+    ).value = "";
+
+
+    document.getElementById(
+        "statut"
+    ).value = "Actif";
+
+
+    document.getElementById(
+        "heures"
+    ).value = 0;
+
+
+    modal.style.display =
+        "flex";
+
+
+    await chargerGrades();
+
 }
 
+
+/* =========================================
+   FERMER LE MODAL
+========================================= */
 
 function fermerModal() {
 
-    modal.style.display = "none";
+    modal.style.display =
+        "none";
+
 }
 
+
+/* =========================================
+   AJOUTER UN EMPLOYÉ
+========================================= */
 
 async function ajouterEmploye() {
 
     const nom =
-        document.getElementById("nom").value.trim();
+        document.getElementById(
+            "nom"
+        ).value.trim();
+
 
     const prenom =
-        document.getElementById("prenom").value.trim();
+        document.getElementById(
+            "prenom"
+        ).value.trim();
 
-    const grade =
-        document.getElementById("grade").value.trim();
+
+    const gradeId =
+        document.getElementById(
+            "grade"
+        ).value;
+
 
     const statut =
-        document.getElementById("statut").value;
+        document.getElementById(
+            "statut"
+        ).value;
+
 
     const heures =
-        Number(document.getElementById("heures").value || 0);
+        Number(
+            document.getElementById(
+                "heures"
+            ).value || 0
+        );
+
 
     if (!nom) {
 
-        alert("Le nom est obligatoire.");
+        alert(
+            "Le nom est obligatoire."
+        );
+
         return;
     }
+
+
+    if (heures < 0) {
+
+        alert(
+            "Le nombre d'heures ne peut pas être négatif."
+        );
+
+        return;
+    }
+
+
+    if (!gradeId) {
+
+        alert(
+            "Veuillez sélectionner un grade."
+        );
+
+        return;
+    }
+
+
+    /*
+        On récupère le nom du grade
+        pour conserver également le champ
+        texte grade existant.
+    */
+
+    const {
+        data: grade,
+        error: gradeError
+    } = await supabaseClient
+
+        .from("grades")
+
+        .select(
+            "id,nom"
+        )
+
+        .eq(
+            "id",
+            gradeId
+        )
+
+        .single();
+
+
+    if (gradeError) {
+
+        console.error(
+            gradeError
+        );
+
+
+        alert(
+            "Impossible de récupérer le grade :\n\n" +
+            gradeError.message
+        );
+
+        return;
+    }
+
 
     const {
         error
     } = await supabaseClient
+
         .from("employes")
+
         .insert({
-            nom: nom,
-            prenom: prenom || null,
-            grade: grade || null,
-            statut: statut,
-            heures_service: heures
+
+            nom:
+                nom,
+
+            prenom:
+                prenom ||
+                null,
+
+            /*
+                Ancien champ conservé
+                pour compatibilité.
+            */
+
+            grade:
+                grade.nom,
+
+            /*
+                Nouveau lien réel
+                vers grades.id.
+            */
+
+            grade_id:
+                grade.id,
+
+            statut:
+                statut,
+
+            heures_service:
+                heures
+
         });
+
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
+
 
         alert(
-            "Erreur lors de l'ajout de l'employé :\n" +
+            "Erreur lors de l'ajout de l'employé :\n\n" +
             error.message
         );
 
         return;
     }
 
+
     fermerModal();
+
 
     await chargerEmployes();
 
 }
 
 
-async function supprimerEmploye(id) {
+/* =========================================
+   SUPPRIMER UN EMPLOYÉ
+========================================= */
+
+async function supprimerEmploye(
+    id
+) {
 
     const confirmation =
         confirm(
             "Voulez-vous vraiment supprimer cet employé ?"
         );
 
+
     if (!confirmation) {
         return;
     }
 
+
     const {
         error
     } = await supabaseClient
+
         .from("employes")
+
         .delete()
-        .eq("id", id);
+
+        .eq(
+            "id",
+            id
+        );
+
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
+
 
         alert(
-            "Erreur lors de la suppression :\n" +
+            "Erreur lors de la suppression :\n\n" +
             error.message
         );
 
         return;
     }
 
+
     await chargerEmployes();
 
 }
 
 
-function voirEmploye(id) {
+/* =========================================
+   VOIR LE PROFIL
+========================================= */
+
+function voirEmploye(
+    id
+) {
 
     alert(
-        "Profil de l'employé sélectionné.\n\nID : " + id
+        "Profil de l'employé sélectionné.\n\nID : " +
+        id
     );
 
 }
 
 
+/* =========================================
+   SÉCURITÉ HTML
+========================================= */
+
+function escapeHtml(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =========================================
+   DÉMARRAGE
+========================================= */
+
 chargerEmployes();
 
-</script></body>
-</html>
+</script>
+
+</body>
+
+    </html>
