@@ -6,6 +6,8 @@
 
 <title>Profil utilisateur — Neptune Legal</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{
     box-sizing:border-box;
@@ -85,6 +87,13 @@ nav a{
     justify-content:center;
     font-size:36px;
     font-weight:bold;
+    overflow:hidden;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 
 .profile-info{
@@ -266,6 +275,23 @@ button{
     font-size:12px;
 }
 
+#loading{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 8px 25px rgba(60,100,170,.08);
+}
+
+#error{
+    display:none;
+    background:#ffe9ed;
+    color:#d63f58;
+    padding:20px;
+    border-radius:16px;
+    margin-bottom:20px;
+}
+
 footer{
     text-align:center;
     padding:30px;
@@ -304,7 +330,7 @@ footer{
 <header>
 
     <div class="logo">
-        🌊 Neptune Legal
+        Neptune Legal
     </div>
 
     <nav>
@@ -321,24 +347,30 @@ footer{
     ← Retour aux utilisateurs
 </a>
 
-<!-- PROFIL -->
+<div id="loading">
+    Chargement du profil...
+</div>
+
+<div id="error"></div>
+
+<div id="profileContent" style="display:none;">
 
 <section class="profile">
 
-    <div class="avatar">
-        L
+    <div class="avatar" id="avatar">
+        ?
     </div>
 
     <div class="profile-info">
 
-        <h1>Lea Thomas</h1>
+        <h1 id="profileName">Utilisateur</h1>
 
-        <div class="discord">
-            Discord : LeaThomas#0001
+        <div class="discord" id="discordName">
+            Discord : Non renseigné
         </div>
 
-        <span class="badge green">
-            ● Compte actif
+        <span class="badge green" id="statusBadge">
+            ● Actif
         </span>
 
     </div>
@@ -346,179 +378,123 @@ footer{
     <div class="actions">
 
         <button class="primary" onclick="modifier()">
-            ✏️ Modifier
+            Modifier
         </button>
 
         <button class="secondary" onclick="contacter()">
-            💬 Contacter
+            Contacter
         </button>
 
         <button class="danger" onclick="suspendre()">
-            ⚠️ Suspendre
+            Suspendre
         </button>
 
     </div>
 
 </section>
 
-<!-- STATS -->
-
 <div class="stats">
 
     <div class="stat">
         <span>Entreprises</span>
-        <strong>1</strong>
+        <strong id="companyCount">0</strong>
     </div>
 
     <div class="stat">
         <span>Candidatures</span>
-        <strong>3</strong>
+        <strong>0</strong>
     </div>
 
     <div class="stat">
         <span>Heures de service</span>
-        <strong>86 h</strong>
+        <strong>0 h</strong>
     </div>
 
     <div class="stat">
         <span>Ancienneté</span>
-        <strong>8 mois</strong>
+        <strong id="accountAge">-</strong>
     </div>
 
 </div>
 
 <div class="grid">
 
-    <!-- INFORMATIONS -->
-
-    <section class="section">
-
-        <h2>👤 Informations</h2>
-
-        <div class="info-grid">
-
-            <div class="info">
-                <span>Nom RP</span>
-                <strong>Lea Thomas</strong>
-            </div>
-
-            <div class="info">
-                <span>Identifiant Discord</span>
-                <strong>LeaThomas#0001</strong>
-            </div>
-
-            <div class="info">
-                <span>Statut</span>
-                <strong>Actif</strong>
-            </div>
-
-            <div class="info">
-                <span>Date d'inscription</span>
-                <strong>12 janvier 2026</strong>
-            </div>
-
-            <div class="info">
-                <span>Dernière connexion</span>
-                <strong>Aujourd'hui</strong>
-            </div>
-
-            <div class="info">
-                <span>Rôle portail</span>
-                <strong>Utilisateur</strong>
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- ENTREPRISE -->
-
-    <section class="section">
-
-        <h2>🏢 Entreprise actuelle</h2>
-
-        <div class="company">
-
-            <strong>Restaurant Neptune</strong>
-
-            <span>
-                Gérante • Depuis le 18 août 2026
-            </span>
-
-        </div>
-
-        <button
-            class="secondary"
-            onclick="entreprise()"
-        >
-            Voir l'entreprise
-        </button>
-
-    </section>
-
-</div>
-
-<!-- CANDIDATURES -->
-
 <section class="section">
 
-    <h2>📩 Candidatures</h2>
+    <h2>Informations</h2>
 
-    <div class="company">
+    <div class="info-grid">
 
-        <strong>Restaurant Neptune</strong>
+        <div class="info">
+            <span>Nom RP</span>
+            <strong id="fullName">Non renseigné</strong>
+        </div>
 
-        <span>
-            Candidature — Acceptée
-        </span>
+        <div class="info">
+            <span>Identifiant Discord</span>
+            <strong id="discordId">Non renseigné</strong>
+        </div>
 
-        <br><br>
+        <div class="info">
+            <span>Statut</span>
+            <strong id="status">Actif</strong>
+        </div>
 
-        <span class="badge green">
-            Acceptée
-        </span>
+        <div class="info">
+            <span>Date d'inscription</span>
+            <strong id="createdAt">Non renseignée</strong>
+        </div>
 
-    </div>
+        <div class="info">
+            <span>Dernière connexion</span>
+            <strong>Disponible via l'authentification</strong>
+        </div>
 
-    <div class="company">
-
-        <strong>AutoKaze</strong>
-
-        <span>
-            Candidature — Refusée
-        </span>
-
-        <br><br>
-
-        <span class="badge red">
-            Refusée
-        </span>
-
-    </div>
-
-    <div class="company">
-
-        <strong>Weazel News</strong>
-
-        <span>
-            Candidature — En attente
-        </span>
-
-        <br><br>
-
-        <span class="badge orange">
-            En attente
-        </span>
+        <div class="info">
+            <span>Rôle portail</span>
+            <strong>Utilisateur</strong>
+        </div>
 
     </div>
 
 </section>
 
-<!-- PERMISSIONS -->
+<section class="section">
+
+    <h2>Entreprise actuelle</h2>
+
+    <div class="company">
+
+        <strong id="companyName">Aucune entreprise</strong>
+
+        <span id="companyInfo">
+            Aucune entreprise associée à ce compte.
+        </span>
+
+    </div>
+
+    <button class="secondary" onclick="entreprise()">
+        Voir l'entreprise
+    </button>
+
+</section>
+
+</div>
 
 <section class="section">
 
-    <h2>🔐 Permissions</h2>
+    <h2>Candidatures</h2>
+
+    <div class="company">
+        <strong>Aucune candidature chargée</strong>
+        <span>Les candidatures seront connectées à Supabase prochainement.</span>
+    </div>
+
+</section>
+
+<section class="section">
+
+    <h2>Permissions</h2>
 
     <div class="permission">
         <span>Consulter les entreprises</span>
@@ -532,12 +508,12 @@ footer{
 
     <div class="permission">
         <span>Gérer une entreprise</span>
-        <span class="badge green">Autorisé</span>
+        <span class="badge orange">Selon le rôle</span>
     </div>
 
     <div class="permission">
         <span>Gérer les employés</span>
-        <span class="badge green">Autorisé</span>
+        <span class="badge orange">Selon le rôle</span>
     </div>
 
     <div class="permission">
@@ -547,50 +523,18 @@ footer{
 
 </section>
 
-<!-- HISTORIQUE -->
-
 <section class="section">
 
-    <h2>📜 Historique du compte</h2>
+    <h2>Historique du compte</h2>
 
     <div class="timeline">
 
         <div class="event">
 
-            <strong>Entreprise reprise</strong>
-
-            <span>
-                Restaurant Neptune • 18 août 2026
-            </span>
-
-        </div>
-
-        <div class="event">
-
-            <strong>Candidature acceptée</strong>
-
-            <span>
-                Restaurant Neptune • 18 août 2026
-            </span>
-
-        </div>
-
-        <div class="event">
-
-            <strong>Candidature déposée</strong>
-
-            <span>
-                Weazel News • 15 août 2026
-            </span>
-
-        </div>
-
-        <div class="event">
-
             <strong>Compte créé</strong>
 
-            <span>
-                Neptune Legal • 12 janvier 2026
+            <span id="historyCreated">
+                Neptune Legal
             </span>
 
         </div>
@@ -601,16 +545,217 @@ footer{
 
 </div>
 
+</div>
+
 <footer>
     Neptune Legal — Profil utilisateur
 </footer>
 
 <script>
 
+const SUPABASE_URL = "https://xzmglqxcsrzivvkpemyt.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+function afficherErreur(message){
+
+    document.getElementById("loading").style.display = "none";
+
+    const error = document.getElementById("error");
+
+    error.textContent = message;
+    error.style.display = "block";
+}
+
+function formatDate(dateString){
+
+    if(!dateString){
+        return "Non renseignée";
+    }
+
+    const date = new Date(dateString);
+
+    return date.toLocaleDateString("fr-FR", {
+        day:"2-digit",
+        month:"long",
+        year:"numeric"
+    });
+}
+
+function calculerAnciennete(dateString){
+
+    if(!dateString){
+        return "-";
+    }
+
+    const date = new Date(dateString);
+    const maintenant = new Date();
+
+    let mois =
+        (maintenant.getFullYear() - date.getFullYear()) * 12
+        + (maintenant.getMonth() - date.getMonth());
+
+    if(mois < 1){
+        return "< 1 mois";
+    }
+
+    if(mois === 1){
+        return "1 mois";
+    }
+
+    return mois + " mois";
+}
+
+async function chargerProfil(){
+
+    const params = new URLSearchParams(
+        window.location.search
+    );
+
+    const userId = params.get("id");
+
+    if(!userId){
+
+        afficherErreur(
+            "Aucun utilisateur sélectionné."
+        );
+
+        return;
+    }
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("profiles")
+        .select("*")
+        .eq("id", userId)
+        .single();
+
+    if(error){
+
+        console.error(error);
+
+        afficherErreur(
+            "Impossible de charger ce profil. Vérifie que l'utilisateur existe dans Supabase."
+        );
+
+        return;
+    }
+
+    const profile = data;
+
+    const name =
+        profile.full_name ||
+        profile.username ||
+        "Utilisateur";
+
+    const discord =
+        profile.discord_username ||
+        profile.discord_id ||
+        "Non renseigné";
+
+    const status =
+        profile.status ||
+        "actif";
+
+    document.getElementById("profileName").textContent = name;
+
+    document.getElementById("fullName").textContent = name;
+
+    document.getElementById("discordName").textContent =
+        "Discord : " + discord;
+
+    document.getElementById("discordId").textContent =
+        discord;
+
+    document.getElementById("status").textContent =
+        status;
+
+    document.getElementById("createdAt").textContent =
+        formatDate(profile.created_at);
+
+    document.getElementById("accountAge").textContent =
+        calculerAnciennete(profile.created_at);
+
+    document.getElementById("historyCreated").textContent =
+        "Compte créé le " + formatDate(profile.created_at);
+
+    const badge =
+        document.getElementById("statusBadge");
+
+    if(
+        status.toLowerCase() === "suspendu" ||
+        status.toLowerCase() === "suspended"
+    ){
+
+        badge.className = "badge red";
+        badge.textContent = "● Suspendu";
+
+    }else{
+
+        badge.className = "badge green";
+        badge.textContent = "● Actif";
+
+    }
+
+    const avatar =
+        document.getElementById("avatar");
+
+    if(profile.avatar_url){
+
+        avatar.innerHTML =
+            '<img src="' +
+            profile.avatar_url +
+            '" alt="Avatar">';
+
+    }else{
+
+        avatar.textContent =
+            name.charAt(0).toUpperCase();
+
+    }
+
+    if(profile.company_name){
+
+        document.getElementById("companyName").textContent =
+            profile.company_name;
+
+        document.getElementById("companyInfo").textContent =
+            "Entreprise associée au compte";
+
+        document.getElementById("companyCount").textContent =
+            "1";
+
+    }else if(profile.entreprise){
+
+        document.getElementById("companyName").textContent =
+            profile.entreprise;
+
+        document.getElementById("companyInfo").textContent =
+            "Entreprise associée au compte";
+
+        document.getElementById("companyCount").textContent =
+            "1";
+
+    }
+
+    document.getElementById("loading").style.display =
+        "none";
+
+    document.getElementById("profileContent").style.display =
+        "block";
+}
+
 function modifier(){
 
     alert(
-        "La modification du profil sera disponible après connexion à la base de données."
+        "La modification du profil sera connectée à Supabase dans une prochaine étape."
     );
 
 }
@@ -618,7 +763,7 @@ function modifier(){
 function contacter(){
 
     alert(
-        "La messagerie Discord sera connectée prochainement."
+        "La messagerie sera connectée dans une prochaine étape."
     );
 
 }
@@ -626,18 +771,22 @@ function contacter(){
 function suspendre(){
 
     alert(
-        "La suspension du compte sera disponible depuis le système d'administration."
+        "La suspension sera connectée au système d'administration dans une prochaine étape."
     );
 
 }
 
 function entreprise(){
 
-    window.location.href = "profil-entreprise.html";
+    alert(
+        "La gestion des entreprises sera connectée prochainement."
+    );
 
 }
+
+chargerProfil();
 
 </script>
 
 </body>
-</html>
+</html
