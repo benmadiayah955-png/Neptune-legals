@@ -1,176 +1,252 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Neptune — Entreprises</title>
+    <title>Neptune Legal — Candidature</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
+    <style>
+        :root {
+            --bleu: #7ACAED;
+            --bleu-fonce: #58A3DD;
+            --bleu-clair: #98CAF7;
+            --violet: #C78BE4;
+            --violet-clair: #D1A6F1;
 
-body {
-    background: #f7fbff;
-    color: #172033;
-}
+            --fond: #f5f8fc;
+            --blanc: #ffffff;
+            --texte: #172033;
+            --gris: #718096;
+            --bordure: #e2e8f0;
+        }
 
-header {
-    background: white;
-    padding: 18px;
-    border-bottom: 1px solid #e5e9f5;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-.logo {
-    font-size: 21px;
-    font-weight: bold;
-    background: linear-gradient(
-        90deg,
-        #00cfff,
-        #5865f2,
-        #a855f7,
-        #ec4899
-    );
-    -webkit-background-clip: text;
-    color: transparent;
-}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: var(--fond);
+            color: var(--texte);
+        }
 
-.back {
-    color: #5865f2;
-    text-decoration: none;
-    font-weight: bold;
-}
+        header {
+            background: white;
+            border-bottom: 1px solid var(--bordure);
+            padding: 18px 25px;
 
-.container {
-    padding: 30px 20px;
-    max-width: 1000px;
-    margin: auto;
-}
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-.title {
-    margin-bottom: 8px;
-    font-size: 30px;
-}
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
 
-.subtitle {
-    color: #778196;
-    margin-bottom: 25px;
-}
+            background: linear-gradient(
+                90deg,
+                var(--bleu),
+                var(--bleu-fonce),
+                var(--violet),
+                var(--violet-clair)
+            );
 
-.section-title {
-    margin: 35px 0 15px;
-    font-size: 22px;
-}
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
-.grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-}
+        .retour {
+            text-decoration: none;
+            color: var(--bleu-fonce);
+            font-weight: bold;
+        }
 
-.card {
-    background: white;
-    border: 1px solid #e7ebf5;
-    border-radius: 20px;
-    padding: 22px;
-    box-shadow: 0 8px 25px rgba(50,70,100,.06);
-}
+        main {
+            width: 100%;
+            max-width: 850px;
+            margin: auto;
+            padding: 40px 20px;
+        }
 
-.icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    background: #eef0ff;
-    margin-bottom: 15px;
-}
+        .titre {
+            margin-bottom: 25px;
+        }
 
-.card h2 {
-    margin-bottom: 8px;
-}
+        .titre h1 {
+            margin: 0 0 8px;
+            font-size: 32px;
+        }
 
-.card p {
-    color: #778196;
-    line-height: 1.6;
-    font-size: 14px;
-}
+        .titre p {
+            margin: 0;
+            color: var(--gris);
+        }
 
-.button {
-    display: inline-block;
-    margin-top: 18px;
-    padding: 12px 18px;
-    border-radius: 12px;
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    background: linear-gradient(
-        90deg,
-        #00cfff,
-        #5865f2,
-        #a855f7
-    );
-}
+        .card {
+            background: var(--blanc);
+            border: 1px solid var(--bordure);
+            border-radius: 20px;
+            padding: 30px;
 
-.company-card {
-    position: relative;
-}
+            box-shadow:
+                0 10px 35px rgba(40, 60, 90, 0.07);
+        }
 
-.company-status {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    padding: 6px 10px;
-    border-radius: 10px;
-    font-size: 12px;
-    font-weight: bold;
-    background: #e8f8ee;
-    color: #168544;
-}
+        .connexion {
+            padding: 14px 16px;
+            margin-bottom: 25px;
 
-.company-status.inactive {
-    background: #ffeaea;
-    color: #d33;
-}
+            border-radius: 12px;
 
-.no-company {
-    background: white;
-    border: 1px solid #e7ebf5;
-    border-radius: 20px;
-    padding: 25px;
-    color: #778196;
-}
+            background: linear-gradient(
+                90deg,
+                rgba(122, 202, 237, 0.12),
+                rgba(199, 139, 228, 0.12)
+            );
 
-.loading {
-    color: #778196;
-    padding: 20px 0;
-}
+            border: 1px solid var(--bordure);
 
-.error {
-    color: #d33;
-    background: #ffeaea;
-    padding: 15px;
-    border-radius: 12px;
-}
+            color: var(--gris);
+            font-size: 14px;
+        }
 
-@media (min-width: 700px) {
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-</style>
+        .connexion strong {
+            color: var(--texte);
+        }
 
+        .champ {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid var(--bordure);
+            border-radius: 12px;
+
+            padding: 14px;
+
+            font-size: 14px;
+            color: var(--texte);
+            background: #fbfcfe;
+
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--bleu-fonce);
+
+            box-shadow:
+                0 0 0 3px rgba(88, 163, 221, 0.12);
+        }
+
+        textarea {
+            min-height: 170px;
+            resize: vertical;
+        }
+
+        .info {
+            margin-top: 7px;
+            color: var(--gris);
+            font-size: 12px;
+        }
+
+        .bouton {
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+
+            padding: 15px;
+
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            background: linear-gradient(
+                90deg,
+                var(--bleu-fonce),
+                var(--violet)
+            );
+        }
+
+        .bouton:hover {
+            opacity: 0.92;
+        }
+
+        .bouton:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            margin-top: 18px;
+
+            padding: 15px;
+            border-radius: 12px;
+
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .success {
+            display: block;
+            background: #eaf8ef;
+            color: #18733e;
+            border: 1px solid #bce5ca;
+        }
+
+        .error {
+            display: block;
+            background: #fff0f2;
+            color: #a62f43;
+            border: 1px solid #f0c0c8;
+        }
+
+        .loading {
+            display: block;
+            background: #eef7ff;
+            color: #28628d;
+            border: 1px solid #c8e2f5;
+        }
+
+        @media (max-width: 650px) {
+
+            header {
+                padding: 16px;
+            }
+
+            main {
+                padding: 25px 15px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .titre h1 {
+                font-size: 27px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -178,145 +254,125 @@ header {
 <header>
 
     <div class="logo">
-        NEPTUNE
+        Neptune Legal
     </div>
 
-    <a href="index.html" class="back">
-        ← Accueil
+    <a
+        href="entreprises.html"
+        class="retour"
+    >
+        Retour
     </a>
 
 </header>
 
-<div class="container">
 
-    <h1 class="title">
-        Entreprises
-    </h1>
+<main>
 
-    <p class="subtitle">
-        Retrouvez ici les services disponibles pour les entreprises.
-    </p>
+    <div class="titre">
 
+        <h1>
+            Déposer une candidature
+        </h1>
 
-    <div class="grid">
-
-        <!-- REPRISE -->
-
-        <div class="card">
-
-            <div class="icon">🏢</div>
-
-            <h2>
-                Reprendre une entreprise
-            </h2>
-
-            <p>
-                Déposez votre dossier de reprise et ajoutez
-                vos documents Google Docs, Canva ou autres.
-            </p>
-
-            <a
-                href="candidatures.html"
-                class="button"
-            >
-                Déposer un dossier
-            </a>
-
-        </div>
-
-
-        <!-- CANDIDATURES -->
-
-        <div class="card">
-
-            <div class="icon">📋</div>
-
-            <h2>
-                Mes candidatures
-            </h2>
-
-            <p>
-                Consultez les candidatures reçues par votre
-                entreprise et gérez votre recrutement.
-            </p>
-
-            <a
-                href="candidatures.html"
-                class="button"
-            >
-                Voir les candidatures
-            </a>
-
-        </div>
-
-
-        <!-- EMPLOYES -->
-
-        <div class="card">
-
-            <div class="icon">👥</div>
-
-            <h2>
-                Mes employés
-            </h2>
-
-            <p>
-                Gérez vos employés, leurs grades,
-                leurs heures et leur évolution.
-            </p>
-
-            <a
-                href="gestion-employes.html"
-                class="button"
-            >
-                Gérer les employés
-            </a>
-
-        </div>
-
-
-        <!-- GESTION -->
-
-        <div class="card">
-
-            <div class="icon">📊</div>
-
-            <h2>
-                Gestion de l'entreprise
-            </h2>
-
-            <p>
-                Retrouvez les ventes, stocks, impôts,
-                heures de service et statistiques.
-            </p>
-
-            <a
-                href="entreprise-dashboard.html"
-                class="button"
-            >
-                Ouvrir le tableau de bord
-            </a>
-
-        </div>
+        <p>
+            Rejoignez une entreprise en déposant votre candidature.
+        </p>
 
     </div>
 
 
-    <!-- ENTREPRISES -->
+    <div class="card">
 
-    <h2 class="section-title">
-        Entreprises disponibles
-    </h2>
-
-    <div id="entreprises" class="grid">
-
-        <div class="loading">
-            Chargement des entreprises...
+        <div
+            id="connexionInfo"
+            class="connexion"
+        >
+            Vérification de votre connexion...
         </div>
+
+
+        <div class="champ">
+
+            <label for="entreprise">
+                Entreprise
+            </label>
+
+            <select id="entreprise">
+
+                <option value="">
+                    Chargement des entreprises...
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="champ">
+
+            <label for="nom">
+                Nom
+            </label>
+
+            <input
+                id="nom"
+                type="text"
+                placeholder="Votre nom"
+            >
+
+        </div>
+
+
+        <div class="champ">
+
+            <label for="motivation">
+                Motivation
+            </label>
+
+            <textarea
+                id="motivation"
+                placeholder="Expliquez votre motivation..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="champ">
+
+            <label for="document">
+                Document
+            </label>
+
+            <input
+                id="document"
+                type="file"
+            >
+
+            <div class="info">
+                Le nom du fichier sera enregistré avec votre candidature.
+            </div>
+
+        </div>
+
+
+        <button
+            id="submitBtn"
+            class="bouton"
+            type="button"
+        >
+            Déposer ma candidature
+        </button>
+
+
+        <div
+            id="message"
+            class="message"
+        ></div>
 
     </div>
 
-</div>
+</main>
 
 
 <script>
@@ -327,6 +383,7 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
 
+
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
@@ -334,38 +391,141 @@ const supabaseClient =
     );
 
 
-async function chargerEntreprises() {
+let utilisateur = null;
 
-    const container =
-        document.getElementById("entreprises");
 
+/* ================================
+   MESSAGE
+================================ */
+
+function message(
+    texte,
+    type
+) {
+
+    const element =
+        document.getElementById("message");
+
+    element.textContent = texte;
+
+    element.className =
+        "message " + type;
+}
+
+
+/* ================================
+   CONNEXION
+================================ */
+
+async function verifierConnexion() {
 
     const {
         data,
         error
-    } = await supabaseClient
-        .from("entreprises")
-        .select("*")
-        .order(
-            "created_at",
-            {
-                ascending: false
-            }
+    } =
+        await supabaseClient.auth.getUser();
+
+
+    if (error || !data.user) {
+
+        window.location.href =
+            "connexion.html";
+
+        return false;
+    }
+
+
+    utilisateur =
+        data.user;
+
+
+    const metadata =
+        utilisateur.user_metadata || {};
+
+
+    const nom =
+        metadata.full_name ||
+        metadata.name ||
+        metadata.preferred_username ||
+        "";
+
+
+    document.getElementById(
+        "nom"
+    ).value = nom;
+
+
+    document.getElementById(
+        "connexionInfo"
+    ).innerHTML =
+        `
+        Connecté en tant que
+        <strong>
+            ${escapeHTML(
+                nom ||
+                utilisateur.email ||
+                "Utilisateur"
+            )}
+        </strong>
+        `;
+
+
+    return true;
+}
+
+
+/* ================================
+   ENTREPRISES
+================================ */
+
+async function chargerEntreprises() {
+
+    const select =
+        document.getElementById(
+            "entreprise"
         );
+
+
+    /*
+       IMPORTANT :
+       La table s'appelle Entreprises
+       avec un E majuscule.
+    */
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("Entreprises")
+            .select("id, nom")
+            .order("nom", {
+                ascending: true
+            });
 
 
     if (error) {
 
         console.error(
-            "Erreur Supabase :",
+            "Erreur Entreprises :",
             error
         );
 
-        container.innerHTML = `
-            <div class="error">
-                Impossible de charger les entreprises.
-            </div>
-        `;
+
+        select.innerHTML =
+            `
+            <option value="">
+                Erreur lors du chargement
+            </option>
+            `;
+
+
+        message(
+            "Impossible de charger les entreprises : " +
+            error.message,
+            "error"
+        );
+
 
         return;
     }
@@ -373,118 +533,285 @@ async function chargerEntreprises() {
 
     if (!data || data.length === 0) {
 
-        container.innerHTML = `
-            <div class="no-company">
-                Aucune entreprise n'est disponible
-                pour le moment.
-            </div>
-        `;
+        select.innerHTML =
+            `
+            <option value="">
+                Aucune entreprise disponible
+            </option>
+            `;
+
+
+        message(
+            "Aucune entreprise n'a été trouvée dans Supabase.",
+            "error"
+        );
+
 
         return;
     }
 
 
-    container.innerHTML = "";
+    select.innerHTML =
+        `
+        <option value="">
+            Sélectionner une entreprise
+        </option>
+        `;
 
 
     data.forEach(
         entreprise => {
 
-            const nom =
-                entreprise.nom ||
-                "Entreprise sans nom";
+            const option =
+                document.createElement(
+                    "option"
+                );
 
 
-            const description =
-                entreprise.description ||
-                "Aucune description disponible.";
+            option.value =
+                entreprise.id;
 
 
-            const statut =
-                entreprise.statut ||
-                "active";
+            option.textContent =
+                entreprise.nom;
 
 
-            const statutTexte =
-                statut.toLowerCase() === "active"
-                    ? "Active"
-                    : statut;
-
-
-            const card =
-                document.createElement("div");
-
-
-            card.className =
-                "card company-card";
-
-
-            if (
-                statut.toLowerCase() ===
-                "active"
-            ) {
-
-                card.innerHTML = `
-
-                    <div class="company-status">
-                        ${statutTexte}
-                    </div>
-
-                    <div class="icon">
-                        🏢
-                    </div>
-
-                    <h2>
-                        ${nom}
-                    </h2>
-
-                    <p>
-                        ${description}
-                    </p>
-
-                    <a
-                        href="entreprise-dashboard.html?id=${encodeURIComponent(entreprise.id)}"
-                        class="button"
-                    >
-                        Voir l'entreprise
-                    </a>
-
-                `;
-
-            } else {
-
-                card.innerHTML = `
-
-                    <div class="company-status inactive">
-                        ${statutTexte}
-                    </div>
-
-                    <div class="icon">
-                        🏢
-                    </div>
-
-                    <h2>
-                        ${nom}
-                    </h2>
-
-                    <p>
-                        ${description}
-                    </p>
-
-                `;
-
-            }
-
-
-            container.appendChild(card);
+            select.appendChild(
+                option
+            );
 
         }
     );
-
 }
 
 
-chargerEntreprises();
+/* ================================
+   ENVOYER
+================================ */
+
+async function envoyerCandidature() {
+
+    if (!utilisateur) {
+
+        message(
+            "Vous devez être connecté.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const entrepriseId =
+        document.getElementById(
+            "entreprise"
+        ).value;
+
+
+    const nom =
+        document.getElementById(
+            "nom"
+        ).value.trim();
+
+
+    const motivation =
+        document.getElementById(
+            "motivation"
+        ).value.trim();
+
+
+    const fichier =
+        document.getElementById(
+            "document"
+        ).files[0];
+
+
+    if (!entrepriseId) {
+
+        message(
+            "Sélectionnez une entreprise.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!nom) {
+
+        message(
+            "Indiquez votre nom.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if (!motivation) {
+
+        message(
+            "Indiquez votre motivation.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const bouton =
+        document.getElementById(
+            "submitBtn"
+        );
+
+
+    bouton.disabled = true;
+
+    bouton.textContent =
+        "Envoi en cours...";
+
+
+    const documentNom =
+        fichier
+            ? fichier.name
+            : null;
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from("candidatures")
+            .insert({
+
+                entreprise_id:
+                    entrepriseId,
+
+                nom:
+                    nom,
+
+                motivation:
+                    motivation,
+
+                document:
+                    documentNom,
+
+                statut:
+                    "en_attente"
+
+            });
+
+
+    if (error) {
+
+        console.error(
+            "Erreur candidature :",
+            error
+        );
+
+
+        message(
+            "Erreur lors de l'envoi : " +
+            error.message,
+            "error"
+        );
+
+
+        bouton.disabled = false;
+
+        bouton.textContent =
+            "Déposer ma candidature";
+
+        return;
+    }
+
+
+    message(
+        "Votre candidature a été envoyée avec succès. Elle est maintenant en attente de traitement par le Staff.",
+        "success"
+    );
+
+
+    document.getElementById(
+        "entreprise"
+    ).value = "";
+
+
+    document.getElementById(
+        "motivation"
+    ).value = "";
+
+
+    document.getElementById(
+        "document"
+    ).value = "";
+
+
+    bouton.disabled = false;
+
+    bouton.textContent =
+        "Déposer ma candidature";
+}
+
+
+/* ================================
+   PROTECTION HTML
+================================ */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+
+/* ================================
+   LANCEMENT
+================================ */
+
+async function initialiser() {
+
+    const connecte =
+        await verifierConnexion();
+
+
+    if (!connecte) {
+        return;
+    }
+
+
+    await chargerEntreprises();
+
+
+    document
+        .getElementById("submitBtn")
+        .addEventListener(
+            "click",
+            envoyerCandidature
+        );
+}
+
+
+initialiser();
 
 </script>
 
