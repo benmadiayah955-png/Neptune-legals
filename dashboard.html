@@ -6,6 +6,8 @@
 
     <title>Dashboard — Neptune Legal</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -87,7 +89,7 @@
             border: 1px solid #edf1f7;
             border-radius: 22px;
             padding: 25px;
-            box-shadow: 0 12px 35px rgba(70,100,170,.08);
+            box-shadow: 0 12px 35px rgba(70, 100, 170, 0.08);
             text-decoration: none;
             color: inherit;
             display: block;
@@ -97,7 +99,7 @@
 
         .card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 16px 40px rgba(70,100,170,.14);
+            box-shadow: 0 16px 40px rgba(70, 100, 170, 0.14);
             border-color: #dce3ff;
         }
 
@@ -165,6 +167,7 @@
 
 </header>
 
+
 <main>
 
     <section class="welcome">
@@ -182,11 +185,11 @@
 
     <section class="grid">
 
-        <!-- PROFIL -->
+        <!-- MON PROFIL -->
 
         <a
             class="card"
-            href="profil.html"
+            href="profil-utilisateur.html"
         >
 
             <h2>
@@ -205,7 +208,7 @@
         </a>
 
 
-        <!-- ENTREPRISES -->
+        <!-- MES ENTREPRISES -->
 
         <a
             class="card"
@@ -228,7 +231,7 @@
         </a>
 
 
-        <!-- CANDIDATURES -->
+        <!-- MES CANDIDATURES -->
 
         <a
             class="card"
@@ -261,8 +264,6 @@
 
 </main>
 
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
