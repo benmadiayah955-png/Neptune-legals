@@ -22,8 +22,6 @@ body{
     flex-direction:column;
 }
 
-/* HEADER */
-
 header{
     padding:18px 6%;
     display:flex;
@@ -46,8 +44,6 @@ header{
     font-weight:600;
 }
 
-/* MAIN */
-
 main{
     flex:1;
     display:flex;
@@ -65,8 +61,6 @@ main{
     box-shadow:0 18px 55px rgba(70,100,170,.12);
     text-align:center;
 }
-
-/* LOGO */
 
 .icon{
     width:80px;
@@ -96,8 +90,6 @@ h1{
     margin-bottom:28px;
 }
 
-/* DISCORD */
-
 .discord-button{
     width:100%;
     border:none;
@@ -124,11 +116,15 @@ h1{
     box-shadow:0 10px 25px rgba(88,101,242,.25);
 }
 
+.discord-button:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+    transform:none;
+}
+
 .discord-icon{
     font-size:21px;
 }
-
-/* SEPARATOR */
 
 .separator{
     display:flex;
@@ -146,8 +142,6 @@ h1{
     height:1px;
     background:#edf1f7;
 }
-
-/* INFO */
 
 .info{
     background:#f7faff;
@@ -170,8 +164,6 @@ h1{
     line-height:1.5;
 }
 
-/* LINKS */
-
 .links{
     display:flex;
     justify-content:center;
@@ -186,8 +178,6 @@ h1{
     font-size:12px;
 }
 
-/* FOOTER */
-
 footer{
     text-align:center;
     padding:22px;
@@ -195,7 +185,21 @@ footer{
     font-size:12px;
 }
 
-/* MOBILE */
+.message{
+    display:none;
+    margin-top:16px;
+    padding:12px;
+    border-radius:12px;
+    font-size:13px;
+    line-height:1.4;
+}
+
+.message.error{
+    display:block;
+    background:#fff1f2;
+    color:#be123c;
+    border:1px solid #fecdd3;
+}
 
 @media(max-width:600px){
 
@@ -214,7 +218,6 @@ footer{
     h1{
         font-size:25px;
     }
-
 }
 </style>
 </head>
@@ -227,16 +230,11 @@ footer{
         🌊 Neptune Legal
     </div>
 
-    <a
-        href="index.html"
-        class="back">
-
+    <a href="index.html" class="back">
         ← Retour
-
     </a>
 
 </header>
-
 
 <main>
 
@@ -246,35 +244,36 @@ footer{
             🌊
         </div>
 
-
         <h1>
             Bienvenue sur Neptune Legal
         </h1>
-
 
         <p class="subtitle">
             Connectez votre compte Discord pour accéder
             à votre espace personnel et à vos entreprises.
         </p>
 
-
         <button
+            id="discordButton"
             class="discord-button"
+            type="button"
             onclick="connexionDiscord()">
 
             <span class="discord-icon">
                 🎮
             </span>
 
-            Continuer avec Discord
+            <span id="buttonText">
+                Continuer avec Discord
+            </span>
 
         </button>
 
+        <div id="message" class="message"></div>
 
         <div class="separator">
             Connexion sécurisée
         </div>
-
 
         <div class="info">
 
@@ -289,7 +288,6 @@ footer{
             </p>
 
         </div>
-
 
         <div class="links">
 
@@ -311,21 +309,162 @@ footer{
 
 </main>
 
-
 <footer>
     Neptune Legal — Connexion
 </footer>
 
 
+<!--
+    SUPABASE
+    Cette bibliothèque permet à Neptune de communiquer
+    avec ton projet Supabase.
+-->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
 <script>
 
-function connexionDiscord(){
+/* =====================================================
+   CONFIGURATION SUPABASE
+   ===================================================== */
 
-    alert(
-        "La connexion Discord sera activée lors de la configuration de Supabase."
-    );
+const SUPABASE_URL =
+    "https://xzmglqxcsrzivvkpemyt.supabase.co";
+
+/*
+   sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1
+
+   Exemple :
+   const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_...";
+*/
+const SUPABASE_PUBLISHABLE_KEY =
+    "COLLE_TA_CLE_PUBLIABLE_ICI";
+
+
+/* Création du client Supabase */
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
+
+
+/* =====================================================
+   MESSAGE
+   ===================================================== */
+
+function afficherErreur(message){
+
+    const element = document.getElementById("message");
+
+    element.textContent = message;
+    element.className = "message error";
+}
+
+
+/* =====================================================
+   CONNEXION DISCORD
+   ===================================================== */
+
+async function connexionDiscord(){
+
+    const button = document.getElementById("discordButton");
+    const buttonText = document.getElementById("buttonText");
+
+    button.disabled = true;
+    buttonText.textContent = "Connexion en cours...";
+
+    try{
+
+        const { data, error } =
+            await supabaseClient.auth.signInWithOAuth({
+
+                provider: "discord",
+
+                options: {
+
+                    redirectTo:
+                        window.location.origin + "/dashboard.html"
+
+                }
+
+            });
+
+
+        if(error){
+
+            console.error(
+                "Erreur Supabase :",
+                error
+            );
+
+            afficherErreur(
+                "Impossible de lancer la connexion Discord. Vérifie la configuration Supabase."
+            );
+
+            button.disabled = false;
+            buttonText.textContent =
+                "Continuer avec Discord";
+
+            return;
+        }
+
+        /*
+           Supabase redirige automatiquement
+           l'utilisateur vers Discord.
+        */
+
+    }catch(error){
+
+        console.error(error);
+
+        afficherErreur(
+            "Une erreur est survenue pendant la connexion."
+        );
+
+        button.disabled = false;
+
+        buttonText.textContent =
+            "Continuer avec Discord";
+    }
 
 }
+
+
+/* =====================================================
+   VÉRIFICATION DE SESSION
+   ===================================================== */
+
+async function verifierConnexion(){
+
+    const {
+        data: {
+            session
+        }
+    } = await supabaseClient.auth.getSession();
+
+
+    /*
+       Si une personne est déjà connectée,
+       on peut éviter de lui demander
+       de se reconnecter.
+    */
+
+    if(session){
+
+        console.log(
+            "Utilisateur connecté :",
+            session.user
+        );
+
+    }
+
+}
+
+
+/* Lancement */
+
+verifierConnexion();
 
 </script>
 
