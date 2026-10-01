@@ -6,7 +6,6 @@
 
     <title>Neptune Legal - Connexion</title>
 
-    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -14,15 +13,22 @@
             box-sizing: border-box;
         }
 
+        html,
         body {
             margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             background: #080b12;
-            color: white;
-            font-family: Arial, sans-serif;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         .card {
@@ -51,6 +57,7 @@
         p {
             margin: 0 0 30px;
             color: #9da7b7;
+            line-height: 1.5;
         }
 
         .discord-button {
@@ -63,16 +70,249 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            transition: 0.2s;
         }
 
         .discord-button:hover {
             background: #4752c4;
+            transform: translateY(-1px);
         }
 
         .discord-button:disabled {
             opacity: 0.6;
             cursor: wait;
+            transform: none;
         }
 
         #errorMessage {
-            display:
+            display: none;
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #35171b;
+            border: 1px solid #6b242d;
+            color: #ff9aa5;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        #successMessage {
+            display: none;
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #142c20;
+            border: 1px solid #245d3c;
+            color: #8ee0ad;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .loading {
+            margin-top: 20px;
+            display: none;
+            color: #9da7b7;
+            font-size: 14px;
+        }
+
+        .footer {
+            margin-top: 25px;
+            font-size: 12px;
+            color: #697386;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+
+        <img
+            src="logo.png"
+            alt="Neptune Legal"
+            class="logo"
+            onerror="this.style.display='none';"
+        >
+
+        <h1>Neptune Legal</h1>
+
+        <p>
+            Connectez-vous avec votre compte Discord
+            pour accéder à votre espace.
+        </p>
+
+        <button
+            id="discordButton"
+            class="discord-button"
+            type="button"
+        >
+            Se connecter avec Discord
+        </button>
+
+        <div id="loadingMessage" class="loading">
+            Connexion en cours...
+        </div>
+
+        <div id="successMessage"></div>
+
+        <div id="errorMessage"></div>
+
+        <div class="footer">
+            Neptune Legal
+        </div>
+
+    </div>
+
+    <script>
+        const SUPABASE_URL =
+            "https://xzmglqxcsrzivvkpemyt.supabase.co";
+
+        const SUPABASE_ANON_KEY =
+            "sb_publishable_UFCepbUJAZyIlUU3Z6OAOA_OQLTLYr1";
+
+        const supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_ANON_KEY
+            );
+
+        const discordButton =
+            document.getElementById("discordButton");
+
+        const loadingMessage =
+            document.getElementById("loadingMessage");
+
+        const errorMessage =
+            document.getElementById("errorMessage");
+
+        const successMessage =
+            document.getElementById("successMessage");
+
+
+        function afficherErreur(message) {
+
+            errorMessage.textContent = message;
+            errorMessage.style.display = "block";
+
+            successMessage.style.display = "none";
+            loadingMessage.style.display = "none";
+
+            discordButton.disabled = false;
+        }
+
+
+        function afficherSucces(message) {
+
+            successMessage.textContent = message;
+            successMessage.style.display = "block";
+
+            errorMessage.style.display = "none";
+        }
+
+
+        discordButton.addEventListener("click", async () => {
+
+            try {
+
+                discordButton.disabled = true;
+
+                loadingMessage.style.display = "block";
+
+                errorMessage.style.display = "none";
+                successMessage.style.display = "none";
+
+
+                const { error } =
+                    await supabaseClient.auth.signInWithOAuth({
+
+                        provider: "discord",
+
+                        options: {
+
+                            redirectTo:
+                                "https://neptune-legals.benmadiayah955.workers.dev/dashboard.html"
+
+                        }
+
+                    });
+
+
+                if (error) {
+
+                    throw error;
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Erreur connexion Discord :",
+                    error
+                );
+
+                afficherErreur(
+                    "Impossible de lancer la connexion Discord."
+                );
+
+            }
+
+        });
+
+
+        async function verifierSession() {
+
+            try {
+
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient.auth.getSession();
+
+
+                if (error) {
+
+                    console.error(
+                        "Erreur session :",
+                        error
+                    );
+
+                    return;
+
+                }
+
+
+                if (data.session) {
+
+                    afficherSucces(
+                        "Vous êtes déjà connecté. Redirection..."
+                    );
+
+
+                    setTimeout(() => {
+
+                        window.location.href =
+                            "dashboard.html";
+
+                    }, 1000);
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Erreur vérification session :",
+                    error
+                );
+
+            }
+
+        }
+
+
+        verifierSession();
+
+    </script>
+
+</body>
+</html>
